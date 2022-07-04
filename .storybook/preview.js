@@ -63,15 +63,16 @@ const customViewports = {
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: { disabled: true },
-   chromatic: { viewports: [360] },
-   backgrounds: {
-      disable: true,
-      grid: {
-        disable: true
-      }
-  },
-    viewport: {
-      viewports: customViewports
+  backgrounds: {
+    disable: true,
+    grid: {
+      disable: true
     }
+  },
+  chromatic: { viewports: [360] },
+  controls: { disabled: true },
+  layout: 'fullscreen',
+  viewport: {
+    viewports: customViewports
+  }
 }

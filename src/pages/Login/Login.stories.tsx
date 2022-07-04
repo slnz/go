@@ -5,17 +5,10 @@ import { Login } from './Login'
 
 const LoginPage = {
   title: 'Go/Login',
-  component: Login,
-  parameters: {
-    layout: 'fullscreen'
-  }
+  component: Login
 }
 
-const Template: Story = () => (
-  <IonApp>
-    <Login />
-  </IonApp>
-)
+const Template: Story = () => <Login />
 
 export const LoggedOut = Template.bind({})
 
