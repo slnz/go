@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main, feature/*]
+    branches: [main]
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -24,12 +24,12 @@ jobs:
         run: npm install --silent
       - name: Run ESLint
         run: npx eslint . --ext .js,.jsx,.ts,.tsx
-      - name: Run ESLint
+      - name: Run type-check
         run: npx tsc
       - name: Prettier
         run: npx prettier --check .
       - name: lint commit messages
-        run: npx commitlint --from 5364963 # earliest good commit to main
+        run: npx commitlint --from 9fdc825 # earliest good commit to main
       - name: lint branch name
         if: ${{ github.event_name == 'pull_request' }}
         run: npx validate-branch-name -t $GITHUB_HEAD_REF
