@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom'
 import { StrictMode } from 'react'
-import App from './App'
+import { App } from './components/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
 
