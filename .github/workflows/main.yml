@@ -64,8 +64,10 @@ jobs:
       #   uses: mansagroup/nrwl-nx-action@v2
       #   with:
       #     targets: build-storybook
-      - name: Run VR tests
+      - name: Event
         run: echo "Event triggered by ${{ github.event_name }}"
+      - name: Run VR tests
+        # if: github.event_name == 'push'
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         # https://www.chromatic.com/docs/github-actions#available-options
