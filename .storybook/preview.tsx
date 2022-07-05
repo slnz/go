@@ -1,6 +1,5 @@
-import React from 'react'
-import { addDecorator } from '@storybook/react'
-import { IonApp, IonContent, IonPage } from '@ionic/react'
+import { Story } from '@storybook/react'
+import { IonApp } from '@ionic/react'
 import { setupIonicReact } from '@ionic/react'
 
 /* Core CSS required for Ionic components to work properly */
@@ -21,11 +20,13 @@ import '@ionic/react/css/display.css'
 
 setupIonicReact()
 
-const IonWrapper = ({ children }) => {
-  return <IonApp>{children}</IonApp>
-}
-
-addDecorator((storyFn) => <IonWrapper>{storyFn()}</IonWrapper>)
+export const decorators = [
+  (Story: Story) => (
+    <IonApp>
+      <Story />
+    </IonApp>
+  )
+]
 
 const customViewports = {
   mobileMin: {
