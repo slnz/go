@@ -1,19 +1,27 @@
-import { LoginRequest, User } from 'fluro'
+import { LoginCredentials, SignupCredentials, User } from 'fluro'
 import { initReactQueryAuth } from 'react-query-auth'
 import { client } from './fluro'
 
 async function loadUser(): Promise<User | undefined> {
   try {
-    console.log(client.auth.getCurrentUser())
     return await client.auth.getCurrentUser()
   } catch (err) {
     throw new Error(client.utils.errorMessage(err))
   }
 }
 
-async function loginFn(request: LoginRequest): Promise<User> {
+async function loginFn(credentials: LoginCredentials): Promise<User> {
   try {
-    const response = await client.auth.login(request)
+    const response = await client.auth.login(credentials)
+    return response.data
+  } catch (err) {
+    throw new Error(client.utils.errorMessage(err))
+  }
+}
+
+async function registerFn(credentials: SignupCredentials): Promise<User> {
+  try {
+    const response = await client.auth.signup(credentials)
     return response.data
   } catch (err) {
     throw new Error(client.utils.errorMessage(err))
@@ -31,16 +39,14 @@ async function logoutFn(): Promise<void> {
 const authConfig = {
   loadUser,
   loginFn,
-  registerFn: async () => {
-    return undefined as unknown as User
-  },
+  registerFn,
   logoutFn
 }
 
 const { AuthProvider, AuthConsumer, useAuth } = initReactQueryAuth<
   User | undefined,
   Error,
-  LoginRequest
+  LoginCredentials
 >(authConfig)
 
 export { AuthProvider, AuthConsumer, useAuth }

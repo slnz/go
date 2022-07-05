@@ -1,17 +1,23 @@
 import { IonContent, IonPage } from '@ionic/react'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { useAuth } from '../../lib/auth'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import {
-  Button,
   Container,
   Stack,
   TextField,
   Box,
-  Typography
+  Typography,
+  Button,
+  InputAdornment,
+  IconButton
 } from '@mui/material'
-import { useHistory } from 'react-router'
+import { LoadingButton } from '@mui/lab'
+import { useHistory, useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 const validationSchema = yup.object({
   username: yup
@@ -24,6 +30,8 @@ const validationSchema = yup.object({
 export function Login(): ReactElement {
   const { login } = useAuth()
   const history = useHistory()
+  const { state } = useLocation()
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <IonPage>
@@ -37,7 +45,9 @@ export function Login(): ReactElement {
           onSubmit={async (values, formik) => {
             try {
               await login(values)
-              history.push('/')
+              history.push(
+                (state as { from?: Location } | undefined)?.from ?? '/'
+              )
             } catch (error) {
               if (error instanceof Error)
                 formik.setFieldError('username', error.message)
@@ -52,14 +62,13 @@ export function Login(): ReactElement {
             handleBlur,
             handleSubmit,
             isSubmitting
-            /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
               <Container maxWidth="sm">
                 <Stack spacing={2}>
                   <Box
                     sx={{
-                      py: 5,
+                      pt: 5,
                       display: 'flex',
                       justifyContent: 'center',
                       '> img': {
@@ -70,12 +79,8 @@ export function Login(): ReactElement {
                   >
                     <img src="/assets/go.png" />
                   </Box>
-                  <Typography variant="h1" align="center">
-                    Sign In
-                  </Typography>
-                  <Typography align="center">
-                    Sign in with your fluro account
-                  </Typography>
+                  <Typography variant="h2">Login</Typography>
+                  <Typography>Sign in with your fluro account</Typography>
                   <TextField
                     fullWidth
                     name="username"
@@ -86,27 +91,50 @@ export function Login(): ReactElement {
                     error={touched.username && Boolean(errors.username)}
                     helperText={touched.username && errors.username}
                   />
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.password && Boolean(errors.password)}
-                    helperText={touched.password && errors.password}
-                  />
-                  <Button
+                  <Box>
+                    <TextField
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={touched.password && errors.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <VisibilityOffIcon />
+                              ) : (
+                                <VisibilityIcon />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    <Box display="flex" justifyContent="flex-end">
+                      <Button component={Link} to="/forgot-password">
+                        Forgot Password?
+                      </Button>
+                    </Box>
+                  </Box>
+                  <LoadingButton
                     size="large"
                     color="primary"
                     variant="contained"
                     fullWidth
                     type="submit"
-                    disabled={isSubmitting}
+                    loading={isSubmitting}
                   >
-                    Sign In
-                  </Button>
+                    Login
+                  </LoadingButton>
                 </Stack>
               </Container>
             </form>
