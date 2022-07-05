@@ -27,7 +27,7 @@ jobs:
       - name: Run VR tests
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
-        # https://www.chromatic.com/docs/github-actions#available-options
+        # https://github.com/chromaui/chromatic-cli/blob/main/action.yml
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
