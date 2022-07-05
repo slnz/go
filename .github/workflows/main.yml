@@ -36,7 +36,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: npx validate-branch-name -t $GITHUB_HEAD_REF
   visual-test:
-    needs: [lint]
+    # needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -60,6 +60,12 @@ jobs:
         run: npm install --silent
       - name: nx Install
         run: npm install -g nx --silent
+      - name: Build Stories
+        id: build-storybook
+        if: github.event_name == 'push'
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: build-storybook
       - name: Run VR tests
         if: github.event_name == 'push'
         uses: chromaui/action@v1
@@ -69,7 +75,7 @@ jobs:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          # storybookBuildDir: '.storybook/build'
+          storybookBuildDir: 'storybook-static'
           exitOnceUploaded: true,
           onChanged: true,
           autoAcceptChanges: 'main'
