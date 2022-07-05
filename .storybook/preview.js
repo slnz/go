@@ -1,38 +1,31 @@
-
-import React from 'react';
-import { addDecorator } from "@storybook/react";
-import { 
-   IonApp, IonContent, IonPage,
-} from "@ionic/react";
-import { setupIonicReact } from '@ionic/react';
+import React from 'react'
+import { addDecorator } from '@storybook/react'
+import { IonApp, IonContent, IonPage } from '@ionic/react'
+import { setupIonicReact } from '@ionic/react'
 
 /* Core CSS required for Ionic components to work properly */
-import "@ionic/react/css/core.css";
+import '@ionic/react/css/core.css'
 
 /* Basic CSS for apps built with Ionic */
-import "@ionic/react/css/normalize.css";
-import "@ionic/react/css/structure.css";
-import "@ionic/react/css/typography.css";
+import '@ionic/react/css/normalize.css'
+import '@ionic/react/css/structure.css'
+import '@ionic/react/css/typography.css'
 
 /* Optional CSS utils that can be commented out */
-import "@ionic/react/css/padding.css";
-import "@ionic/react/css/float-elements.css";
-import "@ionic/react/css/text-alignment.css";
-import "@ionic/react/css/text-transformation.css";
-import "@ionic/react/css/flex-utils.css";
-import "@ionic/react/css/display.css";
+import '@ionic/react/css/padding.css'
+import '@ionic/react/css/float-elements.css'
+import '@ionic/react/css/text-alignment.css'
+import '@ionic/react/css/text-transformation.css'
+import '@ionic/react/css/flex-utils.css'
+import '@ionic/react/css/display.css'
 
-setupIonicReact();
+setupIonicReact()
 
 const IonWrapper = ({ children }) => {
-  return (
-    <IonApp>
-      {children}
-    </IonApp>
-  );
-};
+  return <IonApp>{children}</IonApp>
+}
 
-addDecorator((storyFn) => <IonWrapper>{storyFn()}</IonWrapper>);
+addDecorator((storyFn) => <IonWrapper>{storyFn()}</IonWrapper>)
 
 const customViewports = {
   mobileMin: {
@@ -62,7 +55,7 @@ const customViewports = {
 }
 
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
   backgrounds: {
     disable: true,
     grid: {
