@@ -14,7 +14,7 @@ export function Login(): ReactElement {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Login!</IonTitle>
+          <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen></IonContent>
