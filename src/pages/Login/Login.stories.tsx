@@ -1,5 +1,4 @@
 import { Story, Meta } from '@storybook/react'
-import { IonApp } from '@ionic/react'
 // import { within, userEvent } from '@storybook/testing-library'
 import { Login } from './Login'
 
