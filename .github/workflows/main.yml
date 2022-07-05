@@ -65,7 +65,7 @@ jobs:
       #   with:
       #     targets: build-storybook
       - name: Run VR tests
-        if: github.event_name == 'push'
+        run: echo "Event triggered by ${{ github.event_name }}"
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         # https://www.chromatic.com/docs/github-actions#available-options
