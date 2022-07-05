@@ -1,2 +1,1 @@
-export { login, getCurrentUserSession } from './authentication'
-export type { LoginRequest, User } from './authentication'
+export { client } from './client'

@@ -1,22 +1,31 @@
+import { LoginRequest, User } from 'fluro'
 import { initReactQueryAuth } from 'react-query-auth'
-import { login, getCurrentUserSession, LoginRequest, User } from './fluro'
-import { setToken, clearToken, getToken } from './storage'
+import { client } from './fluro'
 
 async function loadUser(): Promise<User | undefined> {
-  if (getToken()) {
-    return await getCurrentUserSession()
+  try {
+    console.log(client.auth.getCurrentUser())
+    return await client.auth.getCurrentUser()
+  } catch (err) {
+    throw new Error(client.utils.errorMessage(err))
   }
 }
 
-async function loginFn(data: LoginRequest): Promise<User> {
-  const user = await login(data)
-  const { token, expires, refreshToken } = user
-  setToken({ token, expires, refreshToken })
-  return user
+async function loginFn(request: LoginRequest): Promise<User> {
+  try {
+    const response = await client.auth.login(request)
+    return response.data
+  } catch (err) {
+    throw new Error(client.utils.errorMessage(err))
+  }
 }
 
-async function logoutFn() {
-  await clearToken()
+async function logoutFn(): Promise<void> {
+  try {
+    return await client.auth.logout()
+  } catch (err) {
+    throw new Error(client.utils.errorMessage(err))
+  }
 }
 
 const authConfig = {

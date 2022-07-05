@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
 import {
   IonApp,
   IonIcon,
@@ -35,10 +35,10 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import '../../theme/variables.css'
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { AuthProvider, AuthConsumer } from '../../lib/auth'
+import { AuthProvider, useAuth } from '../../lib/auth'
 
 setupIonicReact()
 const queryClient = new QueryClient()
@@ -49,55 +49,73 @@ export function App(): ReactElement {
       <AuthProvider>
         <IonApp>
           <IonReactRouter>
-            <AuthConsumer>
-              {(context) =>
-                context?.user != null ? (
-                  <IonTabs>
-                    <IonRouterOutlet>
-                      <Route exact path="/dashboard" component={Dashboard} />
-                      <Route exact path="/faith-steps" component={FaithSteps} />
-                      <Route
-                        exact
-                        path="/ministry-chain"
-                        component={MinistryChain}
-                      />
-                      <Route exact path="/profile" component={Profile} />
-                      <Route exact path="/">
-                        <Redirect to="/dashboard" />
-                      </Route>
-                    </IonRouterOutlet>
-                    <IonTabBar slot="bottom">
-                      <IonTabButton tab="dashboard" href="/dashboard">
-                        <IonIcon icon={triangle} />
-                        <IonLabel>Dashboard</IonLabel>
-                      </IonTabButton>
-                      <IonTabButton tab="faith-steps" href="/faith-steps">
-                        <IonIcon icon={ellipse} />
-                        <IonLabel>Faith Steps</IonLabel>
-                      </IonTabButton>
-                      <IonTabButton tab="ministry-chain" href="/ministry-chain">
-                        <IonIcon icon={square} />
-                        <IonLabel>Ministry Chain</IonLabel>
-                      </IonTabButton>
-                      <IonTabButton tab="profile" href="/profile">
-                        <IonIcon icon={square} />
-                        <IonLabel>Profile</IonLabel>
-                      </IonTabButton>
-                    </IonTabBar>
-                  </IonTabs>
-                ) : (
-                  <IonRouterOutlet>
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/">
-                      <Redirect to="/login" />
-                    </Route>
-                  </IonRouterOutlet>
-                )
-              }
-            </AuthConsumer>
+            <IonTabs>
+              <IonRouterOutlet>
+                <PrivateRoute exact path="/dashboard">
+                  <Dashboard />
+                </PrivateRoute>
+                <PrivateRoute exact path="/faith-steps">
+                  <FaithSteps />
+                </PrivateRoute>
+                <PrivateRoute exact path="/ministry-chain">
+                  <MinistryChain />
+                </PrivateRoute>
+                <PrivateRoute exact path="/profile">
+                  <Profile />
+                </PrivateRoute>
+                <Route path="/login" component={Login} />
+                <Route exact path="/">
+                  <Redirect to="/dashboard" />
+                </Route>
+              </IonRouterOutlet>
+              <IonTabBar slot="bottom">
+                <IonTabButton tab="dashboard" href="/dashboard">
+                  <IonIcon icon={triangle} />
+                  <IonLabel>Dashboard</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="faith-steps" href="/faith-steps">
+                  <IonIcon icon={ellipse} />
+                  <IonLabel>Faith Steps</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="ministry-chain" href="/ministry-chain">
+                  <IonIcon icon={square} />
+                  <IonLabel>Ministry Chain</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="profile" href="/profile">
+                  <IonIcon icon={square} />
+                  <IonLabel>Profile</IonLabel>
+                </IonTabButton>
+              </IonTabBar>
+            </IonTabs>
           </IonReactRouter>
         </IonApp>
       </AuthProvider>
     </QueryClientProvider>
+  )
+}
+
+interface PrivateRouteProps extends RouteProps {
+  children?: ReactNode
+}
+
+function PrivateRoute({ children, ...rest }: PrivateRouteProps) {
+  const auth = useAuth()
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth.user ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
   )
 }
