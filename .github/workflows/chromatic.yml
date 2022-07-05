@@ -24,8 +24,6 @@ jobs:
           restore-keys: node-modules-
       - name: NPM Install
         run: npm install --silent
-      - name: Event
-        run: echo "Event triggered by ${{ github.event_name }}"
       - name: Run VR tests
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
