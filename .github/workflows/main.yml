@@ -35,3 +35,42 @@ jobs:
       - name: lint branch name
         if: ${{ github.event_name == 'pull_request' }}
         run: npx validate-branch-name -t $GITHUB_HEAD_REF
+  visual-test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Fetch other branches
+        if: ${{ github.event_name == 'pull_request' }}
+        run: git fetch --no-tags --prune --depth=5 origin $GITHUB_BASE_REF
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-
+      - name: NPM Install
+        run: npm install --silent
+      - name: nx Install
+        run: npm install -g nx --silent
+      - name: Run VR tests
+        if: github.event_name == 'push'
+        uses: chromaui/action@v1
+        # Options required for Chromatic's GitHub Action
+        # https://www.chromatic.com/docs/github-actions#available-options
+        with:
+          #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          storybookBuildDir: '.storybook/build'
+          exitOnceUploaded: true,
+          onChanged: true,
+          autoAcceptChanges: 'main'
+          # Keep unaffected stories in PRs, delete stories in main
+          preserveMissing: ${{ github.event_name == 'pull_request' }}
