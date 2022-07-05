@@ -3,7 +3,6 @@ on:
   push:
 jobs:
   visual-test:
-    # needs: [lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,24 +24,16 @@ jobs:
           restore-keys: node-modules-
       - name: NPM Install
         run: npm install --silent
-      # - name: Build Stories
-      #   id: build-storybook
-      #   if: github.event_name == 'push'
-      #   uses: mansagroup/nrwl-nx-action@v2
-      #   with:
-      #     targets: build-storybook
       - name: Event
         run: echo "Event triggered by ${{ github.event_name }}"
       - name: Run VR tests
-        # if: github.event_name == 'push'
         uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         # https://www.chromatic.com/docs/github-actions#available-options
         with:
-          #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          # storybookBuildDir: 'storybook-static'
           exitOnceUploaded: true,
+          # Turbosnap should be triggered only on push https://www.chromatic.com/docs/turbosnap
           onlyChanged: true,
           autoAcceptChanges: 'main'
