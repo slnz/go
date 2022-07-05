@@ -69,7 +69,7 @@ jobs:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          storybookBuildDir: '.storybook/build'
+          # storybookBuildDir: '.storybook/build'
           exitOnceUploaded: true,
           onChanged: true,
           autoAcceptChanges: 'main'
