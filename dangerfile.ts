@@ -1,4 +1,3 @@
-import { danger, warn, markdown } from 'danger'
 import lint from '@commitlint/lint'
 import load from '@commitlint/load'
 import {
@@ -7,9 +6,11 @@ import {
   ParserOptions,
   ParserPreset
 } from '@commitlint/types'
+import { danger, warn, markdown } from 'danger'
+
 import config from './commitlint.config'
 
-export default async () => {
+async function main(): Promise<void> {
   const isDependabot = danger.github.pr.user.login === 'dependabot[bot]'
   // check lockfile updated when package changes
   const packageChanged = danger.git.modified_files.includes('package.json')
@@ -131,3 +132,5 @@ function selectParserOpts(preset?: ParserPreset): ParserOptions | undefined {
   if (typeof preset.parserOpts !== 'object') return undefined
   return preset.parserOpts ?? undefined
 }
+
+export default main

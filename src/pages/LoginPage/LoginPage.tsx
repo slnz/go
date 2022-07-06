@@ -1,5 +1,6 @@
 import { IonContent, IonPage } from '@ionic/react'
 import { ReactElement } from 'react'
+
 import { Login } from '../../components/Login'
 
 /* Due to a bug with testing this page component has been separated from the

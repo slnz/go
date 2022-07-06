@@ -1,17 +1,15 @@
-import { ReactElement } from 'react'
-import { Formik } from 'formik'
-import * as yup from 'yup'
-import { Container, Stack, TextField, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { useHistory } from 'react-router'
-import { client } from '../../lib/fluro'
+import { Container, Stack, TextField, Typography } from '@mui/material'
+import { Formik } from 'formik'
 import { get } from 'lodash'
+import { ReactElement } from 'react'
+import { useHistory } from 'react-router'
+import { object, string } from 'yup'
 
-const validationSchema = yup.object({
-  username: yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required')
+import { client } from '../../lib/fluro'
+
+const validationSchema = object({
+  username: string().email('Enter a valid email').required('Email is required')
 })
 
 export function ForgotPassword(): ReactElement {
@@ -23,7 +21,7 @@ export function ForgotPassword(): ReactElement {
         username: ''
       }}
       validationSchema={validationSchema}
-      onSubmit={async (values, formik) => {
+      onSubmit={async (values, formik): Promise<void> => {
         try {
           await client.auth.sendResetPasswordRequest(values)
           history.goBack()
@@ -46,7 +44,7 @@ export function ForgotPassword(): ReactElement {
         handleSubmit,
         isSubmitting,
         isValid
-      }) => (
+      }): ReactElement => (
         <form onSubmit={handleSubmit}>
           <Container maxWidth="sm" sx={{ py: 2 }}>
             <Stack spacing={2}>

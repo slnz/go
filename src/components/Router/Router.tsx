@@ -1,6 +1,7 @@
 import { IonRouterOutlet } from '@ionic/react'
 import { ReactElement } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router'
+
 import { useAuth } from '../../lib/useAuth'
 import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage'
 import { LoginPage } from '../../pages/LoginPage'
