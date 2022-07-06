@@ -34,9 +34,11 @@ describe('useAuth', () => {
           <div>{user?.firstName}</div>
           <div>{error?.message}</div>
           <button
-            onClick={() =>
-              login({ username: 'username', password: 'password' })
-            }
+            onClick={async () => {
+              try {
+                await login({ username: 'username', password: 'password' })
+              } catch {}
+            }}
             disabled={loading}
           >
             Login
@@ -107,14 +109,16 @@ describe('useAuth', () => {
           <div>{user?.firstName}</div>
           <div>{error?.message}</div>
           <button
-            onClick={() =>
-              signup({
-                username: 'username',
-                password: 'password',
-                firstName: 'firstName',
-                lastName: 'lastName'
-              })
-            }
+            onClick={async () => {
+              try {
+                await signup({
+                  username: 'username',
+                  password: 'password',
+                  firstName: 'firstName',
+                  lastName: 'lastName'
+                })
+              } catch {}
+            }}
             disabled={loading}
           >
             Signup

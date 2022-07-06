@@ -9,7 +9,7 @@ jest.mock('../../lib/fluro')
 const mockClient = client as jest.MockedObject<typeof client>
 
 describe('ForgotPassword', () => {
-  it('logs the user in', async () => {
+  it('sends the user instructions to reset', async () => {
     let testLocation: Location | undefined
     const sendResetPasswordRequest = jest.fn()
     sendResetPasswordRequest.mockResolvedValue(undefined)

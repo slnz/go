@@ -50,7 +50,9 @@ export function AuthProvider({
       setUser(user)
       history.push('/')
     } catch (error) {
-      setError(new Error(client.utils.errorMessage(error)))
+      const formattedError = new Error(client.utils.errorMessage(error))
+      setError(formattedError)
+      throw formattedError
     } finally {
       setLoading(false)
     }
@@ -63,7 +65,9 @@ export function AuthProvider({
       setUser(user)
       history.push('/')
     } catch (error) {
-      setError(new Error(client.utils.errorMessage(error)))
+      const formattedError = new Error(client.utils.errorMessage(error))
+      setError(formattedError)
+      throw formattedError
     } finally {
       setLoading(false)
     }

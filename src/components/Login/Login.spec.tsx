@@ -100,4 +100,29 @@ describe('Login', () => {
     fireEvent.click(getByRole('link', { name: 'Forgot Password?' }))
     expect(testLocation?.pathname).toEqual('/forgot-password')
   })
+
+  it('shows useAuth error', () => {
+    const login = jest.fn()
+    mockUseAuth.mockReturnValue({
+      login,
+      error: new Error(
+        'Login Failed. Please check your email address and password.'
+      )
+    } as unknown as AuthContextType)
+    let testLocation: Location | undefined
+    const { getByRole } = render(
+      <MemoryRouter>
+        <Login />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location
+            return null
+          }}
+        />
+      </MemoryRouter>
+    )
+    fireEvent.click(getByRole('link', { name: 'Forgot Password?' }))
+    expect(testLocation?.pathname).toEqual('/forgot-password')
+  })
 })
