@@ -2,18 +2,18 @@ import { IonRouterOutlet } from '@ionic/react'
 import { ReactElement } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router'
 import { useAuth } from '../../lib/useAuth'
-import { ForgotPassword } from '../../pages/ForgotPassword'
-import { Login } from '../../pages/Login'
+import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage'
+import { LoginPage } from '../../pages/LoginPage'
 import { Tabs } from '../Tabs'
 
 export function Router(): ReactElement {
   return (
     <IonRouterOutlet>
       <Route exact path="/login">
-        <Login />
+        <LoginPage />
       </Route>
       <Route exact path="/forgot-password">
-        <ForgotPassword />
+        <ForgotPasswordPage />
       </Route>
       <PrivateRoute path="/tabs">
         <Tabs />

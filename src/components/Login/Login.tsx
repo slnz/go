@@ -76,7 +76,7 @@ export function Login(): ReactElement {
               <TextField
                 fullWidth
                 name="username"
-                label="Email"
+                label="Email Address"
                 value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}

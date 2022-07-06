@@ -1,6 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
-import { waitForIonicReact } from '@ionic/react-test-utils'
 import { Login } from '.'
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
@@ -22,8 +21,7 @@ describe('Login', () => {
         <Login />
       </MemoryRouter>
     )
-    await waitForIonicReact()
-    fireEvent.change(getByRole('textbox', { name: 'Email' }), {
+    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
     fireEvent.click(getByRole('button', { name: 'toggle password visibility' }))
@@ -49,19 +47,19 @@ describe('Login', () => {
         <Login />
       </MemoryRouter>
     )
-    await waitForIonicReact()
     fireEvent.click(getByRole('button', { name: 'Login' }))
     await waitFor(() => {
       expect(getByText('Email is required')).toBeInTheDocument()
     })
     expect(getByText('Password is required')).toBeInTheDocument()
-    fireEvent.change(getByRole('textbox', { name: 'Email' }), {
+    expect(getByRole('button', { name: 'Login' })).toBeDisabled()
+    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email' }
     })
     await waitFor(() => {
       expect(getByText('Enter a valid email')).toBeInTheDocument()
     })
-    fireEvent.change(getByRole('textbox', { name: 'Email' }), {
+    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
     fireEvent.click(getByRole('button', { name: 'toggle password visibility' }))
