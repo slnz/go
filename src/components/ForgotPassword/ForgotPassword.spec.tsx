@@ -1,7 +1,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, Route } from 'react-router'
 import { ForgotPassword } from '.'
 import { client } from '../../lib/fluro'
+import { Location } from 'history'
 
 jest.mock('../../lib/fluro')
 
@@ -9,12 +10,20 @@ const mockClient = client as jest.MockedObject<typeof client>
 
 describe('ForgotPassword', () => {
   it('logs the user in', async () => {
+    let testLocation: Location | undefined
     const sendResetPasswordRequest = jest.fn()
     sendResetPasswordRequest.mockResolvedValue(undefined)
     mockClient.auth.sendResetPasswordRequest = sendResetPasswordRequest
     const { getByRole } = render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['/', '/forgot-password']} initialIndex={1}>
         <ForgotPassword />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location
+            return null
+          }}
+        />
       </MemoryRouter>
     )
     fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
@@ -26,6 +35,7 @@ describe('ForgotPassword', () => {
         username: 'email@example.com'
       })
     })
+    expect(testLocation?.pathname).toEqual('/')
   })
 
   it('shows form and network errors', async () => {

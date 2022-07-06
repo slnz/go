@@ -1,8 +1,9 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter, Route } from 'react-router'
 import { Login } from '.'
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
+import { Location } from 'history'
 
 jest.mock('../../lib/useAuth', () => ({
   __esModule: true,
@@ -78,5 +79,25 @@ describe('Login', () => {
       })
     })
     expect(getByText('network error')).toBeInTheDocument()
+  })
+
+  it('navigates to forgot password', () => {
+    const login = jest.fn()
+    mockUseAuth.mockReturnValue({ login } as unknown as AuthContextType)
+    let testLocation: Location | undefined
+    const { getByRole } = render(
+      <MemoryRouter>
+        <Login />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location
+            return null
+          }}
+        />
+      </MemoryRouter>
+    )
+    fireEvent.click(getByRole('link', { name: 'Forgot Password?' }))
+    expect(testLocation?.pathname).toEqual('/forgot-password')
   })
 })
