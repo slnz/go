@@ -15,13 +15,14 @@ import '@ionic/react/css/text-alignment.css'
 import '@ionic/react/css/text-transformation.css'
 import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
+import { IonReactRouter } from '@ionic/react-router'
 
 /* Theme variables */
 import '../../theme/variables.css'
 import { ReactElement, useMemo } from 'react'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { AuthProvider } from '../../lib/auth'
+import { AuthProvider } from '../../lib/useAuth'
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
 import { darkTheme, theme } from '../../theme/theme'
 import { Router } from '../Router'
@@ -40,11 +41,13 @@ export function App(): ReactElement {
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <IonApp>
-            <Router />
-          </IonApp>
-        </AuthProvider>
+        <IonApp>
+          <IonReactRouter>
+            <AuthProvider>
+              <Router />
+            </AuthProvider>
+          </IonReactRouter>
+        </IonApp>
       </QueryClientProvider>
     </ThemeProvider>
   )

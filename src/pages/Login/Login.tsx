@@ -1,6 +1,6 @@
 import { IonContent, IonPage } from '@ionic/react'
 import { ReactElement, useState } from 'react'
-import { useAuth } from '../../lib/auth'
+import { useAuth } from '../../lib/useAuth'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import {
@@ -14,7 +14,7 @@ import {
   IconButton
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
@@ -30,7 +30,6 @@ const validationSchema = yup.object({
 export function Login(): ReactElement {
   const { login } = useAuth()
   const history = useHistory()
-  const { state } = useLocation()
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -45,9 +44,7 @@ export function Login(): ReactElement {
           onSubmit={async (values, formik) => {
             try {
               await login(values)
-              history.push(
-                (state as { from?: Location } | undefined)?.from ?? '/'
-              )
+              history.push('/')
             } catch (error) {
               if (error instanceof Error)
                 formik.setFieldError('username', error.message)

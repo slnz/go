@@ -68,7 +68,7 @@ declare module 'fluro' {
       /**
        * Returns the current user's session data
        */
-      getCurrentUser: () => Promise<User | undefined>
+      getCurrentUser: () => User | undefined
       /**
        * Adds a callback that will be triggered whenever the specified event occurs
        * @param event The event to listen for
