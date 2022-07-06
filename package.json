@@ -14,6 +14,7 @@
     "@fontsource/plus-jakarta-sans": "^4.5.8",
     "@ionic/react": "^6.1.12",
     "@ionic/react-router": "^6.1.12",
+    "@ionic/react-test-utils": "^0.3.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.89",
     "@mui/material": "^5.8.7",
