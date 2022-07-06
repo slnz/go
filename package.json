@@ -55,7 +55,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
@@ -80,6 +80,7 @@
   "devDependencies": {
     "@capacitor/cli": "3.6.0",
     "@commitlint/cli": "^17.0.3",
+    "@jest/types": "^28.1.1",
     "@typescript-eslint/eslint-plugin": "^5.30.4",
     "@typescript-eslint/parser": "^5.30.4",
     "@vidavidorra/commitlint-config": "^4.0.4",
@@ -95,5 +96,13 @@
     "prettier": "^2.7.1",
     "validate-branch-name": "^1.3.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  }
 }

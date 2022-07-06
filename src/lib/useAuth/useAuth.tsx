@@ -8,9 +8,9 @@ import {
   useState
 } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { client } from './fluro'
+import { client } from '../fluro'
 
-interface AuthContextType {
+export interface AuthContextType {
   user?: User
   loading: boolean
   error?: Error
@@ -46,8 +46,8 @@ export function AuthProvider({
   async function login(credentials: LoginCredentials): Promise<void> {
     setLoading(true)
     try {
-      const user = await client.auth.login(credentials)
-      setUser(user.data)
+      const { data: user } = await client.auth.login(credentials)
+      setUser(user)
       history.push('/')
     } catch (error) {
       setError(new Error(client.utils.errorMessage(error)))
@@ -59,8 +59,8 @@ export function AuthProvider({
   async function signup(credentials: SignupCredentials): Promise<void> {
     setLoading(true)
     try {
-      const user = await client.auth.signup(credentials)
-      setUser(user.data)
+      const { data: user } = await client.auth.signup(credentials)
+      setUser(user)
       history.push('/')
     } catch (error) {
       setError(new Error(client.utils.errorMessage(error)))
@@ -70,8 +70,16 @@ export function AuthProvider({
   }
 
   async function logout() {
-    await client.auth.logout()
-    setUser(undefined)
+    setLoading(true)
+    try {
+      await client.auth.logout()
+      setUser(undefined)
+      history.push('/')
+    } catch (error) {
+      setError(new Error(client.utils.errorMessage(error)))
+    } finally {
+      setLoading(false)
+    }
   }
 
   // Make the provider update only when it should.
@@ -104,8 +112,10 @@ export function AuthProvider({
   )
 }
 
+export const AuthConsumer = AuthContext.Consumer
+
 // Let's only export the `useAuth` hook instead of the context.
 // We only want to use the hook directly and never the context component.
-export function useAuth() {
+export function useAuth(): AuthContextType {
   return useContext(AuthContext)
 }

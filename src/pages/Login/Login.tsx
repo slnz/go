@@ -14,7 +14,6 @@ import {
   IconButton
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
@@ -29,7 +28,6 @@ const validationSchema = yup.object({
 
 export function Login(): ReactElement {
   const { login } = useAuth()
-  const history = useHistory()
   const [showPassword, setShowPassword] = useState(false)
 
   return (
@@ -44,7 +42,6 @@ export function Login(): ReactElement {
           onSubmit={async (values, formik) => {
             try {
               await login(values)
-              history.push('/')
             } catch (error) {
               if (error instanceof Error)
                 formik.setFieldError('username', error.message)
@@ -58,7 +55,8 @@ export function Login(): ReactElement {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting
+            isSubmitting,
+            isValid
           }) => (
             <form onSubmit={handleSubmit}>
               <Container maxWidth="sm">
@@ -129,6 +127,7 @@ export function Login(): ReactElement {
                     fullWidth
                     type="submit"
                     loading={isSubmitting}
+                    disabled={!isValid}
                   >
                     Login
                   </LoadingButton>
