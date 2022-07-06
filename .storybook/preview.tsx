@@ -1,6 +1,9 @@
 import { Story } from '@storybook/react'
 import { IonApp } from '@ionic/react'
 import { setupIonicReact } from '@ionic/react'
+import { MemoryRouter } from 'react-router'
+import { ThemeProvider, CssBaseline } from '@mui/material'
+import { theme } from '../src/theme/theme'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -23,7 +26,12 @@ setupIonicReact()
 export const decorators = [
   (Story: Story) => (
     <IonApp>
-      <Story />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MemoryRouter>
+          <Story />
+        </MemoryRouter>
+      </ThemeProvider>
     </IonApp>
   )
 ]
