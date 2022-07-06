@@ -13,6 +13,11 @@ const light: ThemeOptions = {
         }
       }
     },
+    MuiAppBar: {
+      defaultProps: {
+        elevation: 0
+      }
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true

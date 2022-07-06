@@ -11,7 +11,7 @@ export function ForgotPasswordPage(): ReactElement {
   return (
     <IonPage>
       <IonHeader>
-        <AppBar position="static" color="transparent" elevation={0}>
+        <AppBar position="static" color="transparent">
           <Toolbar>
             <Button
               sx={{ mr: 2 }}
