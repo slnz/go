@@ -1,6 +1,7 @@
 import { LoginCredentials, SignupCredentials, User } from 'fluro'
 import {
   createContext,
+  ReactElement,
   ReactNode,
   useContext,
   useEffect,
@@ -8,6 +9,7 @@ import {
   useState
 } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+
 import { client } from '../fluro'
 
 export interface AuthContextType {
@@ -25,7 +27,7 @@ export function AuthProvider({
   children
 }: {
   children: ReactNode
-}): JSX.Element {
+}): ReactElement {
   const [user, setUser] = useState<User>()
   const [error, setError] = useState<Error>()
   const [loading, setLoading] = useState(false)
@@ -35,7 +37,7 @@ export function AuthProvider({
 
   useEffect(() => {
     if (error) setError(undefined)
-  }, [location.pathname])
+  }, [location.pathname]) /* eslint-disable-line react-hooks/exhaustive-deps */
 
   useEffect(() => {
     const user = client.auth.getCurrentUser()
@@ -73,7 +75,7 @@ export function AuthProvider({
     }
   }
 
-  async function logout() {
+  async function logout(): Promise<void> {
     setLoading(true)
     try {
       await client.auth.logout()
@@ -104,7 +106,7 @@ export function AuthProvider({
       signup,
       logout
     }),
-    [user, loading, error]
+    [user, loading, error] /* eslint-disable-line react-hooks/exhaustive-deps */
   )
 
   // We only want to render the underlying app after we

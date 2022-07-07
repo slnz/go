@@ -1,7 +1,6 @@
-import { ReactElement, useState } from 'react'
-import { useAuth } from '../../lib/useAuth'
-import { Formik } from 'formik'
-import * as yup from 'yup'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { LoadingButton } from '@mui/lab'
 import {
   Container,
   Stack,
@@ -12,17 +11,16 @@ import {
   InputAdornment,
   IconButton
 } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
+import { Formik } from 'formik'
+import { ReactElement, useState } from 'react'
 import { Link } from 'react-router-dom'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { object, string } from 'yup'
 
-const validationSchema = yup.object({
-  username: yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: yup.string().required('Password is required')
+import { useAuth } from '../../lib/useAuth'
+
+const validationSchema = object({
+  username: string().email('Enter a valid email').required('Email is required'),
+  password: string().required('Password is required')
 })
 
 export function Login(): ReactElement {
@@ -36,7 +34,7 @@ export function Login(): ReactElement {
         password: ''
       }}
       validationSchema={validationSchema}
-      onSubmit={async (values, formik) => {
+      onSubmit={async (values, formik): Promise<void> => {
         try {
           await login(values)
         } catch (error) {
@@ -54,7 +52,7 @@ export function Login(): ReactElement {
         handleSubmit,
         isSubmitting,
         isValid
-      }) => (
+      }): ReactElement => (
         <form onSubmit={handleSubmit}>
           <Container maxWidth="sm">
             <Stack spacing={2}>
@@ -69,7 +67,7 @@ export function Login(): ReactElement {
                   }
                 }}
               >
-                <img src="/assets/go.png" />
+                <img src="/assets/go.png" alt="logo" />
               </Box>
               <Typography variant="h2">Login</Typography>
               <Typography>Sign in with your fluro account</Typography>
@@ -99,7 +97,7 @@ export function Login(): ReactElement {
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={(): void => setShowPassword(!showPassword)}
                         >
                           {showPassword ? (
                             <VisibilityOffIcon />

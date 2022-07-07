@@ -1,8 +1,11 @@
-import { fireEvent, render, waitFor } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router'
-import { client } from '../fluro'
-import { AuthProvider, useAuth } from './useAuth'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Location } from 'history'
+import { ReactElement } from 'react'
+import { MemoryRouter, Route } from 'react-router'
+
+import { client } from '../fluro'
+
+import { AuthProvider, useAuth } from './useAuth'
 
 jest.mock('../fluro', () => ({
   __esModule: true,
@@ -14,7 +17,7 @@ jest.mock('../fluro', () => ({
       logout: jest.fn()
     },
     utils: {
-      errorMessage: (error: Error) => error.message
+      errorMessage: (error: Error): string => error.message
     }
   }
 }))
@@ -26,7 +29,7 @@ const mockedLogout = client.auth.logout as jest.Mock
 
 describe('useAuth', () => {
   describe('login', () => {
-    function Login() {
+    function Login(): ReactElement {
       const { login, loading, error, user } = useAuth()
 
       return (
@@ -34,7 +37,7 @@ describe('useAuth', () => {
           <div>{user?.firstName}</div>
           <div>{error?.message}</div>
           <button
-            onClick={async () => {
+            onClick={async (): Promise<void> => {
               try {
                 await login({ username: 'username', password: 'password' })
               } catch {}
@@ -48,7 +51,7 @@ describe('useAuth', () => {
     }
 
     it('starts loading', () => {
-      const { getByRole } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Login />
@@ -56,12 +59,12 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedLogin.mockReturnValue(new Promise(() => {}))
-      fireEvent.click(getByRole('button', { name: 'Login' }))
-      expect(getByRole('button', { name: 'Login' })).toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Login' }))
+      expect(screen.getByRole('button', { name: 'Login' })).toBeDisabled()
     })
 
     it('handles error', async () => {
-      const { getByRole, getByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Login />
@@ -69,22 +72,20 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedLogin.mockRejectedValue(new Error('network error'))
-      fireEvent.click(getByRole('button', { name: 'Login' }))
-      await waitFor(() =>
-        expect(getByText('network error')).toBeInTheDocument()
-      )
-      expect(getByRole('button', { name: 'Login' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Login' }))
+      await screen.findByText('network error')
+      expect(screen.getByRole('button', { name: 'Login' })).not.toBeDisabled()
     })
 
     it('handles login', async () => {
       let testLocation: Location | undefined
-      const { getByRole, getByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Login />
             <Route
               path="*"
-              render={({ location }) => {
+              render={({ location }): null => {
                 testLocation = location
                 return null
               }}
@@ -93,15 +94,15 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedLogin.mockResolvedValue({ data: { firstName: 'Sarah' } })
-      fireEvent.click(getByRole('button', { name: 'Login' }))
-      await waitFor(() => expect(getByText('Sarah')).toBeInTheDocument())
-      expect(getByRole('button', { name: 'Login' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Login' }))
+      await screen.findByText('Sarah')
+      expect(screen.getByRole('button', { name: 'Login' })).not.toBeDisabled()
       expect(testLocation?.pathname).toEqual('/')
     })
   })
 
   describe('signup', () => {
-    function Signup() {
+    function Signup(): ReactElement {
       const { signup, loading, error, user } = useAuth()
 
       return (
@@ -109,7 +110,7 @@ describe('useAuth', () => {
           <div>{user?.firstName}</div>
           <div>{error?.message}</div>
           <button
-            onClick={async () => {
+            onClick={async (): Promise<void> => {
               try {
                 await signup({
                   username: 'username',
@@ -127,7 +128,7 @@ describe('useAuth', () => {
       )
     }
     it('starts loading', () => {
-      const { getByRole } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Signup />
@@ -135,12 +136,12 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedSignup.mockReturnValue(new Promise(() => {}))
-      fireEvent.click(getByRole('button', { name: 'Signup' }))
-      expect(getByRole('button', { name: 'Signup' })).toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Signup' }))
+      expect(screen.getByRole('button', { name: 'Signup' })).toBeDisabled()
     })
 
     it('handles error', async () => {
-      const { getByRole, getByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Signup />
@@ -148,22 +149,20 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedSignup.mockRejectedValue(new Error('network error'))
-      fireEvent.click(getByRole('button', { name: 'Signup' }))
-      await waitFor(() =>
-        expect(getByText('network error')).toBeInTheDocument()
-      )
-      expect(getByRole('button', { name: 'Signup' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Signup' }))
+      await screen.findByText('network error')
+      expect(screen.getByRole('button', { name: 'Signup' })).not.toBeDisabled()
     })
 
     it('handles signup', async () => {
       let testLocation: Location | undefined
-      const { getByRole, getByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Signup />
             <Route
               path="*"
-              render={({ location }) => {
+              render={({ location }): null => {
                 testLocation = location
                 return null
               }}
@@ -172,29 +171,29 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedSignup.mockResolvedValue({ data: { firstName: 'Sarah' } })
-      fireEvent.click(getByRole('button', { name: 'Signup' }))
-      await waitFor(() => expect(getByText('Sarah')).toBeInTheDocument())
-      expect(getByRole('button', { name: 'Signup' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Signup' }))
+      await screen.findByText('Sarah')
+      expect(screen.getByRole('button', { name: 'Signup' })).not.toBeDisabled()
       expect(testLocation?.pathname).toEqual('/')
     })
   })
 
   describe('logout', () => {
-    function Logout() {
+    function Logout(): ReactElement {
       const { logout, loading, error, user } = useAuth()
 
       return (
         <>
           <div>{user?.firstName}</div>
           <div>{error?.message}</div>
-          <button onClick={() => logout()} disabled={loading}>
+          <button onClick={(): Promise<void> => logout()} disabled={loading}>
             Logout
           </button>
         </>
       )
     }
     it('starts loading', () => {
-      const { getByRole } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Logout />
@@ -202,12 +201,12 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedLogout.mockReturnValue(new Promise(() => {}))
-      fireEvent.click(getByRole('button', { name: 'Logout' }))
-      expect(getByRole('button', { name: 'Logout' })).toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Logout' }))
+      expect(screen.getByRole('button', { name: 'Logout' })).toBeDisabled()
     })
 
     it('handles error', async () => {
-      const { getByRole, getByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Logout />
@@ -215,23 +214,21 @@ describe('useAuth', () => {
         </MemoryRouter>
       )
       mockedLogout.mockRejectedValue(new Error('network error'))
-      fireEvent.click(getByRole('button', { name: 'Logout' }))
-      await waitFor(() =>
-        expect(getByText('network error')).toBeInTheDocument()
-      )
-      expect(getByRole('button', { name: 'Logout' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Logout' }))
+      await screen.findByText('network error')
+      expect(screen.getByRole('button', { name: 'Logout' })).not.toBeDisabled()
     })
 
     it('handles logout', async () => {
       let testLocation: Location | undefined
       mockedGetCurrentUser.mockReturnValue({ firstName: 'Sarah' })
-      const { getByRole, getByText, queryByText } = render(
+      render(
         <MemoryRouter>
           <AuthProvider>
             <Logout />
             <Route
               path="*"
-              render={({ location }) => {
+              render={({ location }): null => {
                 testLocation = location
                 return null
               }}
@@ -239,11 +236,13 @@ describe('useAuth', () => {
           </AuthProvider>
         </MemoryRouter>
       )
-      expect(getByText('Sarah')).toBeInTheDocument()
+      expect(screen.getByText('Sarah')).toBeInTheDocument()
       mockedLogout.mockResolvedValue(undefined)
-      fireEvent.click(getByRole('button', { name: 'Logout' }))
-      await waitFor(() => expect(queryByText('Sarah')).not.toBeInTheDocument())
-      expect(getByRole('button', { name: 'Logout' })).not.toBeDisabled()
+      fireEvent.click(screen.getByRole('button', { name: 'Logout' }))
+      await waitFor(() =>
+        expect(screen.queryByText('Sarah')).not.toBeInTheDocument()
+      )
+      expect(screen.getByRole('button', { name: 'Logout' })).not.toBeDisabled()
       expect(testLocation?.pathname).toEqual('/')
     })
   })

@@ -1,8 +1,10 @@
-import { fireEvent, render, waitFor } from '@testing-library/react'
-import { MemoryRouter, Route } from 'react-router'
-import { ForgotPassword } from '.'
-import { client } from '../../lib/fluro'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Location } from 'history'
+import { MemoryRouter, Route } from 'react-router'
+
+import { client } from '../../lib/fluro'
+
+import { ForgotPassword } from '.'
 
 jest.mock('../../lib/fluro')
 
@@ -14,22 +16,22 @@ describe('ForgotPassword', () => {
     const sendResetPasswordRequest = jest.fn()
     sendResetPasswordRequest.mockResolvedValue(undefined)
     mockClient.auth.sendResetPasswordRequest = sendResetPasswordRequest
-    const { getByRole } = render(
+    render(
       <MemoryRouter initialEntries={['/', '/forgot-password']} initialIndex={1}>
         <ForgotPassword />
         <Route
           path="*"
-          render={({ location }) => {
+          render={({ location }): null => {
             testLocation = location
             return null
           }}
         />
       </MemoryRouter>
     )
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.click(getByRole('button', { name: 'Send Instructions' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Send Instructions' }))
     await waitFor(() => {
       expect(sendResetPasswordRequest).toHaveBeenCalledWith({
         username: 'email@example.com'
@@ -42,38 +44,40 @@ describe('ForgotPassword', () => {
     const sendResetPasswordRequest = jest.fn()
     sendResetPasswordRequest.mockRejectedValueOnce(new Error('network error'))
     mockClient.auth.sendResetPasswordRequest = sendResetPasswordRequest
-    mockClient.utils.errorMessage = (error) => error.message
-    const { getByRole, getByText } = render(
+    mockClient.utils.errorMessage = (error): string => error.message
+    render(
       <MemoryRouter>
         <ForgotPassword />
       </MemoryRouter>
     )
-    fireEvent.click(getByRole('button', { name: 'Send Instructions' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Send Instructions' }))
     await waitFor(() => {
-      expect(getByText('Email is required')).toBeInTheDocument()
+      expect(screen.getByText('Email is required')).toBeInTheDocument()
     })
-    expect(getByRole('button', { name: 'Send Instructions' })).toBeDisabled()
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    expect(
+      screen.getByRole('button', { name: 'Send Instructions' })
+    ).toBeDisabled()
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email' }
     })
     await waitFor(() => {
-      expect(getByText('Enter a valid email')).toBeInTheDocument()
+      expect(screen.getByText('Enter a valid email')).toBeInTheDocument()
     })
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
     await waitFor(() =>
       expect(
-        getByRole('button', { name: 'Send Instructions' })
+        screen.getByRole('button', { name: 'Send Instructions' })
       ).not.toBeDisabled()
     )
-    fireEvent.click(getByRole('button', { name: 'Send Instructions' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Send Instructions' }))
     await waitFor(() => {
       expect(sendResetPasswordRequest).toHaveBeenCalledWith({
         username: 'email@example.com'
       })
     })
-    expect(getByText('network error')).toBeInTheDocument()
+    expect(screen.getByText('network error')).toBeInTheDocument()
   })
 
   it('shows api errors', async () => {
@@ -82,21 +86,21 @@ describe('ForgotPassword', () => {
       response: { data: { error: 'account does not exist' } }
     })
     mockClient.auth.sendResetPasswordRequest = sendResetPasswordRequest
-    mockClient.utils.errorMessage = (error) => error.message
-    const { getByRole, getByText } = render(
+    mockClient.utils.errorMessage = (error): string => error.message
+    render(
       <MemoryRouter>
         <ForgotPassword />
       </MemoryRouter>
     )
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.click(getByRole('button', { name: 'Send Instructions' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Send Instructions' }))
     await waitFor(() => {
       expect(sendResetPasswordRequest).toHaveBeenCalledWith({
         username: 'email@example.com'
       })
     })
-    expect(getByText('account does not exist')).toBeInTheDocument()
+    expect(screen.getByText('account does not exist')).toBeInTheDocument()
   })
 })

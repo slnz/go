@@ -1,10 +1,3 @@
-import { Redirect, Route } from 'react-router-dom'
-import { ReactElement } from 'react'
-import { ellipse, square, triangle } from 'ionicons/icons'
-import { Dashboard } from '../../pages/Dashboard'
-import { FaithSteps } from '../../pages/FaithSteps'
-import { MinistryChain } from '../../pages/MinistryChain'
-import { Profile } from '../../pages/Profile'
 import {
   IonIcon,
   IonLabel,
@@ -13,6 +6,14 @@ import {
   IonTabButton,
   IonTabs
 } from '@ionic/react'
+import { ellipse, square, triangle } from 'ionicons/icons'
+import { ReactElement } from 'react'
+import { Redirect, Route } from 'react-router-dom'
+
+import { Dashboard } from '../../pages/Dashboard'
+import { FaithSteps } from '../../pages/FaithSteps'
+import { MinistryChain } from '../../pages/MinistryChain'
+import { Profile } from '../../pages/Profile'
 
 export function Tabs(): ReactElement {
   return (

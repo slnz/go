@@ -1,9 +1,11 @@
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { Location } from 'history'
 import { MemoryRouter, Route } from 'react-router'
-import { Login } from '.'
+
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
-import { Location } from 'history'
+
+import { Login } from '.'
 
 jest.mock('../../lib/useAuth', () => ({
   __esModule: true,
@@ -17,20 +19,22 @@ describe('Login', () => {
     const login = jest.fn()
     login.mockResolvedValue(undefined)
     mockUseAuth.mockReturnValue({ login } as unknown as AuthContextType)
-    const { getByRole } = render(
+    render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     )
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.click(getByRole('button', { name: 'toggle password visibility' }))
-    await waitFor(() => getByRole('textbox', { name: 'Password' }))
-    fireEvent.change(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.click(
+      screen.getByRole('button', { name: 'toggle password visibility' })
+    )
+    await screen.findByRole('textbox', { name: 'Password' })
+    fireEvent.change(screen.getByRole('textbox', { name: 'Password' }), {
       target: { value: 'password' }
     })
-    fireEvent.click(getByRole('button', { name: 'Login' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Login' }))
     await waitFor(() => {
       expect(login).toHaveBeenCalledWith({
         username: 'email@example.com',
@@ -43,61 +47,63 @@ describe('Login', () => {
     const login = jest.fn()
     login.mockRejectedValue(new Error('network error'))
     mockUseAuth.mockReturnValue({ login } as unknown as AuthContextType)
-    const { getByRole, getByText } = render(
+    render(
       <MemoryRouter>
         <Login />
       </MemoryRouter>
     )
-    fireEvent.click(getByRole('button', { name: 'Login' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Login' }))
     await waitFor(() => {
-      expect(getByText('Email is required')).toBeInTheDocument()
+      expect(screen.getByText('Email is required')).toBeInTheDocument()
     })
-    expect(getByText('Password is required')).toBeInTheDocument()
-    expect(getByRole('button', { name: 'Login' })).toBeDisabled()
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    expect(screen.getByText('Password is required')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Login' })).toBeDisabled()
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email' }
     })
     await waitFor(() => {
-      expect(getByText('Enter a valid email')).toBeInTheDocument()
+      expect(screen.getByText('Enter a valid email')).toBeInTheDocument()
     })
-    fireEvent.change(getByRole('textbox', { name: 'Email Address' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.click(getByRole('button', { name: 'toggle password visibility' }))
-    await waitFor(() => getByRole('textbox', { name: 'Password' }))
-    fireEvent.change(getByRole('textbox', { name: 'Password' }), {
+    fireEvent.click(
+      screen.getByRole('button', { name: 'toggle password visibility' })
+    )
+    await screen.findByRole('textbox', { name: 'Password' })
+    fireEvent.change(screen.getByRole('textbox', { name: 'Password' }), {
       target: { value: 'password' }
     })
     await waitFor(() =>
-      expect(getByRole('button', { name: 'Login' })).not.toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Login' })).not.toBeDisabled()
     )
-    fireEvent.click(getByRole('button', { name: 'Login' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Login' }))
     await waitFor(() => {
       expect(login).toHaveBeenCalledWith({
         username: 'email@example.com',
         password: 'password'
       })
     })
-    expect(getByText('network error')).toBeInTheDocument()
+    expect(screen.getByText('network error')).toBeInTheDocument()
   })
 
   it('navigates to forgot password', () => {
     const login = jest.fn()
     mockUseAuth.mockReturnValue({ login } as unknown as AuthContextType)
     let testLocation: Location | undefined
-    const { getByRole } = render(
+    render(
       <MemoryRouter>
         <Login />
         <Route
           path="*"
-          render={({ location }) => {
+          render={({ location }): null => {
             testLocation = location
             return null
           }}
         />
       </MemoryRouter>
     )
-    fireEvent.click(getByRole('link', { name: 'Forgot Password?' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Forgot Password?' }))
     expect(testLocation?.pathname).toEqual('/forgot-password')
   })
 
@@ -110,19 +116,19 @@ describe('Login', () => {
       )
     } as unknown as AuthContextType)
     let testLocation: Location | undefined
-    const { getByRole } = render(
+    render(
       <MemoryRouter>
         <Login />
         <Route
           path="*"
-          render={({ location }) => {
+          render={({ location }): null => {
             testLocation = location
             return null
           }}
         />
       </MemoryRouter>
     )
-    fireEvent.click(getByRole('link', { name: 'Forgot Password?' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Forgot Password?' }))
     expect(testLocation?.pathname).toEqual('/forgot-password')
   })
 })

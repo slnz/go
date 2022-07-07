@@ -1,8 +1,9 @@
 import { IonContent, IonHeader, IonPage } from '@ionic/react'
-import { ReactElement } from 'react'
-import { AppBar, Toolbar, Button } from '@mui/material'
-import { useHistory } from 'react-router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { AppBar, Toolbar, Button } from '@mui/material'
+import { ReactElement } from 'react'
+import { useHistory } from 'react-router'
+
 import { ForgotPassword } from '../../components/ForgotPassword'
 
 export function ForgotPasswordPage(): ReactElement {
@@ -15,7 +16,7 @@ export function ForgotPasswordPage(): ReactElement {
           <Toolbar>
             <Button
               sx={{ mr: 2 }}
-              onClick={() => history.goBack()}
+              onClick={(): void => history.goBack()}
               startIcon={<ArrowBackIcon />}
               color="inherit"
             >
