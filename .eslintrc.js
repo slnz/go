@@ -21,6 +21,12 @@ module.exports = {
       rules: {
         'import/no-anonymous-default-export': 'off'
       }
+    },
+    {
+      files: ['**/*.js'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': 'off'
+      }
     }
   ],
   plugins: ['@typescript-eslint', 'prettier', 'import'],
