@@ -20,7 +20,9 @@ import '@ionic/react/css/flex-utils.css'
 import '@ionic/react/css/display.css'
 import '../../theme/variables.css'
 
-setupIonicReact()
+setupIonicReact({
+  mode: 'md'
+})
 const queryClient = new QueryClient()
 
 export function App(): ReactElement {

@@ -6,7 +6,9 @@ import '@testing-library/jest-dom/extend-expect'
 import { setupIonicReact } from '@ionic/react'
 import { mockIonicReact } from '@ionic/react-test-utils'
 
-setupIonicReact()
+setupIonicReact({
+  mode: 'md'
+})
 mockIonicReact()
 
 // Mock matchmedia

@@ -1,0 +1,1 @@
+export { PeopleMenuBar } from './PeopleMenuBar'

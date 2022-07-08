@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(ts|tsx)'],
   staticDirs: ['../public'],
   addons: [
+    '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/preset-create-react-app',
@@ -26,13 +27,13 @@ const config: StorybookConfig = {
   },
   features: {
     postcss: false
-  }
+  },
   // refs: {
   //   'design-system': {
   //     title: 'Design System',
   //     url: 'https://5ccbc373887ca40020446347-yldsqjoxzb.chromatic.com'
   //   }
   // }
-}
+};
 
 module.exports = config
