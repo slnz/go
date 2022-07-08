@@ -27,13 +27,13 @@ const config: StorybookConfig = {
   },
   features: {
     postcss: false
-  },
+  }
   // refs: {
   //   'design-system': {
   //     title: 'Design System',
   //     url: 'https://5ccbc373887ca40020446347-yldsqjoxzb.chromatic.com'
   //   }
   // }
-};
+}
 
 module.exports = config

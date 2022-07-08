@@ -1,15 +1,16 @@
 import { IonContent, IonHeader, IonPage } from '@ionic/react'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 
 import { PeopleMenuBar } from '../../components/PeopleMenuBar'
 
 export function PeoplePage(): ReactElement {
+  const [search, setSearch] = useState('')
   return (
     <IonPage>
       <IonHeader>
-        <PeopleMenuBar />
+        <PeopleMenuBar onChange={(value): void => setSearch(value)} />
       </IonHeader>
-      <IonContent fullscreen></IonContent>
+      <IonContent fullscreen>{search}</IonContent>
     </IonPage>
   )
 }
