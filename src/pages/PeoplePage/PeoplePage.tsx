@@ -1,16 +1,17 @@
-import { IonContent, IonHeader, IonPage } from '@ionic/react'
-import { ReactElement, useState } from 'react'
+import { IonPage, IonRouterOutlet } from '@ionic/react'
+import { ReactElement } from 'react'
+import { Route } from 'react-router'
 
-import { PeopleMenuBar } from '../../components/PeopleMenuBar'
+import { PersonDetailPage } from './PersonDetailPage'
+import { PersonListPage } from './PersonListPage'
 
 export function PeoplePage(): ReactElement {
-  const [search, setSearch] = useState('')
   return (
     <IonPage>
-      <IonHeader>
-        <PeopleMenuBar onChange={(value): void => setSearch(value)} />
-      </IonHeader>
-      <IonContent fullscreen>{search}</IonContent>
+      <IonRouterOutlet>
+        <Route exact path="/people" component={PersonListPage} />
+        <Route path="/people/:id" component={PersonDetailPage} />
+      </IonRouterOutlet>
     </IonPage>
   )
 }
