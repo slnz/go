@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(ts|tsx)'],
   staticDirs: ['../public'],
   addons: [
+    '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/preset-create-react-app',
