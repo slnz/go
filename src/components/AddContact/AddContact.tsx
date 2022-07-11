@@ -90,8 +90,8 @@ export function AddContact(): ReactElement {
         handleBlur,
         handleSubmit,
         isSubmitting,
-        isValid
-        /* and other goodies */
+        isValid,
+        setFieldValue
       }): ReactElement => (
         <form onSubmit={handleSubmit}>
           <Container maxWidth="sm">
@@ -133,11 +133,11 @@ export function AddContact(): ReactElement {
                       <InputLabel id="gender-label">Gender</InputLabel>
                       <Select
                         labelId="gender-label"
-                        data-testid="gender"
                         label="Gender"
-                        name="gender"
                         value={values.gender}
-                        onChange={handleChange}
+                        onChange={(event): void =>
+                          setFieldValue('gender', event.target.value)
+                        }
                       >
                         <MenuItem value="male">Male</MenuItem>
                         <MenuItem value="female">Female</MenuItem>
@@ -177,9 +177,10 @@ export function AddContact(): ReactElement {
                   <Select
                     labelId="process-label"
                     label="Process"
-                    name="process"
                     value={values.process}
-                    onChange={handleChange}
+                    onChange={(event): void =>
+                      setFieldValue('process', event.target.value)
+                    }
                     error={touched.process && Boolean(errors.process)}
                   >
                     <MenuItem value={10}>Ten</MenuItem>
