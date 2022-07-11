@@ -9,7 +9,6 @@ import {
   Divider,
   IconButton,
   Tab,
-  Tabs,
   Toolbar,
   Typography
 } from '@mui/material'
