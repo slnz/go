@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { ReactElement } from 'react'
-import { object, string } from 'yup'
+import { Asserts, object, string } from 'yup'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -28,6 +28,8 @@ const validationSchema = object({
   email: string().email('Enter a valid email').required('Email is required'),
   process: string().required('You must select a process')
 })
+
+type Contact = Asserts<typeof validationSchema>
 
 // const getProcessList = async () => {
 //   try {
@@ -60,17 +62,24 @@ const addContact = (values: any): any => {
   console.log('hello')
 }
 
-export function AddContact(): ReactElement {
+interface Props {
+  contact?: Contact
+  onSubmit: (contact: Contact) => void
+}
+
+export function AddContact({ contact, onSubmit }: Props): ReactElement {
   return (
     <Formik
-      initialValues={{
-        firstName: '',
-        lastName: '',
-        gender: '',
-        phone: '',
-        email: '',
-        process: ''
-      }}
+      initialValues={
+        contact ?? {
+          firstName: '',
+          lastName: '',
+          gender: '',
+          phone: '',
+          email: '',
+          process: ''
+        }
+      }
       validationSchema={validationSchema}
       onSubmit={async (values, formik): Promise<void> => {
         try {
