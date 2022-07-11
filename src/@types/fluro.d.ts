@@ -52,6 +52,12 @@ declare module 'fluro' {
        * @param config Optional parameters for the request
        */
       get<T>(path: string, config: object): Promise<T>
+      /**
+       * Makes a post http request to the Fluro REST API
+       * @param path The Fluro API endpoint to request
+       * @param config Optional parameters for the request
+       */
+      post<T>(path: string, config: object): Promise<T>
     }
 
     auth: {

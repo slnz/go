@@ -13,7 +13,10 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { ReactElement } from 'react'
+import { useQuery } from 'react-query'
 import { Asserts, object, string } from 'yup'
+
+import { getProcessesQuery } from '../../lib/queries/getProcessesQuery'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -68,6 +71,7 @@ interface Props {
 }
 
 export function AddContact({ contact, onSubmit }: Props): ReactElement {
+  const { data } = useQuery('processes', getProcessesQuery)
   return (
     <Formik
       initialValues={
