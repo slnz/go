@@ -2,6 +2,32 @@
 // https://fluro-developers.github.io/fluro
 
 declare module 'fluro' {
+  export type DefinitionName = 'contact' | 'process'
+
+  export type Types = Process
+
+  export interface Definition {
+    definitionName: string
+    definitions: ContentDefinition[]
+  }
+
+  export interface ContentDefinition<T> {
+    _id: string
+    definitionName: string
+    data: T
+    // description of definition
+    firstLine: string
+    // content type
+    parentType: string
+    // plural of definition title
+    plural: string
+    title: string
+  }
+
+  export interface ProcessDefinitionData {
+    states: { title: string; key: string }
+  }
+
   interface Account {
     _id: string
     title: string
@@ -94,6 +120,13 @@ declare module 'fluro' {
 
     stats: {
       refresh: () => void
+    }
+
+    types: {
+      /**
+       * Retrieves a list of specified types and their respective definitions
+       */
+      retrieve: (array: DefinitionName[]) => Promise<Definition[]>
     }
 
     utils: {
