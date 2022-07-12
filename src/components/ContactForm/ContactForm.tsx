@@ -23,7 +23,8 @@ const phoneRegExp =
 
 const validationSchema = object({
   firstName: string().required('First Name is required'),
-  lastName: string().required('Last Name is required'),
+  lastName: string(),
+  gender: string(),
   phone: string()
     .min(9, 'Phone number is not valid')
     .required('Phone number is required')
@@ -70,7 +71,7 @@ interface Props {
   onSubmit: (contact: Contact) => void
 }
 
-export function AddContact({ contact, onSubmit }: Props): ReactElement {
+export function ContactForm({ contact, onSubmit }: Props): ReactElement {
   const { data } = useQuery('processes', getProcessesQuery)
   return (
     <Formik

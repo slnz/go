@@ -1,11 +1,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
-import { AddContact } from '.'
+import { ContactForm } from '.'
 
 describe('AddContact', () => {
   it('adds a contact', async () => {
     // let testLocation: Location | undefined
-    render(<AddContact />)
+    render(<ContactForm />)
     fireEvent.change(screen.getByRole('textbox', { name: 'First Name' }), {
       target: { value: 'test' }
     })

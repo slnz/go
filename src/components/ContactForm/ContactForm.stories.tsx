@@ -1,13 +1,13 @@
 import { Story, Meta } from '@storybook/react'
 
-import { AddContact } from '.'
+import { ContactForm } from '.'
 
 const AddContactStory = {
-  title: 'Components/AddContact',
-  component: AddContact
+  title: 'Components/ContactForm',
+  component: ContactForm
 }
 
-const Template: Story = () => <AddContact />
+const Template: Story = () => <ContactForm />
 
 export const Default = Template.bind({})
 export const Error = Template.bind({})
