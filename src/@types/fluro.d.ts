@@ -4,8 +4,6 @@
 declare module 'fluro' {
   export type DefinitionName = 'contact' | 'process'
 
-  export type Types = Process
-
   export interface Definition {
     definitionName: string
     definitions: ContentDefinition[]
@@ -143,7 +141,7 @@ declare module 'fluro' {
 
     types: {
       /**
-       * Retrieves a list of specified types and their respective definitions
+       * Retrieves a list of specified types and their respective definitions. Get method does not return data property on ContentDefinition - must use retrieve.
        */
       retrieve: (array: DefinitionName[]) => Promise<Definition[]>
     }
