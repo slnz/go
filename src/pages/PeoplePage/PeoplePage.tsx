@@ -1,19 +1,20 @@
-import { IonPage, IonRouterOutlet } from '@ionic/react'
+import { IonPage } from '@ionic/react'
 import { ReactElement } from 'react'
-import { Route } from 'react-router'
+import { Route, Switch, useRouteMatch } from 'react-router'
 
 import { PersonAddPage } from './PersonAddPage'
 import { PersonDetailPage } from './PersonDetailPage'
 import { PersonListPage } from './PersonListPage'
 
 export function PeoplePage(): ReactElement {
+  const match = useRouteMatch()
   return (
     <IonPage>
-      <IonRouterOutlet>
-        <Route exact path="/tabs/people" component={PersonListPage} />
-        <Route exact path="/tabs/people/add" component={PersonAddPage} />
-        <Route path="/tabs/people/:personId" component={PersonDetailPage} />
-      </IonRouterOutlet>
+      <Switch>
+        <Route exact path={match.path} component={PersonListPage} />
+        <Route path={`${match.path}/add`} component={PersonAddPage} />
+        <Route path={`${match.path}/:personId`} component={PersonDetailPage} />
+      </Switch>
     </IonPage>
   )
 }
