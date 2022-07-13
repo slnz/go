@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Skeleton,
   Tab,
   Typography
 } from '@mui/material'
@@ -19,21 +20,34 @@ import { useQuery } from 'react-query'
 
 import { getContact } from '../../lib/queries/getContact'
 
-interface Props {
+export interface PersonDetailProps {
   id: string
 }
 
-export function PersonDetail({ id }: Props): ReactElement {
-  const { data } = useQuery(['contact', id], getContact(id))
+export function PersonDetail({ id }: PersonDetailProps): ReactElement {
+  const { data: contact, isLoading: isContactLoading } = useQuery(
+    ['contact', id],
+    getContact(id)
+  )
 
   return (
     <>
       <Box sx={{ px: 3, py: 5 }}>
-        <Typography variant="h4" align="center">
-          {data?.firstName}
+        <Typography
+          display="flex"
+          justifyContent="center"
+          variant="h4"
+          align="center"
+        >
+          {isContactLoading ? <Skeleton width="70%" /> : contact?.firstName}
         </Typography>
-        <Typography variant="h5" align="center">
-          {data?.lastName}
+        <Typography
+          display="flex"
+          justifyContent="center"
+          variant="h5"
+          align="center"
+        >
+          {isContactLoading ? <Skeleton width="60%" /> : contact?.lastName}
         </Typography>
       </Box>
       <Box
@@ -46,28 +60,31 @@ export function PersonDetail({ id }: Props): ReactElement {
         <Tab
           icon={<CallOutlinedIcon />}
           label="Call"
-          disabled={data?.phoneNumbers[0] == null}
-          href={`tel:${data?.phoneNumbers[0]}`}
+          disabled={contact?.phoneNumbers[0] == null}
+          href={`tel:${contact?.phoneNumbers[0]}`}
         />
         <Tab
           icon={<MessageOutlinedIcon />}
           label="Text"
-          disabled={data?.phoneNumbers[0] == null}
-          href={`sms:${data?.phoneNumbers[0]}`}
+          disabled={contact?.phoneNumbers[0] == null}
+          href={`sms:${contact?.phoneNumbers[0]}`}
         />
         <Tab
           icon={<EmailOutlinedIcon />}
           label="Email"
-          disabled={data?.emails[0] == null}
-          href={`mailto:${data?.emails[0]}`}
+          disabled={contact?.emails[0] == null}
+          href={`mailto:${contact?.emails[0]}`}
         />
       </Box>
       <Divider />
       <List component="nav">
-        {data && (data?.phoneNumbers.length > 0 || data?.emails.length > 0) && (
+        {(isContactLoading ||
+          (contact &&
+            (contact?.phoneNumbers.length > 0 ||
+              contact?.emails.length > 0))) && (
           <ListSubheader>Contact Details</ListSubheader>
         )}
-        {data?.phoneNumbers.map((phoneNumber) => (
+        {contact?.phoneNumbers.map((phoneNumber) => (
           <ListItemButton
             key={phoneNumber}
             component="a"
@@ -79,7 +96,15 @@ export function PersonDetail({ id }: Props): ReactElement {
             <ListItemText primary={phoneNumber} />
           </ListItemButton>
         ))}
-        {data?.emails.map((email) => (
+        {isContactLoading && (
+          <ListItemButton>
+            <ListItemIcon>
+              <CallOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Skeleton width="60%" />} />
+          </ListItemButton>
+        )}
+        {contact?.emails.map((email) => (
           <ListItemButton key={email} component="a" href={`mailto:${email}`}>
             <ListItemIcon>
               <EmailOutlinedIcon />
@@ -87,11 +112,19 @@ export function PersonDetail({ id }: Props): ReactElement {
             <ListItemText primary={email} />
           </ListItemButton>
         ))}
-        {Object.keys(data?.process ?? {}).length > 0 && (
+        {isContactLoading && (
+          <ListItemButton>
+            <ListItemIcon>
+              <EmailOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Skeleton width="80%" />} />
+          </ListItemButton>
+        )}
+        {Object.keys(contact?.process ?? {}).length > 0 && (
           <ListSubheader>Processes</ListSubheader>
         )}
-        {data?.process &&
-          flatMap(data.process, (value, key) =>
+        {contact?.process &&
+          flatMap(contact.process, (value, key) =>
             map(value, ({ state, definition }) => (
               <ListItem key={key}>
                 <ListItemText primary={state} secondary={definition} />
