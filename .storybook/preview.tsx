@@ -4,6 +4,10 @@ import { setupIonicReact } from '@ionic/react'
 import { MemoryRouter } from 'react-router'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { theme } from '../src/theme/theme'
+import { initialize as mswInitialize, mswDecorator } from 'msw-storybook-addon'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { useEffect } from 'react'
+import { client } from '../src/lib/fluro'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -25,17 +29,36 @@ setupIonicReact({
   mode: 'md'
 })
 
+mswInitialize()
+
+const mockedQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+})
+
 export const decorators = [
-  (Story: Story) => (
-    <IonApp>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MemoryRouter>
-          <Story />
-        </MemoryRouter>
-      </ThemeProvider>
-    </IonApp>
-  )
+  mswDecorator,
+  (Story: Story) => {
+    useEffect(() => {
+      return () => client.cache.reset()
+    }, [])
+
+    return (
+      <QueryClientProvider client={mockedQueryClient}>
+        <IonApp>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <MemoryRouter>
+              <Story />
+            </MemoryRouter>
+          </ThemeProvider>
+        </IonApp>
+      </QueryClientProvider>
+    )
+  }
 ]
 
 const customViewports = {
