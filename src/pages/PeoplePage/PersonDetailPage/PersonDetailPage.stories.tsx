@@ -1,6 +1,8 @@
 import { Story, Meta } from '@storybook/react'
 import { match } from 'react-router'
 
+import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
+
 import { PersonDetailPage } from '.'
 
 const PersonDetailPageStory = {
@@ -19,5 +21,10 @@ const Template: Story = () => (
 )
 
 export const Default = Template.bind({})
+Default.parameters = {
+  msw: {
+    handlers: [getContactHandler]
+  }
+}
 
 export default PersonDetailPageStory as Meta
