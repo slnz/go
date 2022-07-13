@@ -13,10 +13,7 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { ReactElement } from 'react'
-import { useQuery } from 'react-query'
 import { Asserts, object, string } from 'yup'
-
-import { getProcessesQuery } from '../../lib/queries/getProcessesQuery'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -35,44 +32,15 @@ const validationSchema = object({
 
 type Contact = Asserts<typeof validationSchema>
 
-// const getProcessList = async () => {
-//   try {
-//     const response = await client.api.post(`/content/definition/filter`, {
-//       filter: {
-//         operator: 'and',
-//         filters: [
-//           {
-//             operator: 'and',
-//             filters: [
-//               {
-//                 comparator: '==',
-//                 key: 'parentType',
-//                 value: 'process'
-//               }
-//             ]
-//           }
-//         ]
-//       },
-//       select: ['definitionName']
-//     })
-
-//     return response.data
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-const addContact = (values: any): any => {
-  console.log('hello')
-}
-
-interface Props {
+export interface ContactFormProps {
   contact?: Contact
-  onSubmit: (contact: Contact) => void
+  onSubmit: (contact: Contact) => Promise<void>
 }
 
-export function ContactForm({ contact, onSubmit }: Props): ReactElement {
-  const { data } = useQuery('processes', getProcessesQuery)
+export function ContactForm({
+  contact,
+  onSubmit
+}: ContactFormProps): ReactElement {
   return (
     <Formik
       initialValues={
@@ -88,7 +56,7 @@ export function ContactForm({ contact, onSubmit }: Props): ReactElement {
       validationSchema={validationSchema}
       onSubmit={async (values, formik): Promise<void> => {
         try {
-          await addContact(values)
+          await onSubmit(values)
         } catch (error) {
           if (error instanceof Error) {
             formik.setFieldError('firstName', error.message)

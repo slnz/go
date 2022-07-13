@@ -5,7 +5,8 @@ import { ContactForm } from '.'
 describe('AddContact', () => {
   it('adds a contact', async () => {
     // let testLocation: Location | undefined
-    render(<ContactForm />)
+    const onSubmit = jest.fn()
+    render(<ContactForm onSubmit={onSubmit} />)
     fireEvent.change(screen.getByRole('textbox', { name: 'First Name' }), {
       target: { value: 'test' }
     })
