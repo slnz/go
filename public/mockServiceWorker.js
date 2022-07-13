@@ -1,6 +1,4 @@
-/* eslint-disable */
-/* tslint:disable */
-
+/* eslint no-restricted-globals: "off" */
 /**
  * Mock Service Worker (0.43.1).
  * @see https://github.com/mswjs/msw
@@ -79,6 +77,9 @@ self.addEventListener('message', async function (event) {
         self.registration.unregister()
       }
 
+      break
+    }
+    default: {
       break
     }
   }
@@ -299,9 +300,10 @@ This exception has been gracefully handled as a 500 response, however, it's stro
 
       return respondWithMock(clientMessage.payload)
     }
+    default: {
+      return passthrough()
+    }
   }
-
-  return passthrough()
 }
 
 function sendToClient(client, message) {
@@ -337,6 +339,7 @@ function respondWithMockStream(operationChannel, mockResponse) {
     start: (controller) => (streamCtrl = controller)
   })
 
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     operationChannel.onmessageerror = (event) => {
       operationChannel.close()
@@ -357,6 +360,11 @@ function respondWithMockStream(operationChannel, mockResponse) {
         case 'MOCK_RESPONSE_END': {
           streamCtrl.close()
           operationChannel.close()
+          break
+        }
+
+        default: {
+          break
         }
       }
     }
