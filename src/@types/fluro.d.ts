@@ -4,11 +4,6 @@
 declare module 'fluro' {
   export type DefinitionName = 'contact' | 'process'
 
-  export interface Definition {
-    definitionName: string
-    definitions: ContentDefinition[]
-  }
-
   export interface ContentDefinition<T> {
     _id: string
     definitionName: string
@@ -20,6 +15,11 @@ declare module 'fluro' {
     // plural of definition title
     plural: string
     title: string
+  }
+
+  export interface Definition {
+    definitionName: string
+    definitions: ContentDefinition[]
   }
 
   export interface ProcessDefinitionData {

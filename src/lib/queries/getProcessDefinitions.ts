@@ -8,7 +8,6 @@ export interface GetProcessDefinitions {
 
 export async function getProcessDefinitions(): Promise<GetProcessDefinitions> {
   return client.types.retrieve(['process']).then((data) => {
-    console.log('data', data)
     const definitions: {
       [key: string]: ContentDefinition<ProcessDefinitionData>
     } = {}
