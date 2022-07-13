@@ -9,7 +9,7 @@ export function PersonListPage(): ReactElement {
   const [search, setSearch] = useState('')
 
   const { data: processDefinition } = useQuery(
-    ['definitions', process],
+    ['definitions', { type: 'process' }],
     getProcessDefinitions
   )
 
