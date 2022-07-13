@@ -92,6 +92,25 @@ declare module 'fluro' {
       ) => Promise<import('axios').AxiosResponse<User>>
     }
 
+    cache: {
+      /**
+       * A helper function to reset all cache objects, useful if changing account or logging in or out as another user
+       */
+      reset: () => void
+    }
+
+    content: {
+      /**
+       * This function returns a single populated item by providing its _id
+       * @param _id The item's _id
+       * @param params Extra query string parameters for the request
+       */
+      get<T, Params = Record<string, unknown>>(
+        _id: string,
+        params?: Params
+      ): Promise<T>
+    }
+
     stats: {
       refresh: () => void
     }
