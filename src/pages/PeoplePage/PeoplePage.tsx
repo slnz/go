@@ -10,9 +10,9 @@ export function PeoplePage(): ReactElement {
   return (
     <IonPage>
       <IonRouterOutlet>
-        <Route exact path="/people" component={PersonListPage} />
-        <Route exact path="/people/add" component={PersonAddPage} />
-        <Route path="/people/:id" component={PersonDetailPage} />
+        <Route exact path="/tabs/people" component={PersonListPage} />
+        <Route exact path="/tabs/people/add" component={PersonAddPage} />
+        <Route path="/tabs/people/:personId" component={PersonDetailPage} />
       </IonRouterOutlet>
     </IonPage>
   )
