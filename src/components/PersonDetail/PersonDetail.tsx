@@ -18,6 +18,7 @@ import { flatMap, map } from 'lodash'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 
+import { getProcessDefinitions } from '../../lib/queries'
 import { getContact } from '../../lib/queries/getContact'
 
 export interface PersonDetailProps {
@@ -29,6 +30,10 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
     ['contact', id],
     getContact(id)
   )
+  const { data: processes, isLoading: isProcessesLoading } = useQuery(
+    ['processes'],
+    getProcessDefinitions
+  )
 
   return (
     <>
@@ -39,7 +44,7 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
           variant="h4"
           align="center"
         >
-          {isContactLoading ? <Skeleton width="70%" /> : contact?.firstName}
+          {isContactLoading ? <Skeleton width={220} /> : contact?.firstName}
         </Typography>
         <Typography
           display="flex"
@@ -47,7 +52,7 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
           variant="h5"
           align="center"
         >
-          {isContactLoading ? <Skeleton width="60%" /> : contact?.lastName}
+          {isContactLoading ? <Skeleton width={190} /> : contact?.lastName}
         </Typography>
       </Box>
       <Box
@@ -97,12 +102,12 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
           </ListItemButton>
         ))}
         {isContactLoading && (
-          <ListItemButton>
+          <ListItem>
             <ListItemIcon>
               <CallOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary={<Skeleton width="60%" />} />
-          </ListItemButton>
+            <ListItemText primary={<Skeleton width={160} />} />
+          </ListItem>
         )}
         {contact?.emails.map((email) => (
           <ListItemButton key={email} component="a" href={`mailto:${email}`}>
@@ -113,22 +118,48 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
           </ListItemButton>
         ))}
         {isContactLoading && (
-          <ListItemButton>
+          <ListItem>
             <ListItemIcon>
               <EmailOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary={<Skeleton width="80%" />} />
-          </ListItemButton>
+            <ListItemText primary={<Skeleton width={220} />} />
+          </ListItem>
         )}
-        {Object.keys(contact?.process ?? {}).length > 0 && (
+        {(isContactLoading ||
+          Object.keys(contact?.process ?? {}).length > 0) && (
           <ListSubheader>Processes</ListSubheader>
+        )}
+        {isContactLoading && (
+          <ListItem>
+            <ListItemText
+              primary={<Skeleton width={100} />}
+              secondary={<Skeleton width={80} />}
+            />
+          </ListItem>
         )}
         {contact?.process &&
           flatMap(contact.process, (value, key) =>
             map(value, ({ state, definition }) => (
-              <ListItem key={key}>
-                <ListItemText primary={state} secondary={definition} />
-              </ListItem>
+              <ListItemButton key={key}>
+                <ListItemText
+                  primary={
+                    isProcessesLoading ? (
+                      <Skeleton width={100} />
+                    ) : (
+                      processes?.[definition]?.data?.states?.find(
+                        ({ key }) => key === state
+                      )?.title
+                    )
+                  }
+                  secondary={
+                    isProcessesLoading ? (
+                      <Skeleton width={80} />
+                    ) : (
+                      processes?.[definition]?.title
+                    )
+                  }
+                />
+              </ListItemButton>
             ))
           )}
       </List>
