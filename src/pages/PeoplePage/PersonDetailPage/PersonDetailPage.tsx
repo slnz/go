@@ -21,7 +21,7 @@ export function PersonDetailPage({
   return (
     <IonPage>
       <IonHeader>
-        <AppBar position="static" color="transparent">
+        <AppBar position="static" color="inherit">
           <Toolbar>
             <Button
               sx={{ mr: 2 }}
