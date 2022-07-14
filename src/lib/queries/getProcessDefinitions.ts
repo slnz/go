@@ -3,7 +3,7 @@ import { client } from '../fluro'
 interface ProcessDefinition {
   _id: string
   definitionName: string
-  data: { states: { title: string; key: string } }
+  data: { states: { title: string; key: string }[] }
   firstLine: string
   plural: string
   title: string
