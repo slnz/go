@@ -1,43 +1,35 @@
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined'
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-  Skeleton,
-  Tab,
-  Typography
-} from '@mui/material'
-import { flatMap, map } from 'lodash'
-import { ReactElement } from 'react'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { Box, Divider, Skeleton, Tab, Typography } from '@mui/material'
+import { ReactElement, SyntheticEvent, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { getProcessDefinitions } from '../../lib/queries'
 import { getContact } from '../../lib/queries/getContact'
+
+import { PersonDetailInfo } from './Info'
+import { PersonDetailTimeline } from './Timeline'
 
 export interface PersonDetailProps {
   id: string
 }
 
 export function PersonDetail({ id }: PersonDetailProps): ReactElement {
+  const [value, setValue] = useState('1')
+
+  const handleChange = (_event: SyntheticEvent, newValue: string): void => {
+    setValue(newValue)
+  }
+
   const { data: contact, isLoading: isContactLoading } = useQuery(
     ['contact', id],
     getContact(id)
   )
-  const { data: processes, isLoading: isProcessesLoading } = useQuery(
-    ['processes'],
-    getProcessDefinitions
-  )
 
   return (
     <>
-      <Box sx={{ px: 3, py: 5 }}>
+      <Box sx={{ px: 3, pt: 3, pb: 1 }}>
         <Typography
           display="flex"
           justifyContent="center"
@@ -82,87 +74,24 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
         />
       </Box>
       <Divider />
-      <List component="nav">
-        {(isContactLoading ||
-          (contact &&
-            (contact?.phoneNumbers.length > 0 ||
-              contact?.emails.length > 0))) && (
-          <ListSubheader>Contact Details</ListSubheader>
-        )}
-        {contact?.phoneNumbers.map((phoneNumber) => (
-          <ListItemButton
-            key={phoneNumber}
-            component="a"
-            href={`tel:${phoneNumber}`}
-          >
-            <ListItemIcon>
-              <CallOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={phoneNumber} />
-          </ListItemButton>
-        ))}
-        {isContactLoading && (
-          <ListItem>
-            <ListItemIcon>
-              <CallOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={<Skeleton width={160} />} />
-          </ListItem>
-        )}
-        {contact?.emails.map((email) => (
-          <ListItemButton key={email} component="a" href={`mailto:${email}`}>
-            <ListItemIcon>
-              <EmailOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={email} />
-          </ListItemButton>
-        ))}
-        {isContactLoading && (
-          <ListItem>
-            <ListItemIcon>
-              <EmailOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={<Skeleton width={220} />} />
-          </ListItem>
-        )}
-        {(isContactLoading ||
-          Object.keys(contact?.process ?? {}).length > 0) && (
-          <ListSubheader>Processes</ListSubheader>
-        )}
-        {isContactLoading && (
-          <ListItem>
-            <ListItemText
-              primary={<Skeleton width={100} />}
-              secondary={<Skeleton width={80} />}
-            />
-          </ListItem>
-        )}
-        {contact?.process &&
-          flatMap(contact.process, (value, key) =>
-            map(value, ({ state, definition }) => (
-              <ListItemButton key={key}>
-                <ListItemText
-                  primary={
-                    isProcessesLoading ? (
-                      <Skeleton width={100} />
-                    ) : (
-                      processes?.[definition]?.data?.states?.find(
-                        ({ key }) => key === state
-                      )?.title
-                    )
-                  }
-                  secondary={
-                    isProcessesLoading ? (
-                      <Skeleton width={80} />
-                    ) : (
-                      processes?.[definition]?.title
-                    )
-                  }
-                />
-              </ListItemButton>
-            ))
-          )}
-      </List>
+      <TabContext value={value}>
+        <TabList
+          onChange={handleChange}
+          textColor="inherit"
+          variant="fullWidth"
+          aria-label="contact tabs"
+        >
+          <Tab label="Details" value="1" />
+          <Tab label="Timeline" value="2" />
+        </TabList>
+        <Divider />
+        <TabPanel value="1" sx={{ p: 0 }}>
+          <PersonDetailInfo id={id} />
+        </TabPanel>
+        <TabPanel value="2" sx={{ p: 0 }}>
+          <PersonDetailTimeline id={id} />
+        </TabPanel>
+      </TabContext>
     </>
   )
 }
