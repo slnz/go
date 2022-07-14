@@ -1,7 +1,5 @@
 import { client } from '../fluro'
 
-export type DefinitionName = 'contact' | 'process'
-
 interface ProcessDefinition {
   _id: string
   definitionName: string
