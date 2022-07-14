@@ -23,7 +23,7 @@ declare module 'fluro' {
   }
 
   export interface ProcessDefinitionData {
-    states: { title: string; key: string }
+    states: { title: string; key: string }[]
   }
 
   interface Account {
