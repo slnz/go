@@ -18,17 +18,15 @@ export interface GetProcessDefinitions {
   [definitionName: string]: ProcessDefinition
 }
 
-export function getProcessDefinitions(): () => Promise<GetProcessDefinitions> {
-  return async (): Promise<GetProcessDefinitions> => {
-    const data = await client.types.retrieve<Definition>(['process'])
-    const definitions: {
-      [key: string]: ProcessDefinition
-    } = {}
+export async function getProcessDefinitions(): Promise<GetProcessDefinitions> {
+  const data = await client.types.retrieve<Definition>(['process'])
+  const definitions: {
+    [key: string]: ProcessDefinition
+  } = {}
 
-    data[0].definitions.forEach((definition): void => {
-      definitions[definition.definitionName] = definition
-    })
+  data[0].definitions.forEach((definition): void => {
+    definitions[definition.definitionName] = definition
+  })
 
-    return definitions
-  }
+  return definitions
 }
