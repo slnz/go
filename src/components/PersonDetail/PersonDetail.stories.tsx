@@ -7,6 +7,7 @@ import {
   getContactHandlerSimple
 } from '../../lib/queries/getContact/getContact.handlers'
 import { getContactTimelineHandler } from '../../lib/queries/getContactTimeline/getContactTimeline.handlers'
+import { getProcessDefinitionsHandler } from '../../lib/queries/getProcessDefinitions.handlers'
 
 import { PersonDetailProps } from './PersonDetail'
 
@@ -26,7 +27,11 @@ const Template: Story<PersonDetailProps> = (args) => (
 export const DetailsTab = Template.bind({})
 DetailsTab.parameters = {
   msw: {
-    handlers: [getContactHandler(), getContactTimelineHandler()]
+    handlers: [
+      getContactHandler(),
+      getProcessDefinitionsHandler(),
+      getContactTimelineHandler()
+    ]
   }
 }
 DetailsTab.args = {
@@ -36,7 +41,11 @@ DetailsTab.args = {
 export const TimelineTab = Template.bind({})
 TimelineTab.parameters = {
   msw: {
-    handlers: [getContactHandler(), getContactTimelineHandler()]
+    handlers: [
+      getContactHandler(),
+      getProcessDefinitionsHandler(),
+      getContactTimelineHandler()
+    ]
   }
 }
 TimelineTab.args = {
@@ -44,13 +53,18 @@ TimelineTab.args = {
 }
 TimelineTab.play = async (): Promise<void> => {
   await userEvent.click(screen.getByRole('tab', { name: 'Timeline' }))
-  await userEvent.click(screen.getByRole('heading', { name: 'Robert' }))
+  await userEvent.tab()
+  await userEvent.tab()
 }
 
 export const Simple = Template.bind({})
 Simple.parameters = {
   msw: {
-    handlers: [getContactHandlerSimple(), getContactTimelineHandler()]
+    handlers: [
+      getContactHandlerSimple(),
+      getProcessDefinitionsHandler(),
+      getContactTimelineHandler()
+    ]
   }
 }
 Simple.args = {
@@ -60,7 +74,11 @@ Simple.args = {
 export const Loading = Template.bind({})
 Loading.parameters = {
   msw: {
-    handlers: [getContactHandlerLoading(), getContactTimelineHandler()]
+    handlers: [
+      getContactHandlerLoading(),
+      getProcessDefinitionsHandler(),
+      getContactTimelineHandler()
+    ]
   }
 }
 Loading.args = {
