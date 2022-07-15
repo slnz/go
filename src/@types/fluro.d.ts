@@ -2,30 +2,6 @@
 // https://fluro-developers.github.io/fluro
 
 declare module 'fluro' {
-  export type DefinitionName = 'contact' | 'process'
-
-  export interface ContentDefinition<T> {
-    _id: string
-    definitionName: string
-    data: T
-    // description of definition
-    firstLine: string
-    // content type
-    parentType: string
-    // plural of definition title
-    plural: string
-    title: string
-  }
-
-  export interface Definition {
-    definitionName: string
-    definitions: ContentDefinition[]
-  }
-
-  export interface ProcessDefinitionData {
-    states: { title: string; key: string }[]
-  }
-
   interface Account {
     _id: string
     title: string
@@ -146,7 +122,7 @@ declare module 'fluro' {
       /**
        * Retrieves a list of specified types and their respective definitions. Get method does not return data property on ContentDefinition - must use retrieve.
        */
-      retrieve: (array: DefinitionName[]) => Promise<Definition[]>
+      retrieve: <T>(array: string[]) => Promise<T[]>
     }
 
     utils: {
