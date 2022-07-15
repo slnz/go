@@ -1,4 +1,4 @@
-import { client } from '../fluro'
+import { client } from '../../fluro'
 
 interface ProcessDefinition {
   _id: string
