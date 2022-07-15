@@ -5,7 +5,7 @@ import {
   TimelineDot,
   TimelineSeparator
 } from '@mui/lab'
-import { Avatar, Box, Divider, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Stack, Typography } from '@mui/material'
 import { formatDistance, parseISO } from 'date-fns'
 import { isArray, isString, map } from 'lodash'
 import { ReactElement } from 'react'
@@ -48,7 +48,7 @@ export function PersonDetailTimelinePost({ timeline }: Props): ReactElement {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>
+        <Typography variant="h6">
           {timeline.author != null && `${timeline.author.name} posted a `}
           {timeline.fullDefinition.title}
         </Typography>
@@ -61,15 +61,15 @@ export function PersonDetailTimelinePost({ timeline }: Props): ReactElement {
               <Typography variant="overline" display="block" fontWeight="bold">
                 {getTitle(key, timeline.fullDefinition.fields)}
               </Typography>
-              {isString(value) && value}
+              {isString(value) && <Typography>{value}</Typography>}
               {isArray(value) &&
                 value.map(
-                  (item) => isString(item) && <Typography>{item}</Typography>
+                  (item) =>
+                    isString(item) && <Typography key={item}>{item}</Typography>
                 )}
             </Box>
           ))}
         </Stack>
-        <Divider sx={{ mt: 1 }} />
       </TimelineContent>
     </>
   )

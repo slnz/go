@@ -1,10 +1,10 @@
 import { Story, Meta } from '@storybook/react'
+import { screen, userEvent } from '@storybook/testing-library'
 
 import {
-  getContactHandler,
-  getContactHandlerLoading,
-  getContactHandlerSimple
-} from '../../../lib/queries/getContact/getContact.handlers'
+  getContactTimelineHandler,
+  getContactTimelineHandlerLoading
+} from '../../../lib/queries/getContactTimeline/getContactTimeline.handlers'
 
 import { PersonDetailTimelineProps } from './Timeline'
 
@@ -24,27 +24,31 @@ const Template: Story<PersonDetailTimelineProps> = (args) => (
 export const Default = Template.bind({})
 Default.parameters = {
   msw: {
-    handlers: [getContactHandler()]
+    handlers: [getContactTimelineHandler()]
   }
 }
 Default.args = {
   id: 'defaultId'
 }
 
-export const Simple = Template.bind({})
-Simple.parameters = {
+export const All = Template.bind({})
+All.parameters = {
   msw: {
-    handlers: [getContactHandlerSimple()]
+    handlers: [getContactTimelineHandler()]
   }
 }
-Simple.args = {
-  id: 'simpleId'
+All.args = {
+  id: 'allId'
+}
+All.play = async (): Promise<void> => {
+  await userEvent.click(screen.getByRole('button', { name: 'Filter' }), {})
+  await userEvent.click(screen.getByRole('option', { name: 'All' }))
 }
 
 export const Loading = Template.bind({})
 Loading.parameters = {
   msw: {
-    handlers: [getContactHandlerLoading()]
+    handlers: [getContactTimelineHandlerLoading()]
   }
 }
 Loading.args = {

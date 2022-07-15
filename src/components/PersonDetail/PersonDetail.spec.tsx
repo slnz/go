@@ -1,7 +1,8 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { getContactHandler } from '../../lib/queries/getContact/getContact.handlers'
+import { getContactTimelineHandler } from '../../lib/queries/getContactTimeline/getContactTimeline.handlers'
 import { mswServer } from '../../mocks/mswServer'
 
 import { PersonDetail } from '.'
@@ -16,6 +17,7 @@ describe('PersonDetail', () => {
         emails: ['bob.jones@example.com', 'bobs.work@example.com']
       })
     )
+    mswServer.use(getContactTimelineHandler())
     const client = new QueryClient()
     render(
       <QueryClientProvider client={client}>
@@ -42,5 +44,11 @@ describe('PersonDetail', () => {
       'href',
       'mailto:bob.jones@example.com'
     )
+    fireEvent.click(screen.getByRole('tab', { name: 'Timeline' }))
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: 'Brian Chen posted a Comment' })
+      ).toBeInTheDocument()
+    })
   })
 })
