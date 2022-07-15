@@ -115,6 +115,13 @@ declare module 'fluro' {
       refresh: () => void
     }
 
+    types: {
+      /**
+       * Retrieves a list of specified types and their respective definitions. Get method does not return data property on ContentDefinition - must use retrieve.
+       */
+      retrieve: <T>(array: string[]) => Promise<T[]>
+    }
+
     utils: {
       /**
        * Helper function for retrieving a human readable error message from server error response objects
