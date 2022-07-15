@@ -3,7 +3,7 @@ import { ReactElement, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { PeopleMenuBar } from '../../../components/PeopleMenuBar'
-import { getProcessDefinitions } from '../../../lib/queries'
+import { getProcessDefinitions } from '../../../lib/queries/getProcessDefinitions'
 
 export function PersonListPage(): ReactElement {
   const [search, setSearch] = useState('')
