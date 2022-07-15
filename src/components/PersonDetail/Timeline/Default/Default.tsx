@@ -4,7 +4,7 @@ import {
   TimelineDot,
   TimelineSeparator
 } from '@mui/lab'
-import { Divider, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { formatDistance, parseISO } from 'date-fns'
 import { ReactElement } from 'react'
 
@@ -27,7 +27,6 @@ export function PersonDetailTimelineDefault({ timeline }: Props): ReactElement {
         <Typography variant="body2" color="textSecondary">
           {formatDistance(date, new Date(), { addSuffix: true })}
         </Typography>
-        <Divider sx={{ mt: 1 }} />
       </TimelineContent>
     </>
   )

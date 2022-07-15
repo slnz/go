@@ -4,13 +4,9 @@ type GetContactTimelineBase = {
   _id: string
   created: string
   date: string
-  key: string
 }
 
 export type GetContactTimelineDefault = GetContactTimelineBase & {
-  _id: string
-  created: string
-  date: string
   key: string
   message: string
   _type: undefined
