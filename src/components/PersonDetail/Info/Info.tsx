@@ -12,8 +12,8 @@ import { flatMap, map } from 'lodash'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 
-import { getProcessDefinitions } from '../../../lib/queries'
 import { getContact } from '../../../lib/queries/getContact'
+import { getProcessDefinitions } from '../../../lib/queries/getProcessDefinitions'
 
 export interface PersonDetailInfoProps {
   id: string
