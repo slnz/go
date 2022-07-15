@@ -6,6 +6,9 @@ import '@testing-library/jest-dom/extend-expect'
 import { setupIonicReact } from '@ionic/react'
 import { mockIonicReact } from '@ionic/react-test-utils'
 
+import { client } from './lib/fluro'
+import { mswServer } from './mocks/mswServer'
+
 setupIonicReact({
   mode: 'md'
 })
@@ -21,3 +24,10 @@ window.matchMedia =
       removeListener: (): void => {}
     } as unknown as MediaQueryList
   }
+
+beforeAll(() => mswServer.listen())
+afterEach(() => {
+  client.cache.reset()
+  mswServer.resetHandlers()
+})
+afterAll(() => mswServer.close())

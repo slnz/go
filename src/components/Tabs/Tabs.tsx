@@ -18,9 +18,9 @@ export function Tabs(): ReactElement {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route exact path="/tabs/people" component={PeoplePage} />
-        <Route exact path="/tabs/faith-steps" component={FaithSteps} />
-        <Route exact path="/tabs/ministry-chain" component={MinistryChain} />
+        <Route path="/tabs/people" component={PeoplePage} />
+        <Route path="/tabs/faith-steps" component={FaithSteps} />
+        <Route path="/tabs/ministry-chain" component={MinistryChain} />
         <Redirect exact path="/tabs" to="/tabs/people" />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
