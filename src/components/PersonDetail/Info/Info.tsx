@@ -11,6 +11,7 @@ import {
 import { flatMap, map } from 'lodash'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
 import { getContact } from '../../../lib/queries/getContact'
 import { getProcessDefinitions } from '../../../lib/queries/getProcessDefinitions'
@@ -78,7 +79,7 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
         )}
         {contact?.process &&
           flatMap(contact.process, (value, key) =>
-            map(value, ({ state, definition }) =>
+            map(value, ({ _id, state, definition }) =>
               isProcessesLoading ? (
                 <ListItem key={key}>
                   <ListItemText
@@ -87,7 +88,11 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
                   />
                 </ListItem>
               ) : (
-                <ListItemButton key={key}>
+                <ListItemButton
+                  key={key}
+                  component={Link}
+                  to={`/processes/${_id}`}
+                >
                   <ListItemText
                     primary={
                       isProcessesLoading ? (
