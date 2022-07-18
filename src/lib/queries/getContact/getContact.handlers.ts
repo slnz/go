@@ -4,9 +4,9 @@ import { GetContact } from './getContact'
 
 export function getContactHandler(contact?: Partial<GetContact>): RestHandler {
   return rest.get('https://api.fluro.io/content/get/:_id', (req, res, ctx) => {
-    const _id = req.params._id
+    const _id = req.params._id as string
     return res(
-      ctx.json({
+      ctx.json<GetContact>({
         _id,
         emails: ['robert.smith@example.com'],
         phoneNumbers: ['021935873'],

@@ -15,6 +15,7 @@ export function getProcessHandler(process?: Partial<GetProcess>): RestHandler {
           lastName: 'Smith',
           _type: 'contact'
         },
+        state: 'step_1',
         assignedTo: [
           {
             _id: '5f10e8577b75cc0fdeb66ea0',
