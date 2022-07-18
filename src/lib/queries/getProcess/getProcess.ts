@@ -34,6 +34,7 @@ export interface TaskList {
 
 export interface GetProcess {
   _id: string
+  definition: string
   item: {
     _id: string
     firstName: string

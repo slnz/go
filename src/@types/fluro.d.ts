@@ -55,6 +55,16 @@ declare module 'fluro' {
         path: string,
         config?: object
       ): Promise<import('axios').AxiosResponse<T>>
+      /**
+       * Makes a put http request to the Fluro REST API
+       * @param path The Fluro API endpoint to request
+       * @param config Optional parameters for the request
+       */
+      put<T>(
+        path: string,
+        content: object,
+        config?: object
+      ): Promise<import('axios').AxiosResponse<T>>
     }
 
     auth: {

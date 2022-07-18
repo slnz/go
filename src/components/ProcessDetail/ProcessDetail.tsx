@@ -59,7 +59,12 @@ export function ProcessDetail({ id }: ProcessDetailProps): ReactElement {
               {taskList.title.replace(/[Tt]asks$/, 'Faith Steps')}
             </ListSubheader>
             {taskList.tasks.map((task) => (
-              <TaskItem task={task} taskList={taskList} key={task._id} />
+              <TaskItem
+                process={data}
+                task={task}
+                taskList={taskList}
+                key={task._id}
+              />
             ))}
           </Fragment>
         ))}

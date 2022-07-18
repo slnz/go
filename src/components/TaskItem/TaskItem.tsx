@@ -10,7 +10,11 @@ import {
 } from '@mui/material'
 import { ReactElement, useState } from 'react'
 
-import { Task, TaskList } from '../../lib/queries/getProcess/getProcess'
+import {
+  GetProcess,
+  Task,
+  TaskList
+} from '../../lib/queries/getProcess/getProcess'
 
 import { TaskItemDrawer } from './Drawer'
 
@@ -45,15 +49,21 @@ function checkboxColor(status: Task['status']): CheckboxProps['color'] {
 }
 
 interface TaskItemProps {
+  process: GetProcess
   task: Task
   taskList: TaskList
 }
 
-export function TaskItem({ task, taskList }: TaskItemProps): ReactElement {
+export function TaskItem({
+  process,
+  task,
+  taskList
+}: TaskItemProps): ReactElement {
   const [open, setOpen] = useState(false)
   return (
     <>
       <TaskItemDrawer
+        process={process}
         task={task}
         taskList={taskList}
         open={open}

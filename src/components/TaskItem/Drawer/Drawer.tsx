@@ -12,18 +12,68 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material'
+import { findIndex } from 'lodash'
 import { ReactElement } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
 
-import { Task, TaskList } from '../../../lib/queries/getProcess/getProcess'
+import { updateProcess } from '../../../lib/mutations/updateProcess/updateProcess'
+import {
+  GetProcess,
+  Task,
+  TaskList
+} from '../../../lib/queries/getProcess/getProcess'
 
 interface Props {
+  process: GetProcess
   task: Task
   taskList: TaskList
   onClose: () => void
   open: boolean
 }
 
-export function TaskItemDrawer({ task, open, onClose }: Props): ReactElement {
+export function TaskItemDrawer({
+  process,
+  task,
+  taskList,
+  open,
+  onClose
+}: Props): ReactElement {
+  const queryClient = useQueryClient()
+  const mutation = useMutation(updateProcess, {
+    onMutate: (process) => {
+      const previousValue = queryClient.getQueryData<GetProcess>([
+        'process',
+        process._id
+      ])
+      queryClient.setQueryData<GetProcess | undefined>(
+        ['process', process._id],
+        (old) => (old ? { ...old, process } : undefined)
+      )
+      return previousValue
+    },
+    onError: (_error, process, previousValue) => {
+      queryClient.setQueryData(['process', process._id], previousValue)
+    },
+    onSettled: (_data, _error, process) => {
+      queryClient.invalidateQueries(['process', process._id])
+    }
+  })
+
+  function onClick(status: Task['status']): () => Promise<void> {
+    return async function (): Promise<void> {
+      const taskLists = process.taskLists
+      const taskIndex = findIndex(taskList.tasks, ['_id', task._id])
+      taskList.tasks[taskIndex] = { ...task, status }
+      const taskListIndex = findIndex(taskLists, ['title', taskList.title])
+      taskLists[taskListIndex] = taskList
+
+      await mutation.mutate({
+        _id: process._id,
+        definition: process.definition,
+        taskLists
+      })
+    }
+  }
   return (
     <Drawer
       anchor="bottom"
@@ -47,7 +97,10 @@ export function TaskItemDrawer({ task, open, onClose }: Props): ReactElement {
             />
           </ListItem>
           <Divider />
-          <ListItemButton selected={task.status === 'complete'}>
+          <ListItemButton
+            selected={task.status === 'complete'}
+            onClick={onClick('complete')}
+          >
             <ListItemIcon>
               <CheckBoxIcon color="success" />
             </ListItemIcon>
@@ -55,7 +108,10 @@ export function TaskItemDrawer({ task, open, onClose }: Props): ReactElement {
               primary={task.instructions?.completeLabel ?? 'Complete'}
             />
           </ListItemButton>
-          <ListItemButton selected={task.status === 'pending'}>
+          <ListItemButton
+            selected={task.status === 'pending'}
+            onClick={onClick('pending')}
+          >
             <ListItemIcon>
               <IndeterminateCheckBoxIcon color="warning" />
             </ListItemIcon>
@@ -63,7 +119,10 @@ export function TaskItemDrawer({ task, open, onClose }: Props): ReactElement {
               primary={task.instructions?.pendingLabel ?? 'In Progress'}
             />
           </ListItemButton>
-          <ListItemButton selected={task.status === 'failed'}>
+          <ListItemButton
+            selected={task.status === 'failed'}
+            onClick={onClick('failed')}
+          >
             <ListItemIcon>
               <ErrorIcon color="error" />
             </ListItemIcon>
@@ -72,7 +131,7 @@ export function TaskItemDrawer({ task, open, onClose }: Props): ReactElement {
             />
           </ListItemButton>
           {task.status !== 'incomplete' && (
-            <ListItemButton>
+            <ListItemButton onClick={onClick('incomplete')}>
               <ListItemIcon>
                 <CheckBoxOutlineBlankIcon />
               </ListItemIcon>
