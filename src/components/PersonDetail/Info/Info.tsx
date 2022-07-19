@@ -25,7 +25,7 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
     getContact(id)
   )
   const { data: processes, isLoading: isProcessesLoading } = useQuery(
-    ['processes'],
+    ['definitions', { type: 'process' }],
     getProcessDefinitions
   )
 
