@@ -1,0 +1,1 @@
+export { PersonDetailTimeline } from './Timeline'

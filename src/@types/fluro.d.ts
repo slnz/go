@@ -51,7 +51,10 @@ declare module 'fluro' {
        * @param path The Fluro API endpoint to request
        * @param config Optional parameters for the request
        */
-      get<T>(path: string, config: object): Promise<T>
+      get<T>(
+        path: string,
+        config?: object
+      ): Promise<import('axios').AxiosResponse<T>>
     }
 
     auth: {
