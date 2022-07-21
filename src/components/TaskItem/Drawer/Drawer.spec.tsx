@@ -1,12 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { SnackbarProvider } from 'notistack'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { fireEvent, screen } from '@testing-library/react'
 
 import {
   updateProcessHandler,
   updateProcessHandlerError
 } from '../../../lib/mutations/updateProcess/updateProcess.handlers'
 import { mswServer } from '../../../mocks/mswServer'
+import { renderWithProviders } from '../../../tests/lib/helpers'
 
 import { TaskItemDrawerProps } from './Drawer'
 
@@ -42,20 +41,15 @@ describe('Drawer', () => {
   }
   it('triggers close and renders success snackbar', async () => {
     mswServer.use(updateProcessHandler())
-    const client = new QueryClient()
     const onClose = jest.fn()
-    render(
-      <QueryClientProvider client={client}>
-        <SnackbarProvider>
-          <TaskItemDrawer
-            process={process}
-            taskList={process.taskLists[0]}
-            task={process.taskLists[0].tasks[0]}
-            onClose={onClose}
-            open={true}
-          />
-        </SnackbarProvider>
-      </QueryClientProvider>
+    renderWithProviders(
+      <TaskItemDrawer
+        process={process}
+        taskList={process.taskLists[0]}
+        task={process.taskLists[0].tasks[0]}
+        onClose={onClose}
+        open={true}
+      />
     )
     fireEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
     expect(onClose).toHaveBeenCalled()
@@ -64,20 +58,15 @@ describe('Drawer', () => {
 
   it('triggers close and renders error snackbar', async () => {
     mswServer.use(updateProcessHandlerError())
-    const client = new QueryClient()
     const onClose = jest.fn()
-    render(
-      <QueryClientProvider client={client}>
-        <SnackbarProvider>
-          <TaskItemDrawer
-            process={process}
-            taskList={process.taskLists[0]}
-            task={process.taskLists[0].tasks[0]}
-            onClose={onClose}
-            open={true}
-          />
-        </SnackbarProvider>
-      </QueryClientProvider>
+    renderWithProviders(
+      <TaskItemDrawer
+        process={process}
+        taskList={process.taskLists[0]}
+        task={process.taskLists[0].tasks[0]}
+        onClose={onClose}
+        open={true}
+      />
     )
     fireEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
     expect(onClose).toHaveBeenCalled()

@@ -1,5 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { fireEvent, screen } from '@testing-library/react'
+
+import { renderWithProviders } from '../../tests/lib/helpers'
 
 import { TaskItem, TaskItemProps } from './TaskItem'
 
@@ -33,15 +34,12 @@ describe('TaskItem', () => {
   }
 
   it('opens and closes the drawer', () => {
-    const client = new QueryClient()
-    render(
-      <QueryClientProvider client={client}>
-        <TaskItem
-          process={process}
-          taskList={process.taskLists[0]}
-          task={process.taskLists[0].tasks[0]}
-        />
-      </QueryClientProvider>
+    renderWithProviders(
+      <TaskItem
+        process={process}
+        taskList={process.taskLists[0]}
+        task={process.taskLists[0].tasks[0]}
+      />
     )
     fireEvent.click(screen.getByRole('button', { name: 'Call Contact' }))
     expect(screen.getByText('Appointment Set')).toBeInTheDocument()
