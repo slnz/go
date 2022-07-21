@@ -1,4 +1,5 @@
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import ErrorIcon from '@mui/icons-material/Error'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import {
@@ -10,13 +11,10 @@ import {
 } from '@mui/material'
 import { ReactElement, useState } from 'react'
 
-import {
-  GetProcess,
-  Task,
-  TaskList
-} from '../../lib/queries/getProcess/getProcess'
+import { Task, TaskList } from '../../lib/queries/getProcess/getProcess'
 
 import { TaskItemDrawer } from './Drawer'
+import { TaskItemDrawerProps } from './Drawer/Drawer'
 
 interface CheckedIconProps {
   status: Task['status']
@@ -31,7 +29,7 @@ function CheckedIcon({ status }: CheckedIconProps): ReactElement {
     case 'failed':
       return <ErrorIcon />
     default:
-      return <></>
+      return <CheckBoxOutlineBlankIcon />
   }
 }
 
@@ -48,8 +46,8 @@ function checkboxColor(status: Task['status']): CheckboxProps['color'] {
   }
 }
 
-interface TaskItemProps {
-  process: GetProcess
+export interface TaskItemProps {
+  process: TaskItemDrawerProps['process']
   task: Task
   taskList: TaskList
 }
@@ -74,7 +72,7 @@ export function TaskItem({
           <Checkbox
             edge="start"
             disableRipple
-            checked={task.status !== 'incomplete'}
+            checked
             checkedIcon={<CheckedIcon status={task.status} />}
             color={checkboxColor(task.status)}
           />

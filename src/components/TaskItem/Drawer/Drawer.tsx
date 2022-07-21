@@ -22,8 +22,8 @@ import {
   TaskList
 } from '../../../lib/queries/getProcess/getProcess'
 
-interface Props {
-  process: GetProcess
+export interface TaskItemDrawerProps {
+  process: Pick<GetProcess, '_id' | 'taskLists' | 'definition'>
   task: Task
   taskList: TaskList
   onClose: () => void
@@ -36,7 +36,7 @@ export function TaskItemDrawer({
   taskList,
   open,
   onClose
-}: Props): ReactElement {
+}: TaskItemDrawerProps): ReactElement {
   const { mutate } = useUpdateProcess()
 
   function onClick(status: Task['status']): () => Promise<void> {
