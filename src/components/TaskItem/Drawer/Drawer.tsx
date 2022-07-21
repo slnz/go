@@ -37,7 +37,7 @@ export function TaskItemDrawer({
   open,
   onClose
 }: Props): ReactElement {
-  const mutation = useUpdateProcess()
+  const { mutate } = useUpdateProcess()
 
   function onClick(status: Task['status']): () => Promise<void> {
     return async function (): Promise<void> {
@@ -47,7 +47,7 @@ export function TaskItemDrawer({
       const taskListIndex = findIndex(taskLists, ['title', taskList.title])
       taskLists[taskListIndex] = taskList
 
-      await mutation.mutate({
+      await mutate({
         _id: process._id,
         definition: process.definition,
         taskLists
