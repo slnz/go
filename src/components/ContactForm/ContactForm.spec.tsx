@@ -1,8 +1,9 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
-import { ContactForm } from '.'
+import { ContactForm } from './ContactForm'
 
 describe('AddContact', () => {
+  const handleSubmit = jest.fn()
   it('adds a contact', async () => {
     // let testLocation: Location | undefined
     const onSubmit = jest.fn()
@@ -22,7 +23,17 @@ describe('AddContact', () => {
       target: { value: 'email@example.com' }
     })
     fireEvent.mouseDown(screen.getByRole('button', { name: 'Process' }))
-    await waitFor(() => expect(fireEvent.click(screen.getByText('Ten'))))
+    await waitFor(() => expect(fireEvent.click(screen.getByText('Lead'))))
     fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
+  })
+
+  it('shows error', async () => {
+    render(<ContactForm onSubmit={handleSubmit} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
+    await waitFor(() => {
+      expect(screen.getByText('First Name is required')).toBeInTheDocument()
+    })
+    expect(screen.getByText('Phone or email is required')).toBeInTheDocument()
+    expect(screen.getByText('Email or phone is required')).toBeInTheDocument()
   })
 })

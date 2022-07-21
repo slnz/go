@@ -23,6 +23,7 @@ declare module 'fluro' {
     accountType: string
     verified: boolean
     account: Account
+    contacts: string[]
     permissionSets: { [key: string]: PermissionSet }
   }
 
@@ -57,7 +58,19 @@ declare module 'fluro' {
        * @param path The Fluro API endpoint to request
        * @param config Optional parameters for the request
        */
-      post<T>(path: string, config: object): Promise<T>
+      post<T>(
+        path: string,
+        config: object
+      ): Promise<import('axios').AxiosResponse<T>>
+      /**
+       * Makes a put http request to the Fluro REST API
+       * @param path The Fluro API endpoint to request
+       * @param config Optional parameters for the request
+       */
+      put<T>(
+        path: string,
+        config: object
+      ): Promise<import('axios').AxiosResponse<T>>
     }
 
     auth: {

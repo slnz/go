@@ -8,12 +8,15 @@ import {
   MenuItem,
   Select,
   Stack,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material'
 import { Formik } from 'formik'
+import { map } from 'lodash'
 import { ReactElement } from 'react'
+import { useQuery } from 'react-query'
 import { Asserts, object, string } from 'yup'
+
+import { getProcessDefinitions } from '../../lib/queries/getProcessDefinitions'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -21,26 +24,53 @@ const phoneRegExp =
 const validationSchema = object({
   firstName: string().required('First Name is required'),
   lastName: string(),
-  gender: string(),
+  gender: string().required('Gender is required'),
   phone: string()
+    .test({
+      test: function (value) {
+        const { email } = this.parent
+        if (!email) return value != null
+        return true
+      },
+      message: 'Phone or email is required'
+    })
     .min(9, 'Phone number is not valid')
-    .required('Phone number is required')
     .matches(phoneRegExp, 'Phone number is not valid'),
-  email: string().email('Enter a valid email').required('Email is required'),
-  process: string().required('You must select a process')
+  email: string()
+    .test({
+      test: function (value) {
+        const { phone } = this.parent
+        if (!phone) return value != null
+        return true
+      },
+      message: 'Email or phone is required'
+    })
+    .email('Enter a valid email'),
+  process: string().required('Process is required'),
+  state: string()
 })
 
 type Contact = Asserts<typeof validationSchema>
 
 export interface ContactFormProps {
   contact?: Contact
-  onSubmit: (contact: Contact) => Promise<void>
+  onSubmit: (contact: Contact) => void
+  submitLabel?: string
 }
 
 export function ContactForm({
   contact,
-  onSubmit
+  onSubmit,
+  submitLabel
 }: ContactFormProps): ReactElement {
+  const { data: processDefinition } = useQuery(
+    ['definitions', { type: 'process' }],
+    getProcessDefinitions
+  )
+
+  if (processDefinition != null) {
+    console.log(processDefinition)
+  }
   return (
     <Formik
       initialValues={
@@ -50,17 +80,16 @@ export function ContactForm({
           gender: '',
           phone: '',
           email: '',
-          process: ''
+          process: '',
+          state: ''
         }
       }
       validationSchema={validationSchema}
-      onSubmit={async (values, formik): Promise<void> => {
+      onSubmit={async (values): Promise<void> => {
         try {
-          await onSubmit(values)
+          await onSubmit?.(values)
         } catch (error) {
-          if (error instanceof Error) {
-            formik.setFieldError('firstName', error.message)
-          }
+          console.log(error)
         }
       }}
     >
@@ -76,10 +105,8 @@ export function ContactForm({
         setFieldValue
       }): ReactElement => (
         <form onSubmit={handleSubmit}>
-          <Container maxWidth="sm">
+          <Container maxWidth="sm" sx={{ p: 2 }}>
             <Stack spacing={2}>
-              <Typography variant="h2">Add Contact</Typography>
-              <Typography>Fill in the details to add a contact</Typography>
               <Box>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -112,19 +139,23 @@ export function ContactForm({
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <FormControl fullWidth>
-                      <InputLabel id="gender-label">Gender</InputLabel>
-                      <Select
-                        labelId="gender-label"
+                      <TextField
+                        fullWidth
+                        select
+                        name="gender"
                         label="Gender"
-                        value={values.gender}
                         onChange={(event): void =>
                           setFieldValue('gender', event.target.value)
                         }
+                        onBlur={handleBlur}
+                        value={values.gender}
+                        error={touched.gender && Boolean(errors.gender)}
+                        helperText={touched.gender && errors.gender}
                       >
                         <MenuItem value="male">Male</MenuItem>
                         <MenuItem value="female">Female</MenuItem>
                         <MenuItem value="unknown">Unknown</MenuItem>
-                      </Select>
+                      </TextField>
                     </FormControl>
                   </Grid>
                   <Grid item xs={8}>
@@ -153,24 +184,51 @@ export function ContactForm({
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
               />
-              <Box sx={{ minWidth: 120 }}>
+              <TextField
+                fullWidth
+                select
+                name="process"
+                label="Process"
+                onChange={(event): void => {
+                  setFieldValue('process', event.target.value)
+                  setFieldValue('state', '')
+                }}
+                onBlur={handleBlur}
+                value={values.process}
+                error={touched.process && Boolean(errors.process)}
+                helperText={touched.process && errors.process}
+              >
+                {map(processDefinition, (process) => (
+                  <MenuItem key={process._id} value={process.definitionName}>
+                    {process.title}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {values.process && (
                 <FormControl fullWidth>
-                  <InputLabel id="process-label">Process</InputLabel>
+                  <InputLabel id="state-select-label">Current State</InputLabel>
                   <Select
-                    labelId="process-label"
-                    label="Process"
-                    value={values.process}
-                    onChange={(event): void =>
-                      setFieldValue('process', event.target.value)
-                    }
-                    error={touched.process && Boolean(errors.process)}
+                    labelId="state-select-label"
+                    id="state"
+                    data-testid="state-select"
+                    name="state"
+                    label="Current State"
+                    value={values.state}
+                    onChange={(event): void => {
+                      setFieldValue('state', event.target.value)
+                    }}
+                    // disabled={isLoading}
                   >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {processDefinition?.[values.process].data.states.map(
+                      ({ title, key }) => (
+                        <MenuItem key={key} value={key}>
+                          {title}
+                        </MenuItem>
+                      )
+                    )}
                   </Select>
                 </FormControl>
-              </Box>
+              )}
               <LoadingButton
                 size="large"
                 color="primary"
@@ -180,7 +238,7 @@ export function ContactForm({
                 loading={isSubmitting}
                 disabled={!isValid}
               >
-                Add Contact
+                {submitLabel ?? 'Save'}
               </LoadingButton>
             </Stack>
           </Container>

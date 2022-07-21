@@ -14,12 +14,22 @@ export interface GetContact {
       _id: string
     }[]
   }
+  realms: [
+    {
+      _id: string
+      _type: string
+      title: string
+      slug: string
+      bgColor: string
+      color: string
+    }
+  ]
 }
 
 export function getContact(id: string): () => Promise<GetContact> {
   return async (): Promise<GetContact> =>
     await client.content.get<GetContact>(id, {
       appendProcess: 'all',
-      select: ['firstName', 'lastName', 'phoneNumbers', 'emails']
+      select: ['firstName', 'lastName', 'phoneNumbers', 'emails', 'realms']
     })
 }

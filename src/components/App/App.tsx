@@ -1,6 +1,7 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
+import { SnackbarProvider } from 'notistack'
 import { ReactElement, useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
@@ -36,13 +37,15 @@ export function App(): ReactElement {
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
-        <IonApp>
-          <IonReactRouter>
-            <AuthProvider>
-              <Router />
-            </AuthProvider>
-          </IonReactRouter>
-        </IonApp>
+        <SnackbarProvider>
+          <IonApp>
+            <IonReactRouter>
+              <AuthProvider>
+                <Router />
+              </AuthProvider>
+            </IonReactRouter>
+          </IonApp>
+        </SnackbarProvider>
       </QueryClientProvider>
     </ThemeProvider>
   )

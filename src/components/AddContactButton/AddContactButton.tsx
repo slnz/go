@@ -5,7 +5,12 @@ import { Link } from 'react-router-dom'
 
 export function AddContactButton(): ReactElement {
   return (
-    <Fab color="primary" aria-label="add" component={Link} to="/people/add">
+    <Fab
+      color="primary"
+      aria-label="add"
+      component={Link}
+      to="/tabs/people/add"
+    >
       <AddIcon />
     </Fab>
   )
