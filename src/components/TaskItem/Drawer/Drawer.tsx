@@ -13,6 +13,7 @@ import {
   ListItemText
 } from '@mui/material'
 import { findIndex } from 'lodash'
+import { useSnackbar } from 'notistack'
 import { ReactElement } from 'react'
 
 import { useUpdateProcess } from '../../../lib/mutations/updateProcess/updateProcess.hook'
@@ -37,7 +38,8 @@ export function TaskItemDrawer({
   open,
   onClose
 }: TaskItemDrawerProps): ReactElement {
-  const { mutate } = useUpdateProcess()
+  const { enqueueSnackbar } = useSnackbar()
+  const { mutateAsync } = useUpdateProcess()
 
   function onClick(status: Task['status']): () => Promise<void> {
     return async function (): Promise<void> {
@@ -47,11 +49,20 @@ export function TaskItemDrawer({
       const taskListIndex = findIndex(taskLists, ['title', taskList.title])
       taskLists[taskListIndex] = taskList
 
-      await mutate({
-        _id: process._id,
-        definition: process.definition,
-        taskLists
-      })
+      try {
+        await mutateAsync({
+          _id: process._id,
+          definition: process.definition,
+          taskLists
+        })
+        enqueueSnackbar('Faith step updated successfully!', {
+          variant: 'success'
+        })
+      } catch {
+        enqueueSnackbar('Failed to update faith step. Please try again!', {
+          variant: 'error'
+        })
+      }
     }
   }
   return (

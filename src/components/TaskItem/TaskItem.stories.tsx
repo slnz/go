@@ -1,7 +1,10 @@
 import { Story, Meta } from '@storybook/react'
 import { screen, userEvent } from '@storybook/testing-library'
 
-import { updateProcessHandler } from '../../lib/mutations/updateProcess/updateProcess.handlers'
+import {
+  updateProcessHandler,
+  updateProcessHandlerError
+} from '../../lib/mutations/updateProcess/updateProcess.handlers'
 
 import { TaskItemProps } from './TaskItem'
 
@@ -61,12 +64,22 @@ Pending.args = {
   task: { ...templateProcess.taskLists[0].tasks[0], status: 'pending' },
   taskList: templateProcess.taskLists[0]
 }
+Pending.parameters = {
+  msw: {
+    handlers: [updateProcessHandler()]
+  }
+}
 
 export const Failed = Template.bind({})
 Failed.args = {
   process: templateProcess,
   task: { ...templateProcess.taskLists[0].tasks[0], status: 'failed' },
   taskList: templateProcess.taskLists[0]
+}
+Failed.parameters = {
+  msw: {
+    handlers: [updateProcessHandler()]
+  }
 }
 
 export const Complete = Template.bind({})
@@ -75,6 +88,11 @@ Complete.args = {
   task: { ...templateProcess.taskLists[0].tasks[0], status: 'complete' },
   taskList: templateProcess.taskLists[0]
 }
+Complete.parameters = {
+  msw: {
+    handlers: [updateProcessHandler()]
+  }
+}
 
 export const WithDrawer = Template.bind({})
 WithDrawer.args = {
@@ -82,8 +100,45 @@ WithDrawer.args = {
   task: templateProcess.taskLists[0].tasks[0],
   taskList: templateProcess.taskLists[0]
 }
+WithDrawer.parameters = {
+  msw: {
+    handlers: [updateProcessHandler()]
+  }
+}
 WithDrawer.play = async (): Promise<void> => {
   await userEvent.click(screen.getByRole('button'))
+}
+
+export const UpdateSuccessful = Template.bind({})
+UpdateSuccessful.args = {
+  process: templateProcess,
+  task: templateProcess.taskLists[0].tasks[0],
+  taskList: templateProcess.taskLists[0]
+}
+UpdateSuccessful.parameters = {
+  msw: {
+    handlers: [updateProcessHandler()]
+  }
+}
+UpdateSuccessful.play = async (): Promise<void> => {
+  await userEvent.click(screen.getByRole('button'))
+  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+}
+
+export const UpdateFailed = Template.bind({})
+UpdateFailed.args = {
+  process: templateProcess,
+  task: templateProcess.taskLists[0].tasks[0],
+  taskList: templateProcess.taskLists[0]
+}
+UpdateFailed.parameters = {
+  msw: {
+    handlers: [updateProcessHandlerError()]
+  }
+}
+UpdateFailed.play = async (): Promise<void> => {
+  await userEvent.click(screen.getByRole('button'))
+  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
 }
 
 export default TaskItemStory as Meta

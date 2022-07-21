@@ -1,13 +1,14 @@
-import { Story } from '@storybook/react'
-import { IonApp } from '@ionic/react'
-import { setupIonicReact } from '@ionic/react'
-import { MemoryRouter } from 'react-router'
+import { IonApp, setupIonicReact } from '@ionic/react'
 import { ThemeProvider, CssBaseline, Box } from '@mui/material'
-import { theme } from '../src/theme/theme'
+import { Story } from '@storybook/react'
 import { initialize as mswInitialize, mswDecorator } from 'msw-storybook-addon'
+import { SnackbarProvider } from 'notistack'
+import React, { ReactElement, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { useEffect } from 'react'
+import { MemoryRouter } from 'react-router'
+
 import { client } from '../src/lib/fluro'
+import { theme } from '../src/theme/theme'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -41,7 +42,7 @@ const mockedQueryClient = new QueryClient({
 
 export const decorators = [
   mswDecorator,
-  (Story: Story) => {
+  (Story: Story): ReactElement => {
     useEffect(() => {
       return () => client.cache.reset()
     }, [])
@@ -50,12 +51,14 @@ export const decorators = [
       <QueryClientProvider client={mockedQueryClient}>
         <IonApp>
           <ThemeProvider theme={theme}>
-            <Box sx={{ height: '100%', overflow: 'auto' }}>
-              <CssBaseline />
-              <MemoryRouter>
-                <Story />
-              </MemoryRouter>
-            </Box>
+            <SnackbarProvider>
+              <Box sx={{ height: '100%', overflow: 'auto' }}>
+                <CssBaseline />
+                <MemoryRouter>
+                  <Story />
+                </MemoryRouter>
+              </Box>
+            </SnackbarProvider>
           </ThemeProvider>
         </IonApp>
       </QueryClientProvider>

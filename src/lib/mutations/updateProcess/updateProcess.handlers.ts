@@ -19,3 +19,12 @@ export function updateProcessHandler(): RestHandler {
     }
   )
 }
+
+export function updateProcessHandlerError(): RestHandler {
+  return rest.put(
+    'https://api.fluro.io/content/:definition/:_id',
+    (_req, res, ctx) => {
+      return res(ctx.status(500))
+    }
+  )
+}
