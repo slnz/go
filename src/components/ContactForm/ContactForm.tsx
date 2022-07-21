@@ -130,7 +130,7 @@ export function ContactForm({
               </Box>
               <Box>
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
+                  <Grid item xs={5}>
                     <FormControl fullWidth>
                       <TextField
                         fullWidth
@@ -151,7 +151,7 @@ export function ContactForm({
                       </TextField>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={8}>
+                  <Grid item xs={7}>
                     <TextField
                       fullWidth
                       type="text"
