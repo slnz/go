@@ -1,9 +1,13 @@
 import {
   Box,
+  Checkbox,
   Chip,
   FormControl,
   InputLabel,
   List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   ListSubheader,
   MenuItem,
   Select,
@@ -13,11 +17,10 @@ import {
   Typography
 } from '@mui/material'
 import { Fragment, ReactElement } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 
-import { updateProcess } from '../../lib/mutations/updateProcess/updateProcess'
+import { useUpdateProcess } from '../../lib/mutations/updateProcess/updateProcess.hook'
 import { getProcess } from '../../lib/queries/getProcess'
-import { GetProcess } from '../../lib/queries/getProcess/getProcess'
 import { TaskItem } from '../TaskItem'
 
 export interface ProcessDetailProps {
@@ -25,36 +28,17 @@ export interface ProcessDetailProps {
 }
 
 export function ProcessDetail({ id }: ProcessDetailProps): ReactElement {
-  const queryClient = useQueryClient()
   const { data, isLoading } = useQuery(['process', id], getProcess(id))
-  const mutation = useMutation(updateProcess, {
-    onMutate: (process) => {
-      const previousValue = queryClient.getQueryData<GetProcess>([
-        'process',
-        process._id
-      ])
-      queryClient.setQueryData<GetProcess | undefined>(
-        ['process', process._id],
-        (old) => (old ? { ...old, process } : undefined)
-      )
-      return previousValue
-    },
-    onError: (_error, process, previousValue) => {
-      queryClient.setQueryData(['process', process._id], previousValue)
-    },
-    onSettled: (_data, _error, process) => {
-      queryClient.invalidateQueries(['process', process._id])
-    }
-  })
+  const { mutate } = useUpdateProcess()
 
-  async function handleStateChange(event: SelectChangeEvent): Promise<void> {
-    if (data?.definition != null) {
-      await mutation.mutate({
-        _id: data._id,
-        definition: data.definition,
-        state: event.target.value
-      })
-    }
+  function handleStateChange(event: SelectChangeEvent): void {
+    if (data == null) return
+
+    mutate({
+      _id: data._id,
+      definition: data.definition,
+      state: event.target.value
+    })
   }
 
   return (
@@ -78,6 +62,14 @@ export function ProcessDetail({ id }: ProcessDetailProps): ReactElement {
           {isLoading ? <Skeleton width={190} /> : data?.item.lastName}
         </Typography>
         <Stack direction="row" spacing={1} justifyContent="center">
+          {isLoading && (
+            <Skeleton
+              width={86}
+              height={24}
+              variant="rectangular"
+              sx={{ borderRadius: 4 }}
+            />
+          )}
           {data?.assignedTo.map((assignee) => (
             <Chip
               label={`${assignee.firstName} ${assignee.lastName}`}
@@ -93,9 +85,11 @@ export function ProcessDetail({ id }: ProcessDetailProps): ReactElement {
           <Select
             labelId="state-select-label"
             id="state-select"
+            data-testid="state-select"
             value={data?.state ?? ''}
             label="Current State"
             onChange={handleStateChange}
+            disabled={isLoading}
           >
             {data?.fullDefinition.data.states.map(({ title, key }) => (
               <MenuItem key={key} value={key}>
@@ -106,6 +100,24 @@ export function ProcessDetail({ id }: ProcessDetailProps): ReactElement {
         </FormControl>
       </Box>
       <List>
+        {isLoading && (
+          <>
+            <ListSubheader>
+              <Skeleton width={220} />
+            </ListSubheader>
+            {[0, 1, 2, 3].map((value) => (
+              <ListItem key={value}>
+                <ListItemIcon>
+                  <Checkbox edge="start" disabled />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Skeleton width={210} />}
+                  secondary={<Skeleton width={190} />}
+                />
+              </ListItem>
+            ))}
+          </>
+        )}
         {data?.taskLists.map((taskList) => (
           <Fragment key={taskList.title}>
             <ListSubheader>

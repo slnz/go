@@ -29,7 +29,7 @@ setupIonicReact({
   mode: 'md'
 })
 
-mswInitialize()
+mswInitialize({ onUnhandledRequest: 'bypass' })
 
 const mockedQueryClient = new QueryClient({
   defaultOptions: {

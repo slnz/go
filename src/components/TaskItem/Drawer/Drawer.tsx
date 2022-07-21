@@ -14,9 +14,8 @@ import {
 } from '@mui/material'
 import { findIndex } from 'lodash'
 import { ReactElement } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
 
-import { updateProcess } from '../../../lib/mutations/updateProcess/updateProcess'
+import { useUpdateProcess } from '../../../lib/mutations/updateProcess/updateProcess.hook'
 import {
   GetProcess,
   Task,
@@ -38,26 +37,7 @@ export function TaskItemDrawer({
   open,
   onClose
 }: Props): ReactElement {
-  const queryClient = useQueryClient()
-  const mutation = useMutation(updateProcess, {
-    onMutate: (process) => {
-      const previousValue = queryClient.getQueryData<GetProcess>([
-        'process',
-        process._id
-      ])
-      queryClient.setQueryData<GetProcess | undefined>(
-        ['process', process._id],
-        (old) => (old ? { ...old, process } : undefined)
-      )
-      return previousValue
-    },
-    onError: (_error, process, previousValue) => {
-      queryClient.setQueryData(['process', process._id], previousValue)
-    },
-    onSettled: (_data, _error, process) => {
-      queryClient.invalidateQueries(['process', process._id])
-    }
-  })
+  const mutation = useUpdateProcess()
 
   function onClick(status: Task['status']): () => Promise<void> {
     return async function (): Promise<void> {
@@ -141,6 +121,10 @@ export function TaskItemDrawer({
               />
             </ListItemButton>
           )}
+          <Divider variant="inset" />
+          <ListItemButton>
+            <ListItemText inset primary="Cancel" />
+          </ListItemButton>
         </List>
       </Box>
     </Drawer>

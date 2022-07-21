@@ -1,6 +1,10 @@
 import { Story, Meta } from '@storybook/react'
 
-import { getProcessHandler } from '../../lib/queries/getProcess/getProcess.handlers'
+import { updateProcessHandler } from '../../lib/mutations/updateProcess/updateProcess.handlers'
+import {
+  getProcessHandler,
+  getProcessHandlerLoading
+} from '../../lib/queries/getProcess/getProcess.handlers'
 
 import { ProcessDetailProps } from './ProcessDetail'
 
@@ -21,7 +25,17 @@ Default.args = {
 }
 Default.parameters = {
   msw: {
-    handlers: [getProcessHandler()]
+    handlers: [getProcessHandler(), updateProcessHandler()]
+  }
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  id: 'loadingId'
+}
+Loading.parameters = {
+  msw: {
+    handlers: [getProcessHandlerLoading()]
   }
 }
 
