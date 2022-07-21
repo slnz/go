@@ -4,14 +4,11 @@ import {
   Container,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
-  Select,
   Stack,
   TextField
 } from '@mui/material'
 import { Formik } from 'formik'
-import { map } from 'lodash'
 import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { Asserts, object, string } from 'yup'
@@ -45,9 +42,7 @@ const validationSchema = object({
       },
       message: 'Email or phone is required'
     })
-    .email('Enter a valid email'),
-  process: string().required('Process is required'),
-  state: string()
+    .email('Enter a valid email')
 })
 
 type Contact = Asserts<typeof validationSchema>
@@ -79,9 +74,7 @@ export function ContactForm({
           lastName: '',
           gender: '',
           phone: '',
-          email: '',
-          process: '',
-          state: ''
+          email: ''
         }
       }
       validationSchema={validationSchema}
@@ -184,51 +177,6 @@ export function ContactForm({
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
               />
-              <TextField
-                fullWidth
-                select
-                name="process"
-                label="Process"
-                onChange={(event): void => {
-                  setFieldValue('process', event.target.value)
-                  setFieldValue('state', '')
-                }}
-                onBlur={handleBlur}
-                value={values.process}
-                error={touched.process && Boolean(errors.process)}
-                helperText={touched.process && errors.process}
-              >
-                {map(processDefinition, (process) => (
-                  <MenuItem key={process._id} value={process.definitionName}>
-                    {process.title}
-                  </MenuItem>
-                ))}
-              </TextField>
-              {values.process && (
-                <FormControl fullWidth>
-                  <InputLabel id="state-select-label">Current State</InputLabel>
-                  <Select
-                    labelId="state-select-label"
-                    id="state"
-                    data-testid="state-select"
-                    name="state"
-                    label="Current State"
-                    value={values.state}
-                    onChange={(event): void => {
-                      setFieldValue('state', event.target.value)
-                    }}
-                    // disabled={isLoading}
-                  >
-                    {processDefinition?.[values.process].data.states.map(
-                      ({ title, key }) => (
-                        <MenuItem key={key} value={key}>
-                          {title}
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                </FormControl>
-              )}
               <LoadingButton
                 size="large"
                 color="primary"

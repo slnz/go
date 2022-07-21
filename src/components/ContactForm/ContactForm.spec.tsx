@@ -22,9 +22,6 @@ describe('AddContact', () => {
     fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.mouseDown(screen.getByRole('button', { name: 'Process' }))
-    await waitFor(() => expect(fireEvent.click(screen.getByText('Lead'))))
-    fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
   })
 
   it('shows error', async () => {

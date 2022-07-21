@@ -36,9 +36,7 @@ Prefilled.args = {
     lastName: 'test',
     gender: 'male',
     phone: '000000000000',
-    email: 'email@example.com',
-    process: 'lead',
-    state: ''
+    email: 'email@example.com'
   }
 }
 
