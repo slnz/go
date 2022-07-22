@@ -2,7 +2,7 @@ import { Story } from '@storybook/react'
 import { IonApp } from '@ionic/react'
 import { setupIonicReact } from '@ionic/react'
 import { MemoryRouter } from 'react-router'
-import { ThemeProvider, CssBaseline } from '@mui/material'
+import { ThemeProvider, CssBaseline, Box } from '@mui/material'
 import { theme } from '../src/theme/theme'
 import { initialize as mswInitialize, mswDecorator } from 'msw-storybook-addon'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -50,10 +50,12 @@ export const decorators = [
       <QueryClientProvider client={mockedQueryClient}>
         <IonApp>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <MemoryRouter>
-              <Story />
-            </MemoryRouter>
+            <Box sx={{ height: '100%', overflow: 'auto' }}>
+              <CssBaseline />
+              <MemoryRouter>
+                <Story />
+              </MemoryRouter>
+            </Box>
           </ThemeProvider>
         </IonApp>
       </QueryClientProvider>

@@ -37,3 +37,9 @@ export function getContactHandlerSimple(): RestHandler {
     process: {}
   })
 }
+
+export function getContactHandlerLoading(): RestHandler {
+  return rest.get('https://api.fluro.io/content/get/:_id', (_req, res, ctx) => {
+    return res(ctx.delay(1000 * 60 * 60 * 60))
+  })
+}

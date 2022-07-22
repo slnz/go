@@ -89,3 +89,9 @@ export function getProcessDefinitionsHandler(): RestHandler {
     )
   })
 }
+
+export function getProcessDefinitionsHandlerLoading(): RestHandler {
+  return rest.post('https://api.fluro.io/defined', (_req, res, ctx) => {
+    return res(ctx.delay('infinite'))
+  })
+}
