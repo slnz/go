@@ -9,9 +9,11 @@ interface ProcessDefinition {
   title: string
 }
 
-interface Definition {
+export interface Definition {
   definitionName: string
   definitions: ProcessDefinition[]
+  plural: string
+  title: string
 }
 
 export interface GetProcessDefinitions {

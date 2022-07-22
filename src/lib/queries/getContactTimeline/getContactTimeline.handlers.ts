@@ -7,7 +7,7 @@ export function getContactTimelineHandler(): RestHandler {
     'https://api.fluro.io/contact/:_id/timeline',
     (req, res, ctx) => {
       return res(
-        ctx.json([
+        ctx.json<GetContactTimeline[]>([
           {
             created: '2022-03-22T00:22:24.808Z',
             date: '2022-03-22T00:22:24.808Z',
