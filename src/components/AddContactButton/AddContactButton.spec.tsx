@@ -20,6 +20,6 @@ describe('AddContactButton', () => {
       </MemoryRouter>
     )
     fireEvent.click(screen.getByRole('link', { name: 'add' }))
-    expect(testLocation?.pathname).toEqual('/people/add')
+    expect(testLocation?.pathname).toEqual('/tabs/people/add')
   })
 })

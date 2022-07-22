@@ -1,13 +1,22 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+import { getContactHandler } from '../../lib/queries/getContact/getContact.handlers'
+import { mswServer } from '../../mocks/mswServer'
 
 import { ContactForm } from './ContactForm'
 
 describe('AddContact', () => {
-  const handleSubmit = jest.fn()
   it('adds a contact', async () => {
     // let testLocation: Location | undefined
+    const queryClient = new QueryClient()
     const onSubmit = jest.fn()
-    render(<ContactForm onSubmit={onSubmit} />)
+    // mswServer.use(getContactHandler)
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ContactForm onSubmit={onSubmit} />
+      </QueryClientProvider>
+    )
     fireEvent.change(screen.getByRole('textbox', { name: 'First Name' }), {
       target: { value: 'test' }
     })
@@ -25,7 +34,13 @@ describe('AddContact', () => {
   })
 
   it('shows error', async () => {
-    render(<ContactForm onSubmit={handleSubmit} />)
+    const queryClient = new QueryClient()
+    const onSubmit = jest.fn()
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ContactForm onSubmit={onSubmit} />
+      </QueryClientProvider>
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
     await waitFor(() => {
       expect(screen.getByText('First Name is required')).toBeInTheDocument()

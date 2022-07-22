@@ -51,7 +51,6 @@ Error.play = async ({ canvasElement }): Promise<void> => {
   await userEvent.tab()
   await userEvent.tab()
   await userEvent.tab()
-  await userEvent.tab()
 }
 Error.args = {
   submitLabel: 'Add Contact'

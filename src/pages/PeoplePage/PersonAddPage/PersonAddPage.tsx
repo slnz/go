@@ -10,18 +10,19 @@ import { ContactForm } from '../../../components/ContactForm'
 import { ContactFormProps } from '../../../components/ContactForm/ContactForm'
 import { client } from '../../../lib/fluro/client'
 import { createContact } from '../../../lib/mutations/createContact'
-import { getContact } from '../../../lib/queries/getContact/getContact'
+import { getPersona } from '../../../lib/queries/getPersona/getPersona'
 import { useAuth } from '../../../lib/useAuth/useAuth'
 
 export function PersonAddPage(): ReactElement {
   const history = useHistory()
-  const contacts = useAuth().user?.contacts[0] ?? ''
-  const { data: userContact } = useQuery(['contact'], getContact(contacts))
-  const realms = userContact?.realms
+  const { enqueueSnackbar } = useSnackbar()
+  const user = useAuth().user?.persona ?? ''
+  const { data: persona } = useQuery(['persona'], getPersona(user))
+  const realms = persona?.realms
+
+  console.log('realms', realms)
 
   const mutation = useMutation(createContact)
-
-  const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit: ContactFormProps['onSubmit'] = async (
     values
@@ -34,6 +35,7 @@ export function PersonAddPage(): ReactElement {
         const response = await mutation.mutateAsync({ ...values, realms })
         console.log('response', response)
         enqueueSnackbar('Contact Created', { variant: 'success' })
+        history.goBack()
       } catch (error) {
         const formattedError = new Error(client.utils.errorMessage(error))
         console.error(formattedError)
