@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react'
 import { userEvent, within } from '@storybook/testing-library'
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack'
+import { SnackbarProvider } from 'notistack'
 
 import { PersonAddPage } from '.'
 

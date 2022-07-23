@@ -78,11 +78,13 @@ export function ContactForm({
         }
       }
       validationSchema={validationSchema}
-      onSubmit={async (values): Promise<void> => {
+      onSubmit={async (values, formik): Promise<void> => {
         try {
           await onSubmit?.(values)
         } catch (error) {
-          console.log(error)
+          if (error instanceof Error) {
+            formik.setFieldError('firstName', error.message)
+          }
         }
       }}
     >
@@ -136,7 +138,9 @@ export function ContactForm({
                         fullWidth
                         select
                         name="gender"
+                        data-testid="gender"
                         label="Gender"
+                        id="gender"
                         onChange={(event): void =>
                           setFieldValue('gender', event.target.value)
                         }
