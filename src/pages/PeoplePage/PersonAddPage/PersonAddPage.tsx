@@ -19,9 +19,6 @@ export function PersonAddPage(): ReactElement {
   const user = useAuth().user?.persona ?? ''
   const { data: persona } = useQuery(['persona'], getPersona(user))
   const realms = persona?.realms
-
-  console.log('realms', realms)
-
   const mutation = useMutation(createContact)
 
   const onSubmit: ContactFormProps['onSubmit'] = async (

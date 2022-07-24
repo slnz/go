@@ -1,17 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import { getContactHandler } from '../../lib/queries/getContact/getContact.handlers'
-import { mswServer } from '../../mocks/mswServer'
-
 import { ContactForm } from './ContactForm'
 
 describe('AddContact', () => {
   it('adds a contact', async () => {
-    // let testLocation: Location | undefined
     const queryClient = new QueryClient()
     const onSubmit = jest.fn()
-    // mswServer.use(getContactHandler)
     render(
       <QueryClientProvider client={queryClient}>
         <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
