@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import { Story, Meta } from '@storybook/react'
 
 import { RealmSelectSelectProps } from './Select'
@@ -11,7 +12,9 @@ const RealmSelectSelectStory = {
 }
 
 const Template: Story<RealmSelectSelectProps> = (args) => (
-  <RealmSelectSelect {...args} />
+  <Box m={2}>
+    <RealmSelectSelect {...args} />
+  </Box>
 )
 
 export const Default = Template.bind({})

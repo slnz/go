@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { Story, Meta } from '@storybook/react'
-import { userEvent, screen } from '@storybook/testing-library'
+import { userEvent, within } from '@storybook/testing-library'
 import { useState } from 'react'
 
 import {
@@ -48,12 +48,14 @@ Dialog.parameters = {
     handlers: [getRealmSelectableHandler()]
   }
 }
-Dialog.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button', { name: 'Realm ​' }))
+Dialog.play = async ({ canvasElement }): Promise<void> => {
+  const { findByRole } = within(canvasElement)
+  const element = await findByRole('button', { name: 'Realm ​' })
+  await userEvent.click(element)
 }
 
 export const Selected = Template.bind({})
-Dialog.parameters = {
+Selected.parameters = {
   msw: {
     handlers: [getRealmSelectableHandler()]
   }

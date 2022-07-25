@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import { screen, userEvent } from '@storybook/testing-library'
+import { userEvent, within } from '@storybook/testing-library'
 
 import {
   updateProcessHandler,
@@ -105,8 +105,9 @@ WithDrawer.parameters = {
     handlers: [updateProcessHandler()]
   }
 }
-WithDrawer.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
+WithDrawer.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
 }
 
 export const UpdateSuccessful = Template.bind({})
@@ -120,9 +121,10 @@ UpdateSuccessful.parameters = {
     handlers: [updateProcessHandler()]
   }
 }
-UpdateSuccessful.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
-  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+UpdateSuccessful.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
+  await userEvent.click(getByRole('button', { name: 'Appointment Set' }))
 }
 
 export const UpdateFailed = Template.bind({})
@@ -136,9 +138,10 @@ UpdateFailed.parameters = {
     handlers: [updateProcessHandlerError()]
   }
 }
-UpdateFailed.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
-  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+UpdateFailed.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
+  await userEvent.click(getByRole('button', { name: 'Appointment Set' }))
 }
 
 export default TaskItemStory as Meta

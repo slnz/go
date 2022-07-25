@@ -4,7 +4,12 @@ import {
   AppBar,
   Button,
   Dialog,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Skeleton,
   Slide,
   Tab,
   Toolbar,
@@ -51,7 +56,7 @@ export function RealmSelect({
   onChange,
   value
 }: RealmSelectProps): ReactElement {
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     params ? ['realmSelectable', params] : 'realmSelectable',
     getRealmSelectable(params)
   )
@@ -82,7 +87,22 @@ export function RealmSelect({
     setTab(newTab)
   }
 
-  return (
+  return isLoading ? (
+    <FormControl fullWidth>
+      <InputLabel id="select-realm-label">Realm</InputLabel>
+      <Select
+        id="select-realm"
+        labelId="select-realm-label"
+        label="Realm"
+        value="loading"
+        disabled
+      >
+        <MenuItem value="loading">
+          <Skeleton width="80%" />
+        </MenuItem>
+      </Select>
+    </FormControl>
+  ) : (
     <>
       <RealmSelectSelect onClick={handleOpen} value={value} data={data} />
       <Dialog
