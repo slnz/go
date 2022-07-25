@@ -28,9 +28,13 @@ const realmSelectable = z.array(
 
 export type GetRealmSelectable = z.infer<typeof realmSelectable>
 
+/** Customize the realms retrieved by the API. */
 export interface GetRealmSelectableParams {
+  /** return realms with the provided definition */
   definition?: string
+  /** filter realms which can receive the parentType */
   parentType?: string
+  /** filter realms which can receive the type */
   type?: string
 }
 

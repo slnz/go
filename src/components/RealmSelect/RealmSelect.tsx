@@ -38,8 +38,11 @@ const Transition = forwardRef(function Transition(
 })
 
 export interface RealmSelectProps {
+  /** params provided to the Fluro API to filter the displayed realms */
   params?: GetRealmSelectableParams
+  /** a callback called when the user saves their selection of realms */
   onChange: (ids: string[]) => void
+  /** an array of realmIds to render as selected */
   value: string[]
 }
 
