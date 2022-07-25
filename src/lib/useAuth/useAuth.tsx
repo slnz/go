@@ -24,11 +24,13 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 export function AuthProvider({
-  children
+  children,
+  initialUser
 }: {
   children: ReactNode
+  initialUser?: User
 }): ReactElement {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState(initialUser)
   const [error, setError] = useState<Error>()
   const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
@@ -41,7 +43,9 @@ export function AuthProvider({
 
   useEffect(() => {
     const user = client.auth.getCurrentUser()
-    setUser(user)
+    if (user != null) {
+      setUser(user)
+    }
     setLoadingInitial(false)
   }, [])
 

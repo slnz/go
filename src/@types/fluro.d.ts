@@ -24,6 +24,7 @@ declare module 'fluro' {
     verified: boolean
     account: Account
     permissionSets: { [key: string]: PermissionSet }
+    contacts: string[]
   }
 
   export interface LoginCredentials {
@@ -116,6 +117,34 @@ declare module 'fluro' {
         _id: string,
         params?: Params
       ): Promise<T>
+      /**
+       * A helper function for retrieving the results of a dynamic query
+       * @param  {Object} criteria The query criteria
+       * @param  {Object} options Extra options and parameters
+       * @example
+       *
+       * //Find all events that have a status of active or archived where the endDate is greater than or equal to now and return the titles
+       * fluro.content.retrieve({_type:'event', status:{$in:['active', 'archived']}, endDate:{$gte:"date('now')"}}}, {select:'title'})
+       */
+      retrieve: <T>(
+        criteria: {
+          _type: string
+        } & Record<string, unknown>,
+        params?: unknown
+      ) => Promise<T[]>
+      /**
+       * This function makes it easy to retrieve the full content items for a specified selection of ids
+       * @param typeName The type or definition name of the content you want to retrieve
+       * @param ids The ids of the content you want to retrieve
+       * @param options extra options for the request.
+       * @param options.select specify fields you want to retrieve for the items. If blank will return the full object
+       *
+       */
+      getMultiple: <T>(
+        typeName: DefinitionName,
+        ids: string[],
+        options?: { select?: string[] }
+      ) => Promise<T[]>
     }
 
     stats: {
