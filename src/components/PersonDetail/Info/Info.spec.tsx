@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router'
 
 import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
-import { getProcessDefinitionsHandler } from '../../../lib/queries/getProcessDefinitions/getProcessDefinitions.handlers'
+import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
 import { mswServer } from '../../../mocks/mswServer'
 
 import { PersonDetailInfo } from '.'

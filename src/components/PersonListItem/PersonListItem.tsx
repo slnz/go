@@ -3,11 +3,14 @@ import { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 
 import { GetContacts } from '../../lib/queries/getContacts/getContacts'
-import { GetProcessDefinitions } from '../../lib/queries/getProcessDefinitions/getProcessDefinitions'
+import {
+  GetDefinitions,
+  ProcessDefinition
+} from '../../lib/queries/getDefinitions'
 
 interface PersonListItemProps {
   contact: GetContacts
-  definitions: GetProcessDefinitions
+  definitions: GetDefinitions<ProcessDefinition>
 }
 
 export function PersonListItem({
