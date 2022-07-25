@@ -7,7 +7,7 @@ import {
   getContactsHandler,
   getContactsHandlerSimple
 } from '../../lib/queries/getContacts/getContacts.handlers'
-import { getProcessDefinitionsHandler } from '../../lib/queries/getProcessDefinitions/getProcessDefinitions.handlers'
+import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
 import { mswServer } from '../../mocks/mswServer'
