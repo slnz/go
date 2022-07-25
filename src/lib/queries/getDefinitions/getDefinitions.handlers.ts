@@ -1,13 +1,13 @@
 import { rest, RestHandler } from 'msw'
 
-import { Definition } from './getProcessDefinitions'
+import { Definition, ProcessDefinition, PostDefinition } from './getDefinitions'
 
 export function getProcessDefinitionsHandler(): RestHandler {
   return rest.post('https://api.fluro.io/defined', (req, res, ctx) => {
     req.body = { types: ['process'] }
     return res(
       ctx.status(200),
-      ctx.json<Definition[]>([
+      ctx.json<Definition<ProcessDefinition>[]>([
         {
           definitionName: 'process',
           definitions: [
@@ -89,5 +89,108 @@ export function getProcessDefinitionsHandler(): RestHandler {
         }
       ])
     )
+  })
+}
+
+export function getPostDefinitionsHandler(): RestHandler {
+  return rest.post('https://api.fluro.io/defined', (req, res, ctx) => {
+    req.body = { types: ['post'] }
+    return res(
+      ctx.status(200),
+      ctx.json<Definition<PostDefinition>[]>([
+        {
+          definitionName: 'post',
+          definitions: [
+            {
+              _id: '1',
+              title: 'Appointment',
+              plural: 'Appointments',
+              definitionName: 'appointment',
+              firstLine: 'An appointment from outreach',
+              fields: [
+                {
+                  title: 'Location',
+                  key: 'location',
+                  type: 'string',
+                  directive: 'input',
+                  description: 'Where will you be meeting?',
+                  placeholder: 'e.g Outside the library',
+                  maximum: 1,
+                  minimum: 1
+                },
+                {
+                  title: 'Date',
+                  key: 'date',
+                  type: 'date',
+                  directive: 'date-select',
+                  maximum: 1,
+                  minimum: 0
+                },
+                {
+                  title: 'Time',
+                  key: 'time',
+                  type: 'string',
+                  directive: 'input',
+                  placeholder: 'HH:MM AM',
+                  maximum: 1,
+                  minimum: 0
+                },
+                {
+                  title: 'Comment',
+                  key: 'comment',
+                  type: 'string',
+                  directive: 'textarea',
+                  maximum: 1,
+                  minimum: 0
+                }
+              ]
+            },
+            {
+              _id: '1',
+              title: 'Approach',
+              plural: 'Approaches',
+              definitionName: 'approach',
+              fields: [
+                {
+                  title: 'What happened?',
+                  key: 'whathappened',
+                  type: 'string',
+                  askCount: 1,
+                  directive: 'button-select',
+                  placeholder: 'e.g Outside the library',
+                  maximum: 1,
+                  minimum: 1,
+                  options: [
+                    { value: 'No show' },
+                    { value: 'Cancelled' },
+                    { value: 'Never replied' },
+                    { value: 'Not Interested' }
+                  ]
+                },
+                {
+                  title: 'Comment',
+                  key: 'comment',
+                  type: 'string',
+                  directive: 'input',
+                  description:
+                    "Contact will be marked as an approach and archived. Please don't skip.",
+                  placeholder: 'Comment',
+                  maximum: 1,
+                  minimum: 0
+                }
+              ]
+            }
+          ],
+          plural: 'Posts',
+          title: 'Post'
+        }
+      ])
+    )
+  })
+}
+
+export function getDefinitionsHandlerLoading(): RestHandler {
+  return rest.post('https://api.fluro.io/defined', (_req, res, ctx) => {
+    return res(ctx.delay('infinite'))
   })
 }

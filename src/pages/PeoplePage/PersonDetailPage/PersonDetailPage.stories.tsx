@@ -3,7 +3,7 @@ import { match } from 'react-router'
 
 import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
 import { getContactTimelineHandler } from '../../../lib/queries/getContactTimeline/getContactTimeline.handlers'
-import { getProcessDefinitionsHandler } from '../../../lib/queries/getProcessDefinitions/getProcessDefinitions.handlers'
+import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
 
 import { PersonDetailPage } from '.'
 

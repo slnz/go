@@ -7,7 +7,7 @@ import {
   getContactHandlerSimple
 } from '../../lib/queries/getContact/getContact.handlers'
 import { getContactTimelineHandler } from '../../lib/queries/getContactTimeline/getContactTimeline.handlers'
-import { getProcessDefinitionsHandler } from '../../lib/queries/getProcessDefinitions/getProcessDefinitions.handlers'
+import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
 
 import { PersonDetailProps } from './PersonDetail'
 
