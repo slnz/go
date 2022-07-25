@@ -20,7 +20,18 @@ export interface ProcessDefinition extends TypeDefinition {
 }
 
 export interface PostDefinition extends TypeDefinition {
-  fields: any[]
+  fields: {
+    title: string
+    key: string
+    type: string
+    directive: string
+    maximum: number
+    minimum: number
+    askCount?: number
+    description?: string
+    placeholder?: string
+    options?: { value: string }[]
+  }[]
 }
 
 export interface GetDefinitions<T> {
