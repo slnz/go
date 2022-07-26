@@ -16,11 +16,7 @@ declare module 'fluro' {
 
   export interface Realm {
     _id: string
-    _type: string
     title: string
-    slug: string
-    bgColor: string
-    color: string
   }
 
   export interface User {

@@ -4,11 +4,7 @@ import { client } from '../fluro'
 
 interface Realms {
   _id: string
-  _type: string
   title: string
-  slug: string
-  bgColor: string
-  color: string
 }
 
 const createContact: MutationFunction<
