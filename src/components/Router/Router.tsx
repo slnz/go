@@ -5,6 +5,7 @@ import { Redirect, Route, RouteProps } from 'react-router'
 import { useAuth } from '../../lib/useAuth'
 import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage'
 import { LoginPage } from '../../pages/LoginPage'
+import { ProcessDetailPage } from '../../pages/ProcessDetailPage'
 import { Tabs } from '../Tabs'
 
 export function Router(): ReactElement {
@@ -19,6 +20,10 @@ export function Router(): ReactElement {
       <PrivateRoute path="/tabs">
         <Tabs />
       </PrivateRoute>
+      <PrivateRoute
+        path="/processes/:processId"
+        component={ProcessDetailPage}
+      />
       <Route exact path="/">
         <Redirect to="/tabs" />
       </Route>

@@ -23,12 +23,16 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
+AuthContext.displayName = 'AuthConsumer'
+
 export function AuthProvider({
-  children
+  children,
+  initialUser
 }: {
   children: ReactNode
+  initialUser?: User
 }): ReactElement {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState(initialUser)
   const [error, setError] = useState<Error>()
   const [loading, setLoading] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
@@ -41,7 +45,9 @@ export function AuthProvider({
 
   useEffect(() => {
     const user = client.auth.getCurrentUser()
-    setUser(user)
+    if (user != null) {
+      setUser(user)
+    }
     setLoadingInitial(false)
   }, [])
 
@@ -117,8 +123,6 @@ export function AuthProvider({
     </AuthContext.Provider>
   )
 }
-
-export const AuthConsumer = AuthContext.Consumer
 
 // Let's only export the `useAuth` hook instead of the context.
 // We only want to use the hook directly and never the context component.

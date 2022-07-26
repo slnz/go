@@ -28,6 +28,7 @@
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
     "chromatic": "^6.7.0",
+    "date-fns": "^2.28.0",
     "fluro": "^2.2.33",
     "formik": "^2.2.9",
     "ionicons": "^6.0.2",
@@ -54,7 +55,8 @@
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3",
     "workbox-streams": "^6.5.3",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zod": "^3.17.10"
   },
   "scripts": {
     "start": "react-scripts start",

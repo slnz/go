@@ -30,7 +30,7 @@ declare module 'fluro' {
     account: Account
     contacts: string[]
     permissionSets: { [key: string]: PermissionSet }
-    persona: string
+    contacts: string[]
   }
 
   export interface LoginCredentials {
@@ -65,25 +65,20 @@ declare module 'fluro' {
        * @param path The Fluro API endpoint to request
        * @param config Optional parameters for the request
        */
-      get<T>(path: string, config: object): Promise<T>
+      get: import('axios').AxiosInstance['get']
+      /**
+       * Makes a put http request to the Fluro REST API
+       * @param path The Fluro API endpoint to request
+       * @param data The data to send to fluro
+       * @param config Optional parameters for the request
+       */
+      put: import('axios').AxiosInstance['put']
       /**
        * Makes a post http request to the Fluro REST API
        * @param path The Fluro API endpoint to request
        * @param config Optional parameters for the request
        */
-      post<T>(
-        path: string,
-        config: object
-      ): Promise<import('axios').AxiosResponse<T>>
-      /**
-       * Makes a put http request to the Fluro REST API
-       * @param path The Fluro API endpoint to request
-       * @param config Optional parameters for the request
-       */
-      put<T>(
-        path: string,
-        config: object
-      ): Promise<import('axios').AxiosResponse<T>>
+      post: import('axios').AxiosInstance['post']
     }
 
     auth: {
@@ -141,6 +136,34 @@ declare module 'fluro' {
         _id: string,
         params?: Params
       ): Promise<T>
+      /**
+       * A helper function for retrieving the results of a dynamic query
+       * @param  {Object} criteria The query criteria
+       * @param  {Object} options Extra options and parameters
+       * @example
+       *
+       * //Find all events that have a status of active or archived where the endDate is greater than or equal to now and return the titles
+       * fluro.content.retrieve({_type:'event', status:{$in:['active', 'archived']}, endDate:{$gte:"date('now')"}}}, {select:'title'})
+       */
+      retrieve: <T>(
+        criteria: {
+          _type: string
+        } & Record<string, unknown>,
+        params?: unknown
+      ) => Promise<T[]>
+      /**
+       * This function makes it easy to retrieve the full content items for a specified selection of ids
+       * @param typeName The type or definition name of the content you want to retrieve
+       * @param ids The ids of the content you want to retrieve
+       * @param options extra options for the request.
+       * @param options.select specify fields you want to retrieve for the items. If blank will return the full object
+       *
+       */
+      getMultiple: <T>(
+        typeName: DefinitionName,
+        ids: string[],
+        options?: { select?: string[] }
+      ) => Promise<T[]>
     }
 
     stats: {

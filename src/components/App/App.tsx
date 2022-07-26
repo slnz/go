@@ -36,8 +36,8 @@ export function App(): ReactElement {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-      <QueryClientProvider client={queryClient}>
-        <SnackbarProvider>
+      <SnackbarProvider>
+        <QueryClientProvider client={queryClient}>
           <IonApp>
             <IonReactRouter>
               <AuthProvider>
@@ -45,8 +45,8 @@ export function App(): ReactElement {
               </AuthProvider>
             </IonReactRouter>
           </IonApp>
-        </SnackbarProvider>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   )
 }

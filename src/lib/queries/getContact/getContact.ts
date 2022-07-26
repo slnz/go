@@ -29,6 +29,7 @@ export interface GetContact {
 export function getContact(id: string): () => Promise<GetContact> {
   return async (): Promise<GetContact> =>
     await client.content.get<GetContact>(id, {
+      type: 'contact',
       appendProcess: 'all',
       select: ['firstName', 'lastName', 'phoneNumbers', 'emails', 'realms']
     })

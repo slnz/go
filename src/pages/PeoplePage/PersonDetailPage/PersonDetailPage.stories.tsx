@@ -2,6 +2,8 @@ import { Story, Meta } from '@storybook/react'
 import { match } from 'react-router'
 
 import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
+import { getContactTimelineHandler } from '../../../lib/queries/getContactTimeline/getContactTimeline.handlers'
+import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
 
 import { PersonDetailPage } from '.'
 
@@ -23,7 +25,11 @@ const Template: Story = () => (
 export const Default = Template.bind({})
 Default.parameters = {
   msw: {
-    handlers: [getContactHandler]
+    handlers: [
+      getContactHandler(),
+      getProcessDefinitionsHandler(),
+      getContactTimelineHandler()
+    ]
   }
 }
 
