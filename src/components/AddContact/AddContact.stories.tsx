@@ -3,7 +3,6 @@ import { userEvent, within } from '@storybook/testing-library'
 import { SnackbarProvider } from 'notistack'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
-import { getPersonaHandler } from '../../lib/queries/getPersona/getPersona.handlers'
 
 import { AddContact } from './AddContact'
 
@@ -20,14 +19,14 @@ const Template: Story = () => (
 export const Default = Template.bind({})
 Default.parameters = {
   msw: {
-    handlers: [getPersonaHandler(), createContactHandler()]
+    handlers: [createContactHandler()]
   }
 }
 
 export const Error = Template.bind({})
 Error.parameters = {
   msw: {
-    handlers: [getPersonaHandler(), createContactHandler()]
+    handlers: [createContactHandler()]
   }
 }
 

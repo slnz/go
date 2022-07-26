@@ -10,7 +10,9 @@ import {
 } from '@mui/material'
 import { Formik } from 'formik'
 import { ReactElement } from 'react'
-import { Asserts, object, string } from 'yup'
+import { array, Asserts, object, string } from 'yup'
+
+import { RealmSelect } from '../RealmSelect'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -39,7 +41,8 @@ const validationSchema = object({
       },
       message: 'Email or phone is required'
     })
-    .email('Enter a valid email')
+    .email('Enter a valid email'),
+  realms: array().of(string().required()).required()
 })
 
 type Contact = Asserts<typeof validationSchema>
@@ -63,7 +66,8 @@ export function ContactForm({
           lastName: '',
           gender: '',
           phone: '',
-          email: ''
+          email: '',
+          realms: []
         }
       }
       validationSchema={validationSchema}
@@ -169,6 +173,12 @@ export function ContactForm({
                 value={values.email}
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
+              />
+              <RealmSelect
+                value={values.realms}
+                onChange={(value): void => {
+                  setFieldValue('realms', value)
+                }}
               />
               <LoadingButton
                 size="large"

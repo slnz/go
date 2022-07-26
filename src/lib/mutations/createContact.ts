@@ -2,11 +2,6 @@ import { MutationFunction } from 'react-query'
 
 import { client } from '../fluro'
 
-interface Realms {
-  _id: string
-  title: string
-}
-
 const createContact: MutationFunction<
   { _id: string },
   {
@@ -15,7 +10,7 @@ const createContact: MutationFunction<
     gender: string
     phone?: string
     email?: string
-    realms: Realms[]
+    realms: string[]
   }
 > = async (variables) => {
   const response = await client.api.post<{ _id: string }>('/content/contact', {

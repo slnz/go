@@ -6,15 +6,10 @@ import { useHistory } from 'react-router'
 
 import { client } from '../../lib/fluro'
 import { createContact } from '../../lib/mutations/createContact'
-import { getPersona } from '../../lib/queries/getPersona/getPersona'
-import { useAuth } from '../../lib/useAuth'
 import { ContactForm, ContactFormProps } from '../ContactForm/ContactForm'
 
 export function AddContact(): ReactElement {
   const { enqueueSnackbar } = useSnackbar()
-  const user = useAuth().user?.persona ?? ''
-  const { data: persona } = useQuery(['persona'], getPersona(user))
-  const realms = persona?.realms
   const mutation = useMutation(createContact)
   const history = useHistory()
 
@@ -25,15 +20,13 @@ export function AddContact(): ReactElement {
       values.lastName = 'Unknown'
     }
 
-    if (realms != null) {
-      try {
-        const response = await mutation.mutateAsync({ ...values, realms })
-        enqueueSnackbar('Contact Created', { variant: 'success' })
-        history.push(`/tabs/people/${response._id}`)
-      } catch (error) {
-        const formattedError = new Error(client.utils.errorMessage(error))
-        console.error(formattedError)
-      }
+    try {
+      const response = await mutation.mutateAsync({ ...values })
+      enqueueSnackbar('Contact Created', { variant: 'success' })
+      history.push(`/tabs/people/${response._id}`)
+    } catch (error) {
+      const formattedError = new Error(client.utils.errorMessage(error))
+      console.error(formattedError)
     }
   }
   return (

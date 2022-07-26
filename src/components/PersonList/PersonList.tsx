@@ -16,6 +16,7 @@ import {
   transformDefinitions
 } from '../../lib/queries/getDefinitions'
 import { useAuth } from '../../lib/useAuth'
+import { AddContactButton } from '../AddContactButton'
 import { PersonListItem } from '../PersonListItem'
 
 interface Processes {
@@ -220,6 +221,9 @@ export function PersonList({ search }: PersonListProps): ReactElement {
             </TabPanel>
           )
         })}
+      <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
+        <AddContactButton />
+      </Box>
     </TabContext>
   )
 }

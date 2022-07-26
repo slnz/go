@@ -3,27 +3,13 @@ import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
-import { getPersonaHandler } from '../../lib/queries/getPersona/getPersona.handlers'
 import { mswServer } from '../../mocks/mswServer'
 
 import { AddContact } from '.'
 
 describe('AddContact', () => {
   it('creates a contact', async () => {
-    mswServer.use(
-      getPersonaHandler({
-        firstName: 'Robert',
-        lastName: 'Smith',
-        title: 'Robert Smith',
-        realms: [
-          {
-            _id: '5ef28e46ee3a9925cef7a5fd',
-            title: 'Tandem Ministries'
-          }
-        ]
-      }),
-      createContactHandler()
-    )
+    mswServer.use(createContactHandler())
     const client = new QueryClient()
     render(
       <QueryClientProvider client={client}>

@@ -14,16 +14,6 @@ export interface GetContact {
       _id: string
     }[]
   }
-  realms: [
-    {
-      _id: string
-      _type: string
-      title: string
-      slug: string
-      bgColor: string
-      color: string
-    }
-  ]
 }
 
 export function getContact(id: string): () => Promise<GetContact> {

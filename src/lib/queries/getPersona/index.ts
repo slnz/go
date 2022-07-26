@@ -1,1 +1,0 @@
-export { getPersona } from './getPersona'
