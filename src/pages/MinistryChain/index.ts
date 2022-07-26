@@ -1,1 +1,0 @@
-export { MinistryChain } from './MinistryChain'

@@ -50,7 +50,7 @@ export function PersonListItem({
 
   return (
     <Card sx={{ width: '100%', maxWidth: 345, mb: 2 }}>
-      <CardActionArea component={Link} to={`/tabs/people/${contact._id}`}>
+      <CardActionArea component={Link} to={`/people/${contact._id}`}>
         <CardContent>
           <Typography variant="caption" color="text.secondary">
             {processLabel}
