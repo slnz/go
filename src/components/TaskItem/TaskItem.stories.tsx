@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import { userEvent, within } from '@storybook/testing-library'
+import { screen, userEvent, within } from '@storybook/testing-library'
 
 import {
   updateProcessHandler,
@@ -124,7 +124,7 @@ UpdateSuccessful.parameters = {
 UpdateSuccessful.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole } = within(canvasElement)
   await userEvent.click(getByRole('button'))
-  await userEvent.click(getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
 }
 
 export const UpdateFailed = Template.bind({})
@@ -141,7 +141,7 @@ UpdateFailed.parameters = {
 UpdateFailed.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole } = within(canvasElement)
   await userEvent.click(getByRole('button'))
-  await userEvent.click(getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
 }
 
 export default TaskItemStory as Meta
