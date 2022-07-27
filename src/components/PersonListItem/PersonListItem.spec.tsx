@@ -2,10 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import { GetContacts, Process } from '../../lib/queries/getContacts/getContacts'
-import {
-  GetDefinitions,
-  ProcessDefinition
-} from '../../lib/queries/getDefinitions'
+import { UseDefinitionsData } from '../../lib/queries/getDefinitions'
 
 import { PersonListItem } from './PersonListItem'
 
@@ -19,7 +16,7 @@ describe('PersonListItem', () => {
     }
   }
 
-  const definitions: GetDefinitions<ProcessDefinition> = {
+  const definitions: UseDefinitionsData<'process'> = {
     exploreStudy: {
       _id: '0',
       title: 'Explorer',

@@ -34,20 +34,20 @@ export interface PostDefinition extends Definition {
   }[]
 }
 
-export type ProcessTypeName = 'process' | 'post'
+export type DefinitionTypeName = 'process' | 'post'
 
-export type ProcessObjectType<T> = T extends 'process'
+export type DefinitionObjectType<T> = T extends 'process'
   ? ProcessDefinition
   : T extends 'post'
   ? PostDefinition
   : never
 
-export function getDefinitions<T extends ProcessTypeName>(
+export function getDefinitions<T extends DefinitionTypeName>(
   type: T
-): () => Promise<ProcessObjectType<T>[]> {
-  return async (): Promise<ProcessObjectType<T>[]> => {
+): () => Promise<DefinitionObjectType<T>[]> {
+  return async (): Promise<DefinitionObjectType<T>[]> => {
     const data = await client.types.retrieve<
-      DefinitionCollection<ProcessObjectType<T>>
+      DefinitionCollection<DefinitionObjectType<T>>
     >([type])
     return data[0].definitions
   }

@@ -3,20 +3,24 @@ import { useQuery } from 'react-query'
 
 import {
   getDefinitions,
-  ProcessTypeName,
-  ProcessObjectType
+  DefinitionTypeName,
+  DefinitionObjectType
 } from './getDefinitions'
 
-type UseDefinitionsResult<T> = ReturnType<
+export type UseDefinitionsData<T> = {
+  [definitionName: string]: DefinitionObjectType<T>
+}
+
+export type UseDefinitionsResult<T> = ReturnType<
   typeof useQuery<
-    ProcessObjectType<T>[],
+    DefinitionObjectType<T>[],
     unknown,
-    { [definitionName: string]: ProcessObjectType<T> },
+    UseDefinitionsData<T>,
     { type: T }[]
   >
 >
 
-export function useDefinitions<T extends ProcessTypeName>(
+export function useDefinitions<T extends DefinitionTypeName>(
   type: T
 ): UseDefinitionsResult<T> {
   return useQuery(['definitions', { type }], getDefinitions(type), {
