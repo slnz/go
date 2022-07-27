@@ -1,9 +1,9 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SnackbarProvider } from 'notistack'
 import { ReactElement, useMemo } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { AuthProvider } from '../../lib/useAuth'
 import { darkTheme, theme } from '../../theme/theme'

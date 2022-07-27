@@ -1,10 +1,10 @@
 import { IonApp, setupIonicReact } from '@ionic/react'
 import { ThemeProvider, CssBaseline, Box } from '@mui/material'
 import { Story } from '@storybook/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { initialize as mswInitialize, mswDecorator } from 'msw-storybook-addon'
 import { SnackbarProvider } from 'notistack'
 import React, { ReactElement, useEffect } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router'
 
 import { client } from '../src/lib/fluro'

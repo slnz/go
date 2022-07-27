@@ -8,9 +8,9 @@ import {
   ListItemText,
   Skeleton
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { flatMap, map } from 'lodash'
 import { ReactElement } from 'react'
-import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { getContact } from '../../../lib/queries/getContact'

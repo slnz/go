@@ -1,5 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { getContactTimelineHandler } from '../../../lib/queries/getContactTimeline/getContactTimeline.handlers'
 import { mswServer } from '../../../mocks/mswServer'
