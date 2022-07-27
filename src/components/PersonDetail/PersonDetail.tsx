@@ -3,8 +3,8 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Divider, Skeleton, Tab, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { ReactElement, SyntheticEvent, useState } from 'react'
-import { useQuery } from 'react-query'
 
 import { getContact } from '../../lib/queries/getContact'
 

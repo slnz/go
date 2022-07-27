@@ -16,7 +16,7 @@ describe('RealmSelect', () => {
     fireEvent.click(element)
     fireEvent.click(screen.getByRole('tab', { name: 'Staff Teams' }))
     fireEvent.click(screen.getByText('Auckland Staff Team'))
-    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Select' }))
     expect(onChange).toHaveBeenCalledWith(['realmId1', 'realmId13'])
   })
 

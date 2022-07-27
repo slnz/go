@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query'
 import { reduce } from 'lodash'
-import { useQuery } from 'react-query'
 
 import {
   getDefinitions,
