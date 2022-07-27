@@ -28,7 +28,8 @@ export function getProcessDefinitionsHandler(): RestHandler {
                   { title: 'Appointment Set', key: 'appointment_set' },
                   { title: 'Not Interested', key: 'not_interested' },
                   { title: 'Completed', key: 'completed' }
-                ]
+                ],
+                processTypes: ['contact']
               }
             },
             {
@@ -48,7 +49,8 @@ export function getProcessDefinitionsHandler(): RestHandler {
                   { title: 'Read A Gospel Together', key: 'step_6' },
                   { title: 'Not Interested', key: 'step_7' },
                   { title: 'Complete', key: 'complete' }
-                ]
+                ],
+                processTypes: ['contact']
               }
             },
             {
@@ -64,7 +66,8 @@ export function getProcessDefinitionsHandler(): RestHandler {
                   { title: 'Appointment Set', key: 'step_2' },
                   { title: 'Not Interested', key: 'step_2step_2_a}' },
                   { title: 'Completed', key: 'step_3' }
-                ]
+                ],
+                processTypes: ['contact']
               }
             },
             {
@@ -84,7 +87,8 @@ export function getProcessDefinitionsHandler(): RestHandler {
                   { title: 'Follow Up 5', key: 'step_5' },
                   { title: 'Completed Follow Up', key: 'step_6' },
                   { title: 'Dropped Out', key: 'step_7' }
-                ]
+                ],
+                processTypes: ['contact']
               }
             }
           ],

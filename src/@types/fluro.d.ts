@@ -60,6 +60,13 @@ declare module 'fluro' {
        * @param config Optional parameters for the request
        */
       put: import('axios').AxiosInstance['put']
+      /**
+       * Makes a post http request to the Fluro REST API
+       * @param path The Fluro API endpoint to request
+       * @param data The data to send to fluro
+       * @param config Optional parameters for the request
+       */
+      post: import('axios').AxiosInstance['post']
     }
 
     auth: {

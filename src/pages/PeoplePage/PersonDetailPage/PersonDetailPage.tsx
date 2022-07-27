@@ -1,9 +1,10 @@
 import { IonContent, IonHeader, IonPage } from '@ionic/react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { AppBar, Button, Toolbar } from '@mui/material'
+import { AppBar, Box, Button, Toolbar } from '@mui/material'
 import { ReactElement } from 'react'
 import { RouteComponentProps, useHistory } from 'react-router'
 
+import { AddProcessButton } from '../../../components/AddProcessButton'
 import { PersonDetail } from '../../../components/PersonDetail'
 
 type PersonDetailPageProps = Pick<
@@ -31,6 +32,11 @@ export function PersonDetailPage({
             >
               Back
             </Button>
+            <Box sx={{ flex: 1 }} />
+            <AddProcessButton
+              itemId={match.params.personId}
+              itemType="contact"
+            />
           </Toolbar>
         </AppBar>
       </IonHeader>
