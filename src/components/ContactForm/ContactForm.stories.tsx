@@ -1,6 +1,5 @@
 import { Story, Meta } from '@storybook/react'
 import { userEvent, within } from '@storybook/testing-library'
-import { rest } from 'msw'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
 import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'

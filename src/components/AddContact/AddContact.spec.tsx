@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import { Location } from 'history'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { MemoryRouter, Route } from 'react-router'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
 import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
@@ -11,13 +13,23 @@ import { AddContact } from '.'
 describe('AddContact', () => {
   it('creates a contact', async () => {
     mswServer.use(getRealmSelectableHandler(), createContactHandler())
+    let testLocation: Location | undefined
     const client = new QueryClient()
     render(
-      <QueryClientProvider client={client}>
-        <SnackbarProvider>
-          <AddContact />
-        </SnackbarProvider>
-      </QueryClientProvider>
+      <MemoryRouter initialEntries={['/tabs/people']}>
+        <QueryClientProvider client={client}>
+          <SnackbarProvider>
+            <AddContact />
+            <Route
+              path="*"
+              render={({ location }): null => {
+                testLocation = location
+                return null
+              }}
+            />
+          </SnackbarProvider>
+        </QueryClientProvider>
+      </MemoryRouter>
     )
     fireEvent.change(screen.getByRole('textbox', { name: 'First Name' }), {
       target: { value: 'test' }
@@ -45,5 +57,6 @@ describe('AddContact', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Contact Created'
     )
+    expect(testLocation?.pathname).toEqual('/tabs/people/newContactId')
   })
 })

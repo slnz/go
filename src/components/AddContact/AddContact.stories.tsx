@@ -23,22 +23,6 @@ Default.parameters = {
     handlers: [createContactHandler(), getRealmSelectableHandler()]
   }
 }
-Default.play = async ({ canvasElement }): Promise<void> => {
-  const { getByRole, findByRole } = within(canvasElement)
-  await userEvent.type(getByRole('textbox', { name: 'First Name' }), 'test')
-  await userEvent.type(getByRole('textbox', { name: 'Last Name' }), 'test')
-  await userEvent.click(getByRole('button', { name: /gender/i }))
-  await userEvent.click(screen.getByRole('option', { name: 'Male' }))
-  await userEvent.type(
-    getByRole('textbox', { name: 'Phone Number' }),
-    '0000000000'
-  )
-  await userEvent.type(
-    getByRole('textbox', { name: 'Email Address' }),
-    'test@test.com'
-  )
-  await userEvent.click(getByRole('button', { name: 'Realm ​' }))
-}
 
 export const Error = Template.bind({})
 Error.parameters = {

@@ -29,6 +29,5 @@ Error.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole, findByRole } = within(canvasElement)
   const addButton = await getByRole('button', { name: 'add' })
   await userEvent.click(addButton)
-  // await userEvent.click(await findByRole('button', { name: 'Add Contact' }))
 }
 export default AddContactButtonStory as Meta

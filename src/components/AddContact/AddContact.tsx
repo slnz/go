@@ -1,7 +1,7 @@
 import { Container, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { ReactElement } from 'react'
-import { useQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { useHistory } from 'react-router'
 
 import { client } from '../../lib/fluro'
