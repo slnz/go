@@ -4,17 +4,12 @@ import TabPanel from '@mui/lab/TabPanel'
 import { Card, CardContent, Skeleton, Typography } from '@mui/material'
 import Tab from '@mui/material/Tab'
 import { Box } from '@mui/system'
-import { ReactElement, useCallback, useMemo, useState } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { getContacts } from '../../lib/queries/getContacts'
 import { GetContacts } from '../../lib/queries/getContacts/getContacts'
-import {
-  Definition,
-  ProcessDefinition,
-  getProcessDefinitions,
-  transformDefinitions
-} from '../../lib/queries/getDefinitions'
+import { useDefinitions } from '../../lib/queries/getDefinitions'
 import { useAuth } from '../../lib/useAuth'
 import { PersonListItem } from '../PersonListItem'
 
@@ -54,16 +49,8 @@ export function PersonList({ search }: PersonListProps): ReactElement {
   const { user } = useAuth()
   const [processType, setProcessType] = useState('all')
 
-  const { data: definitions, isLoading: isDefinitionLoading } = useQuery(
-    ['definitions', { type: 'process' }],
-    getProcessDefinitions,
-    {
-      select: useCallback(
-        (data: Definition<ProcessDefinition>) => transformDefinitions(data),
-        []
-      )
-    }
-  )
+  const { data: definitions, isLoading: isDefinitionLoading } =
+    useDefinitions('process')
 
   const { data: contacts, isLoading: isContactLoading } = useQuery(
     ['contacts', { user: user?.contacts[0] }],
