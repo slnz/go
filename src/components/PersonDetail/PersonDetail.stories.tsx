@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import { screen, userEvent } from '@storybook/testing-library'
+import { userEvent, within } from '@storybook/testing-library'
 
 import {
   getContactHandler,
@@ -51,8 +51,9 @@ TimelineTab.parameters = {
 TimelineTab.args = {
   id: 'timelineId'
 }
-TimelineTab.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('tab', { name: 'Timeline' }))
+TimelineTab.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('tab', { name: 'Timeline' }))
   await userEvent.tab()
   await userEvent.tab()
 }

@@ -102,7 +102,7 @@ export const parameters = {
     }
   },
   chromatic: { viewports: [360] },
-  controls: { disabled: true },
+  controls: { disable: true },
   layout: 'fullscreen',
   viewport: {
     viewports: customViewports
