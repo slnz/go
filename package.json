@@ -55,7 +55,8 @@
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3",
     "workbox-streams": "^6.5.3",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zod": "^3.17.10"
   },
   "scripts": {
     "start": "react-scripts start",
