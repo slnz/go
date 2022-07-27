@@ -45,7 +45,6 @@ describe('RealmSelect', () => {
       />
     )
     fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
-    const element = await screen.findByText('Tandem Ministries')
     fireEvent.click(screen.getByRole('button', { name: 'close' }))
     expect(screen.getByText('Realm is required')).toBeInTheDocument()
   })
@@ -57,6 +56,7 @@ describe('RealmSelect', () => {
     )
     fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
     const element = await screen.findByText('Tandem Ministries')
+    fireEvent.click(element)
     fireEvent.click(screen.getByRole('button', { name: 'close' }))
     const helperText = screen.queryByText('Realm is required')
     expect(helperText).toBeNull()
