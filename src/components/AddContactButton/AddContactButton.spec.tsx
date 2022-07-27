@@ -1,16 +1,17 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { MemoryRouter, Route } from 'react-router'
+import { MemoryRouter } from 'react-router'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
+import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
 import { mswServer } from '../../mocks/mswServer'
 
 import { AddContactButton } from '.'
 
 describe('AddContactButton', () => {
-  it('navigates to add contact page', () => {
-    mswServer.use(createContactHandler())
+  it('dialog shows up', () => {
+    mswServer.use(getRealmSelectableHandler(), createContactHandler())
 
     const queryClient = new QueryClient()
     render(

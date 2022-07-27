@@ -1,15 +1,16 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
+import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
 import { mswServer } from '../../mocks/mswServer'
 
 import { AddContact } from '.'
 
 describe('AddContact', () => {
   it('creates a contact', async () => {
-    mswServer.use(createContactHandler())
+    mswServer.use(getRealmSelectableHandler(), createContactHandler())
     const client = new QueryClient()
     render(
       <QueryClientProvider client={client}>
@@ -34,9 +35,15 @@ describe('AddContact', () => {
     fireEvent.change(screen.getByRole('textbox', { name: 'Email Address' }), {
       target: { value: 'email@example.com' }
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent('Contact Created')
-    })
+    fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
+    const element = await screen.findByText('Tandem Ministries')
+    fireEvent.click(element)
+    fireEvent.click(screen.getByRole('tab', { name: 'Staff Teams' }))
+    fireEvent.click(screen.getByText('Auckland Staff Team'))
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Add Contact' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Contact Created'
+    )
   })
 })

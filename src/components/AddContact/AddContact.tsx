@@ -32,7 +32,6 @@ export function AddContact(): ReactElement {
   return (
     <Container sx={{ p: 2 }}>
       <Container maxWidth="sm">
-        <Typography variant="h2">Add Contact</Typography>
         <Typography>Fill in the details below to add a new contact</Typography>
       </Container>
       <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />

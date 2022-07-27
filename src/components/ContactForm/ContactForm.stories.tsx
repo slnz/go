@@ -2,6 +2,9 @@ import { Story, Meta } from '@storybook/react'
 import { userEvent, within } from '@storybook/testing-library'
 import { rest } from 'msw'
 
+import { createContactHandler } from '../../lib/mutations/createContact.handlers'
+import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
+
 import { ContactForm, ContactFormProps } from './ContactForm'
 
 const AddContactStory = {
@@ -17,16 +20,7 @@ Default.args = {
 }
 Default.parameters = {
   msw: {
-    handlers: [
-      rest.post('https://api.fluro.io/content/contact', (req, res, ctx) => {
-        return res(
-          ctx.json({
-            firstName: 'Neil',
-            lastName: 'Maverick'
-          })
-        )
-      })
-    ]
+    handlers: [createContactHandler(), getRealmSelectableHandler()]
   }
 }
 export const Prefilled = Template.bind({})
@@ -37,7 +31,7 @@ Prefilled.args = {
     gender: 'male',
     phone: '000000000000',
     email: 'email@example.com',
-    realms: []
+    realms: ['realmId1']
   }
 }
 
@@ -47,11 +41,7 @@ Error.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole } = within(canvasElement)
   const element = await getByRole('textbox', { name: 'First Name' })
   await userEvent.type(element, 'test')
-  await userEvent.tab()
-  await userEvent.tab()
-  await userEvent.tab()
-  await userEvent.tab()
-  await userEvent.tab()
+  await userEvent.click(getByRole('button', { name: 'Add Contact' }))
 }
 Error.args = {
   submitLabel: 'Add Contact'

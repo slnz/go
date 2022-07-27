@@ -30,7 +30,7 @@ const validationSchema = object({
       },
       message: 'Phone or email is required'
     })
-    .min(9, 'Phone number is not valid')
+    .min(9, 'Phone number is too short')
     .matches(phoneRegExp, 'Phone number is not valid'),
   email: string()
     .test({
@@ -42,7 +42,10 @@ const validationSchema = object({
       message: 'Email or phone is required'
     })
     .email('Enter a valid email'),
-  realms: array().of(string().required()).required()
+  realms: array()
+    .of(string().required())
+    .min(1, 'Realm is required')
+    .required('Realm is required')
 })
 
 type Contact = Asserts<typeof validationSchema>
@@ -90,7 +93,8 @@ export function ContactForm({
         handleSubmit,
         isSubmitting,
         isValid,
-        setFieldValue
+        setFieldValue,
+        setFieldTouched
       }): ReactElement => (
         <form onSubmit={handleSubmit}>
           <Container maxWidth="sm" sx={{ p: 2 }}>
@@ -174,12 +178,20 @@ export function ContactForm({
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
               />
-              <RealmSelect
-                value={values.realms}
-                onChange={(value): void => {
-                  setFieldValue('realms', value)
-                }}
-              />
+              <Box>
+                <RealmSelect
+                  value={values.realms}
+                  onChange={(value): void => {
+                    setFieldValue('realms', value)
+                  }}
+                  onBlur={(): void => {
+                    setFieldTouched('realms')
+                  }}
+                  error={touched.realms && Boolean(errors.realms)}
+                  helperText={touched.realms && errors.realms}
+                />
+              </Box>
+
               <LoadingButton
                 size="large"
                 color="primary"

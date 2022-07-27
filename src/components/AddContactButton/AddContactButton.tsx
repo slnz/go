@@ -1,6 +1,14 @@
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
-import { AppBar, Dialog, Fab, IconButton, Slide, Toolbar } from '@mui/material'
+import {
+  AppBar,
+  Dialog,
+  Fab,
+  IconButton,
+  Slide,
+  Toolbar,
+  Typography
+} from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import React, { ReactElement } from 'react'
 
@@ -51,6 +59,9 @@ export function AddContactButton(): ReactElement {
             >
               <CloseIcon />
             </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Add Contact
+            </Typography>
           </Toolbar>
         </AppBar>
         <AddContact />

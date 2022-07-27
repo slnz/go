@@ -8,6 +8,7 @@ import {
   getContactsHandlerSimple
 } from '../../lib/queries/getContacts/getContacts.handlers'
 import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
+import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
 import { mswServer } from '../../mocks/mswServer'
@@ -61,6 +62,7 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandlerSimple())
+    mswServer.use(getRealmSelectableHandler())
 
     const client = new QueryClient()
     render(
@@ -79,6 +81,7 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
     const client = new QueryClient()
     render(
@@ -106,6 +109,7 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
     const client = new QueryClient()
     render(
@@ -132,6 +136,7 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
     const client = new QueryClient()
     render(
