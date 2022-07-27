@@ -9,17 +9,12 @@ import {
   Skeleton
 } from '@mui/material'
 import { flatMap, map } from 'lodash'
-import { ReactElement, useCallback } from 'react'
+import { ReactElement } from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { getContact } from '../../../lib/queries/getContact'
-import {
-  getProcessDefinitions,
-  transformDefinitions,
-  ProcessDefinition,
-  Definition
-} from '../../../lib/queries/getDefinitions'
+import { useDefinitions } from '../../../lib/queries/getDefinitions'
 
 export interface PersonDetailInfoProps {
   id: string
@@ -30,16 +25,8 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
     ['contact', id],
     getContact(id)
   )
-  const { data: processes, isLoading: isProcessesLoading } = useQuery(
-    ['definitions', { type: 'process' }],
-    getProcessDefinitions,
-    {
-      select: useCallback(
-        (data: Definition<ProcessDefinition>) => transformDefinitions(data),
-        []
-      )
-    }
-  )
+  const { data: processes, isLoading: isProcessesLoading } =
+    useDefinitions('process')
 
   return (
     <>

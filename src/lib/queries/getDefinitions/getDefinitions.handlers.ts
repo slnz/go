@@ -1,13 +1,17 @@
 import { rest, RestHandler } from 'msw'
 
-import { Definition, ProcessDefinition, PostDefinition } from './getDefinitions'
+import {
+  DefinitionCollection,
+  ProcessDefinition,
+  PostDefinition
+} from './getDefinitions'
 
 export function getProcessDefinitionsHandler(): RestHandler {
   return rest.post('https://api.fluro.io/defined', (req, res, ctx) => {
     req.body = { types: ['process'] }
     return res(
       ctx.status(200),
-      ctx.json<Definition<ProcessDefinition>[]>([
+      ctx.json<DefinitionCollection<ProcessDefinition>[]>([
         {
           definitionName: 'process',
           definitions: [
@@ -97,7 +101,7 @@ export function getPostDefinitionsHandler(): RestHandler {
     req.body = { types: ['post'] }
     return res(
       ctx.status(200),
-      ctx.json<Definition<PostDefinition>[]>([
+      ctx.json<DefinitionCollection<PostDefinition>[]>([
         {
           definitionName: 'post',
           definitions: [

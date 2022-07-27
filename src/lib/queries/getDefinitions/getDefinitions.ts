@@ -1,13 +1,13 @@
 import { client } from '../../fluro'
 
-export interface Definition<TypeDefinition> {
+export interface DefinitionCollection<T> {
   definitionName: string
-  definitions: TypeDefinition[]
+  definitions: T[]
   plural: string
   title: string
 }
 
-interface TypeDefinition {
+interface Definition {
   _id: string
   definitionName: string
   plural: string
@@ -15,11 +15,11 @@ interface TypeDefinition {
   firstLine?: string
 }
 
-export interface ProcessDefinition extends TypeDefinition {
+export interface ProcessDefinition extends Definition {
   data: { states: { title: string; key: string }[] }
 }
 
-export interface PostDefinition extends TypeDefinition {
+export interface PostDefinition extends Definition {
   fields: {
     title: string
     key: string
@@ -34,36 +34,21 @@ export interface PostDefinition extends TypeDefinition {
   }[]
 }
 
-export interface GetDefinitions<T> {
-  [definitionName: string]: T
-}
+export type ProcessTypeName = 'process' | 'post'
 
-export function transformDefinitions<T>(
-  data: Definition<T>
-): GetDefinitions<T> {
-  const definitions: GetDefinitions<T> = {}
+export type ProcessObjectType<T> = T extends 'process'
+  ? ProcessDefinition
+  : T extends 'post'
+  ? PostDefinition
+  : never
 
-  data.definitions.forEach((definition): void => {
-    const { definitionName } = definition as unknown as TypeDefinition
-    definitions[definitionName] = definition
-  })
-
-  return definitions
-}
-
-export async function getProcessDefinitions(): Promise<
-  Definition<ProcessDefinition>
-> {
-  const data = await client.types.retrieve<Definition<ProcessDefinition>>([
-    'process'
-  ])
-  return data[0]
-}
-
-export async function getPostDefinitions(): Promise<
-  Definition<PostDefinition>
-> {
-  const data = await client.types.retrieve<Definition<PostDefinition>>(['post'])
-
-  return data[0]
+export function getDefinitions<T extends ProcessTypeName>(
+  type: T
+): () => Promise<ProcessObjectType<T>[]> {
+  return async (): Promise<ProcessObjectType<T>[]> => {
+    const data = await client.types.retrieve<
+      DefinitionCollection<ProcessObjectType<T>>
+    >([type])
+    return data[0].definitions
+  }
 }

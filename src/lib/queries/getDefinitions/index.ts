@@ -1,11 +1,8 @@
-export {
-  getPostDefinitions,
-  getProcessDefinitions,
-  transformDefinitions
-} from './getDefinitions'
+export { useDefinitions } from './getDefinitions.hook'
+export { getDefinitions } from './getDefinitions'
 export type {
-  Definition,
-  GetDefinitions,
+  ProcessDefinition,
   PostDefinition,
-  ProcessDefinition
+  ProcessTypeName,
+  ProcessObjectType
 } from './getDefinitions'
