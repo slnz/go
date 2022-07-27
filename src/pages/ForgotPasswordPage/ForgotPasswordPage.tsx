@@ -25,7 +25,7 @@ export function ForgotPasswordPage(): ReactElement {
           </Toolbar>
         </AppBar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <ForgotPassword />
       </IonContent>
     </IonPage>

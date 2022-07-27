@@ -75,16 +75,17 @@ export function PersonDetail({ id }: PersonDetailProps): ReactElement {
       </Box>
       <Divider />
       <TabContext value={value}>
-        <TabList
-          onChange={handleChange}
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="contact tabs"
-        >
-          <Tab label="Details" value="1" />
-          <Tab label="Timeline" value="2" />
-        </TabList>
-        <Divider />
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList
+            onChange={handleChange}
+            textColor="inherit"
+            variant="fullWidth"
+            aria-label="contact tabs"
+          >
+            <Tab label="Details" value="1" />
+            <Tab label="Timeline" value="2" />
+          </TabList>
+        </Box>
         <TabPanel value="1" sx={{ p: 0 }}>
           <PersonDetailInfo id={id} />
         </TabPanel>

@@ -1,14 +1,14 @@
 import { Story, Meta } from '@storybook/react'
 import { match } from 'react-router'
 
-import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
-import { getContactTimelineHandler } from '../../../lib/queries/getContactTimeline/getContactTimeline.handlers'
-import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
+import { getContactHandler } from '../../lib/queries/getContact/getContact.handlers'
+import { getContactTimelineHandler } from '../../lib/queries/getContactTimeline/getContactTimeline.handlers'
+import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
 
 import { PersonDetailPage } from '.'
 
 const PersonDetailPageStory = {
-  title: 'Pages/PeoplePage/PersonDetailPage',
+  title: 'Pages/PersonDetailPage',
   component: PersonDetailPage
 }
 
