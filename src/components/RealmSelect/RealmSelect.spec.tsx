@@ -32,4 +32,31 @@ describe('RealmSelect', () => {
     fireEvent.click(screen.getByRole('button', { name: 'close' }))
     expect(onChange).not.toHaveBeenCalled()
   })
+
+  it('shows helper text', async () => {
+    mswServer.use(getRealmSelectableHandler())
+    const onChange = jest.fn()
+    renderWithProviders(
+      <RealmSelect
+        helperText="Realm is required"
+        onChange={onChange}
+        value={[]}
+      />
+    )
+    expect(screen.getByText('Realm is required')).not.toHaveClass('Mui-error')
+  })
+
+  it('shows helper text as error', async () => {
+    mswServer.use(getRealmSelectableHandler())
+    const onChange = jest.fn()
+    renderWithProviders(
+      <RealmSelect
+        helperText="Realm is required"
+        error
+        onChange={onChange}
+        value={[]}
+      />
+    )
+    expect(screen.getByText('Realm is required')).toHaveClass('Mui-error')
+  })
 })
