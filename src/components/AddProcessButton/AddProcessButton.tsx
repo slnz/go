@@ -106,7 +106,7 @@ export function AddProcessButton({
                 realms: values.realmIds.map((_id) => ({ _id })),
                 title: itemId
               })
-              // history.push(`/processes/${response._id}`)
+              history.push(`/processes/${response._id}`)
               console.log([itemType, itemId])
               queryClient.invalidateQueries([itemType, itemId])
               setOpen(false)
