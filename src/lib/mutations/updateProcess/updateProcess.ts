@@ -1,4 +1,4 @@
-import { MutationFunction } from 'react-query'
+import { MutationFunction } from '@tanstack/react-query'
 
 import { client } from '../../fluro'
 import { GetProcess } from '../../queries/getProcess/getProcess'

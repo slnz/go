@@ -18,6 +18,7 @@ import {
   Typography
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import { useQuery } from '@tanstack/react-query'
 import { first, xor } from 'lodash'
 import {
   forwardRef,
@@ -27,7 +28,6 @@ import {
   useEffect,
   useState
 } from 'react'
-import { useQuery } from 'react-query'
 
 import { getRealmSelectable } from '../../lib/queries/getRealmSelectable'
 import { GetRealmSelectableParams } from '../../lib/queries/getRealmSelectable/getRealmSelectable'
@@ -65,7 +65,7 @@ export function RealmSelect({
   helperText
 }: RealmSelectProps): ReactElement {
   const { data, isLoading } = useQuery(
-    params ? ['realmSelectable', params] : 'realmSelectable',
+    params ? ['realmSelectable', params] : ['realmSelectable'],
     getRealmSelectable(params)
   )
   const [tab, setTab] = useState('')
