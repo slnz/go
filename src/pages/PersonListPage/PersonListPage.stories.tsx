@@ -1,13 +1,13 @@
 import { StoryFn, Meta } from '@storybook/react'
 
-import { getContactsHandler } from '../../../lib/queries/getContacts/getContacts.handlers'
-import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
-import { AuthProvider } from '../../../lib/useAuth'
+import { getContactsHandler } from '../../lib/queries/getContacts/getContacts.handlers'
+import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
+import { AuthProvider } from '../../lib/useAuth'
 
 import { PersonListPage } from '.'
 
 const PersonListPageStory = {
-  title: 'Pages/PeoplePage/PersonListPage',
+  title: 'Pages/PersonListPage',
   component: PersonListPage
 }
 

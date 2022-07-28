@@ -1,6 +1,5 @@
 import {
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -9,11 +8,7 @@ import {
 import { filter, flatMapDeep, flatMap } from 'lodash'
 import { ReactElement, SyntheticEvent, useMemo } from 'react'
 
-interface Realm {
-  _id: string
-  title: string
-  children: Realm[]
-}
+import { Realm } from '../../../lib/queries/getRealmSelectable/getRealmSelectable'
 
 export interface RealmSelectSelectProps
   extends Pick<TextFieldProps, 'error' | 'helperText'> {
