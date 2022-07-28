@@ -8,7 +8,7 @@ import { ReactElement, useMemo } from 'react'
 
 import { AuthProvider } from '../../lib/useAuth'
 import { darkTheme, theme } from '../../theme/theme'
-import { Router } from '../Router'
+import { AppRouterOutlet } from '../AppRouterOutlet'
 
 import '@ionic/react/css/core.css'
 import '@ionic/react/css/normalize.css'
@@ -43,7 +43,7 @@ export function App(): ReactElement {
           <IonApp>
             <IonReactRouter>
               <AuthProvider>
-                <Router />
+                <AppRouterOutlet />
               </AuthProvider>
             </IonReactRouter>
           </IonApp>

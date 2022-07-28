@@ -65,7 +65,7 @@ export function RealmSelect({
   helperText
 }: RealmSelectProps): ReactElement {
   const { data, isLoading } = useQuery(
-    params ? ['realmSelectable', params] : 'realmSelectable',
+    params ? ['realmSelectable', params] : ['realmSelectable'],
     getRealmSelectable(params)
   )
   const [tab, setTab] = useState('')

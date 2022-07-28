@@ -10,11 +10,7 @@ import {
 import { flatMapDeep, map } from 'lodash'
 import { ReactElement, useMemo } from 'react'
 
-interface Realm {
-  _id: string
-  title: string
-  children: Realm[]
-}
+import { Realm } from '../../../lib/queries/getRealmSelectable/getRealmSelectable'
 
 export interface RealmSelectTreeViewProps {
   realms: Realm[]

@@ -4,8 +4,8 @@ import { AppBar, Box, Button, Toolbar } from '@mui/material'
 import { ReactElement } from 'react'
 import { RouteComponentProps, useHistory } from 'react-router'
 
-import { AddProcessButton } from '../../../components/AddProcessButton'
-import { PersonDetail } from '../../../components/PersonDetail'
+import { AddProcessButton } from '../../components/AddProcessButton'
+import { PersonDetail } from '../../components/PersonDetail'
 
 type PersonDetailPageProps = Pick<
   RouteComponentProps<{
@@ -40,7 +40,7 @@ export function PersonDetailPage({
           </Toolbar>
         </AppBar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <PersonDetail id={match.params.personId} />
       </IonContent>
     </IonPage>

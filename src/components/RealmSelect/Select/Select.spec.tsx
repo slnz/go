@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { RealmSelectSelect } from '.'
 
 describe('RealmSelectSelect', () => {
-  it('calls onClick when clicked', () => {
+  it('calls onClick when select opened', () => {
     const onClick = jest.fn()
     render(<RealmSelectSelect onClick={onClick} value={[]} data={[]} />)
     fireEvent.mouseDown(screen.getByRole('button', { name: 'Realm ​' }))

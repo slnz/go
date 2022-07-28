@@ -1,21 +1,21 @@
 import { Story, Meta } from '@storybook/react'
 import { MemoryRouter } from 'react-router'
 
-import { PeoplePage } from '.'
+import { PersonRouterOutlet } from '.'
 
-const PeoplePageStory = {
-  title: 'Pages/PeoplePage',
-  component: PeoplePage
+const PersonRouterOutletStory = {
+  title: 'Components/PersonRouterOutlet',
+  component: PersonRouterOutlet
 }
 
 const Template: Story = (args) => (
   <MemoryRouter initialEntries={args.initialEntries}>
-    <PeoplePage />
+    <PersonRouterOutlet />
   </MemoryRouter>
 )
 
-export const Default = Template.bind({})
-Default.args = {
+export const List = Template.bind({})
+List.args = {
   initialEntries: ['/people']
 }
 
@@ -24,4 +24,4 @@ Detail.args = {
   initialEntries: ['/people/personId']
 }
 
-export default PeoplePageStory as Meta
+export default PersonRouterOutletStory as Meta

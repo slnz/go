@@ -1,0 +1,1 @@
+export { PersonRouterOutlet } from './PersonRouterOutlet'
