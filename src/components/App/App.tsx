@@ -2,6 +2,7 @@ import { IonApp, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SnackbarProvider } from 'notistack'
 import { ReactElement, useMemo } from 'react'
 
@@ -34,10 +35,11 @@ export function App(): ReactElement {
   }, [prefersDarkMode])
 
   return (
-    <ThemeProvider theme={appTheme}>
-      <CssBaseline />
-      <SnackbarProvider>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline />
+        <SnackbarProvider>
           <IonApp>
             <IonReactRouter>
               <AuthProvider>
@@ -45,8 +47,8 @@ export function App(): ReactElement {
               </AuthProvider>
             </IonReactRouter>
           </IonApp>
-        </QueryClientProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
