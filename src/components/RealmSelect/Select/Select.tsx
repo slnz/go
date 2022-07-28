@@ -1,10 +1,18 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextFieldProps
+} from '@mui/material'
 import { filter, flatMapDeep, flatMap } from 'lodash'
 import { ReactElement, SyntheticEvent, useMemo } from 'react'
 
 import { Realm } from '../../../lib/queries/getRealmSelectable/getRealmSelectable'
 
-export interface RealmSelectSelectProps {
+export interface RealmSelectSelectProps
+  extends Pick<TextFieldProps, 'error' | 'helperText'> {
   onClick: () => void
   value: string[]
   data?: { realms: Realm[] }[]
@@ -13,7 +21,9 @@ export interface RealmSelectSelectProps {
 export function RealmSelectSelect({
   onClick,
   value,
-  data
+  data,
+  helperText,
+  error
 }: RealmSelectSelectProps): ReactElement {
   function handleOpen(event: SyntheticEvent): void {
     event.preventDefault()
@@ -38,7 +48,9 @@ export function RealmSelectSelect({
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="select-realm-label">Realm</InputLabel>
+      <InputLabel id="select-realm-label" error={error}>
+        Realm
+      </InputLabel>
       <Select
         id="select-realm"
         labelId="select-realm-label"
@@ -47,6 +59,7 @@ export function RealmSelectSelect({
         open={false}
         value={value}
         multiple
+        error={error}
       >
         {realms?.map((realm) => (
           <MenuItem value={realm._id} key={realm._id}>
@@ -54,6 +67,9 @@ export function RealmSelectSelect({
           </MenuItem>
         ))}
       </Select>
+      {helperText != null && (
+        <FormHelperText error={error}>{helperText}</FormHelperText>
+      )}
     </FormControl>
   )
 }

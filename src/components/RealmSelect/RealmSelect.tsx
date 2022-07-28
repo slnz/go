@@ -5,6 +5,7 @@ import {
   Button,
   Dialog,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -12,6 +13,7 @@ import {
   Skeleton,
   Slide,
   Tab,
+  TextFieldProps,
   Toolbar,
   Typography
 } from '@mui/material'
@@ -42,11 +44,14 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-export interface RealmSelectProps {
+export interface RealmSelectProps
+  extends Pick<TextFieldProps, 'error' | 'helperText'> {
   /** params provided to the Fluro API to filter the displayed realms */
   params?: GetRealmSelectableParams
   /** a callback called when the user saves their selection of realms */
   onChange: (ids: string[]) => void
+  /** a callback called when the user saves or closes the realms dialog */
+  onBlur?: () => void
   /** an array of realmIds to render as selected */
   value: string[]
 }
@@ -54,7 +59,10 @@ export interface RealmSelectProps {
 export function RealmSelect({
   params,
   onChange,
-  value
+  onBlur,
+  value,
+  error,
+  helperText
 }: RealmSelectProps): ReactElement {
   const { data, isLoading } = useQuery(
     params ? ['realmSelectable', params] : 'realmSelectable',
@@ -68,13 +76,14 @@ export function RealmSelect({
     setSelected(xor(selected, nodeIds))
   }
 
-  function handleSave(): void {
+  function handleSelect(): void {
     onChange(selected)
     setOpen(false)
   }
 
   function handleClose(): void {
     setSelected(value)
+    onBlur?.()
     setOpen(false)
   }
 
@@ -89,22 +98,35 @@ export function RealmSelect({
 
   return isLoading ? (
     <FormControl fullWidth>
-      <InputLabel id="select-realm-label">Realm</InputLabel>
+      <InputLabel id="select-realm-label" error={error}>
+        Realm
+      </InputLabel>
       <Select
         id="select-realm"
         labelId="select-realm-label"
         label="Realm"
         value="loading"
         disabled
+        error={error}
       >
         <MenuItem value="loading">
           <Skeleton width="80%" />
         </MenuItem>
       </Select>
+      {helperText != null && (
+        <FormHelperText error={error}>{helperText}</FormHelperText>
+      )}
     </FormControl>
   ) : (
     <>
-      <RealmSelectSelect onClick={handleOpen} value={value} data={data} />
+      <RealmSelectSelect
+        onClick={handleOpen}
+        value={value}
+        data={data}
+        helperText={helperText}
+        error={error}
+      />
+
       <Dialog
         fullScreen
         open={open}
@@ -124,8 +146,8 @@ export function RealmSelect({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Realms
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
-              Save
+            <Button autoFocus color="inherit" onClick={handleSelect}>
+              Select
             </Button>
           </Toolbar>
         </AppBar>

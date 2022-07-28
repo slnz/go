@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { RealmSelectSelect } from '.'
 
 describe('RealmSelectSelect', () => {
-  it('calls onClick when select opened', () => {
+  it('calls onClick when clicked', () => {
     const onClick = jest.fn()
     render(<RealmSelectSelect onClick={onClick} value={[]} data={[]} />)
     fireEvent.mouseDown(screen.getByRole('button', { name: 'Realm ​' }))
@@ -49,5 +49,30 @@ describe('RealmSelectSelect', () => {
       />
     )
     expect(screen.getByText('Realm 1, Realm 5, Realm 8')).toBeInTheDocument()
+  })
+
+  it('shows helper text', () => {
+    render(
+      <RealmSelectSelect
+        onClick={jest.fn()}
+        value={[]}
+        data={[]}
+        helperText="choose a realm"
+      />
+    )
+    expect(screen.getByText('choose a realm')).toBeInTheDocument()
+  })
+
+  it('shows helper text as an error', () => {
+    render(
+      <RealmSelectSelect
+        onClick={jest.fn()}
+        value={[]}
+        data={[]}
+        helperText="choose a realm"
+        error
+      />
+    )
+    expect(screen.getByText('choose a realm')).toHaveClass('Mui-error')
   })
 })
