@@ -1,7 +1,7 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, RenderOptions, RenderResult } from '@testing-library/react'
 import { SnackbarProvider } from 'notistack'
 import { ReactElement } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 export function renderWithProviders(
   ui: ReactElement,

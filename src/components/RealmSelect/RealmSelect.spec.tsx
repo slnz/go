@@ -16,7 +16,7 @@ describe('RealmSelect', () => {
     fireEvent.click(element)
     fireEvent.click(screen.getByRole('tab', { name: 'Staff Teams' }))
     fireEvent.click(screen.getByText('Auckland Staff Team'))
-    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Select' }))
     expect(onChange).toHaveBeenCalledWith(['realmId1', 'realmId13'])
   })
 
@@ -33,32 +33,30 @@ describe('RealmSelect', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
-  it('shows error helper text when realm not selected', async () => {
+  it('shows helper text', async () => {
     mswServer.use(getRealmSelectableHandler())
     const onChange = jest.fn()
     renderWithProviders(
       <RealmSelect
-        helperText={'Realm is required'}
-        error={true}
+        helperText="Realm is required"
         onChange={onChange}
         value={[]}
       />
     )
-    fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
-    fireEvent.click(screen.getByRole('button', { name: 'close' }))
-    expect(screen.getByText('Realm is required')).toBeInTheDocument()
+    expect(screen.getByText('Realm is required')).not.toHaveClass('Mui-error')
   })
-  it('shows no helper text when realm selected', async () => {
+
+  it('shows helper text as error', async () => {
     mswServer.use(getRealmSelectableHandler())
     const onChange = jest.fn()
     renderWithProviders(
-      <RealmSelect error={false} onChange={onChange} value={[]} />
+      <RealmSelect
+        helperText="Realm is required"
+        error
+        onChange={onChange}
+        value={[]}
+      />
     )
-    fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
-    const element = await screen.findByText('Tandem Ministries')
-    fireEvent.click(element)
-    fireEvent.click(screen.getByRole('button', { name: 'close' }))
-    const helperText = screen.queryByText('Realm is required')
-    expect(helperText).toBeNull()
+    expect(screen.getByText('Realm is required')).toHaveClass('Mui-error')
   })
 })

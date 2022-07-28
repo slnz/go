@@ -18,6 +18,7 @@ import {
   Typography
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import { useQuery } from '@tanstack/react-query'
 import { first, xor } from 'lodash'
 import {
   forwardRef,
@@ -27,7 +28,6 @@ import {
   useEffect,
   useState
 } from 'react'
-import { useQuery } from 'react-query'
 
 import { getRealmSelectable } from '../../lib/queries/getRealmSelectable'
 import { GetRealmSelectableParams } from '../../lib/queries/getRealmSelectable/getRealmSelectable'
@@ -65,7 +65,7 @@ export function RealmSelect({
   helperText
 }: RealmSelectProps): ReactElement {
   const { data, isLoading } = useQuery(
-    params ? ['realmSelectable', params] : 'realmSelectable',
+    params ? ['realmSelectable', params] : ['realmSelectable'],
     getRealmSelectable(params)
   )
   const [tab, setTab] = useState('')
@@ -76,7 +76,7 @@ export function RealmSelect({
     setSelected(xor(selected, nodeIds))
   }
 
-  function handleSave(): void {
+  function handleSelect(): void {
     onChange(selected)
     setOpen(false)
   }
@@ -146,8 +146,8 @@ export function RealmSelect({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Realms
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
-              Save
+            <Button autoFocus color="inherit" onClick={handleSelect}>
+              Select
             </Button>
           </Toolbar>
         </AppBar>
