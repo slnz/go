@@ -37,7 +37,7 @@ describe('AddContact', () => {
     fireEvent.click(element)
     fireEvent.click(screen.getByRole('tab', { name: 'Staff Teams' }))
     fireEvent.click(screen.getByText('Auckland Staff Team'))
-    fireEvent.click(screen.getByRole('button', { name: 'Save' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Select' }))
     fireEvent.click(await screen.findByRole('button', { name: 'Add Contact' }))
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
