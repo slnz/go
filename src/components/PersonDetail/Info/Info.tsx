@@ -77,7 +77,7 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
         )}
         {contact?.process &&
           flatMap(contact.process, (value, key) =>
-            map(value, ({ _id, state, definition }) =>
+            map(value, ({ _id: processId, state, definition }) =>
               isProcessesLoading ? (
                 <ListItem key={key}>
                   <ListItemText
@@ -89,7 +89,7 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
                 <ListItemButton
                   key={key}
                   component={Link}
-                  to={`/processes/${_id}`}
+                  to={`/people/${id}/processes/${processId}`}
                 >
                   <ListItemText
                     primary={
