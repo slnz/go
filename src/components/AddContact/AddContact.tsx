@@ -1,10 +1,8 @@
-import { Container, Typography } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useSnackbar } from 'notistack'
 import { ReactElement } from 'react'
-import { useMutation } from 'react-query'
 import { useHistory } from 'react-router'
 
-import { client } from '../../lib/fluro'
 import { createContact } from '../../lib/mutations/createContact'
 import { ContactForm, ContactFormProps } from '../ContactForm/ContactForm'
 
@@ -19,22 +17,13 @@ export function AddContact(): ReactElement {
     if (values.lastName === '') {
       values.lastName = 'Unknown'
     }
-
-    try {
-      const response = await mutation.mutateAsync({ ...values })
-      enqueueSnackbar('Contact Created', { variant: 'success' })
-      history.push(`/tabs/people/${response._id}`)
-    } catch (error) {
-      const formattedError = new Error(client.utils.errorMessage(error))
-      console.error(formattedError)
-    }
+    const response = await mutation.mutateAsync({ ...values })
+    enqueueSnackbar('Contact Created', { variant: 'success' })
+    history.push(`/people/${response._id}`)
   }
   return (
-    <Container sx={{ p: 2 }}>
-      <Container maxWidth="sm">
-        <Typography>Fill in the details below to add a new contact</Typography>
-      </Container>
+    <>
       <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
-    </Container>
+    </>
   )
 }

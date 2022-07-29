@@ -1,7 +1,7 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Location } from 'history'
 import { SnackbarProvider } from 'notistack'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter, Route } from 'react-router'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'
@@ -16,7 +16,7 @@ describe('AddContact', () => {
     let testLocation: Location | undefined
     const client = new QueryClient()
     render(
-      <MemoryRouter initialEntries={['/tabs/people']}>
+      <MemoryRouter initialEntries={['/people']}>
         <QueryClientProvider client={client}>
           <SnackbarProvider>
             <AddContact />
@@ -57,6 +57,6 @@ describe('AddContact', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Contact Created'
     )
-    expect(testLocation?.pathname).toEqual('/tabs/people/newContactId')
+    expect(testLocation?.pathname).toEqual('/people/newContactId')
   })
 })

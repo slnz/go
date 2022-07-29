@@ -14,11 +14,6 @@ declare module 'fluro' {
     title: string
   }
 
-  export interface Realm {
-    _id: string
-    title: string
-  }
-
   export interface User {
     _id: string
     name: string
@@ -51,13 +46,6 @@ declare module 'fluro' {
       applicationToken?: string
       domain?: string
     })
-
-    access: {
-      /**
-       * Returns an array of all realms the user is allowed to do the specified action
-       */
-      retrieveActionableRealms<T>(permission: string): Promise<Realm[]>
-    }
 
     api: {
       /**

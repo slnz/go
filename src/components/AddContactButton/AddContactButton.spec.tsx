@@ -1,6 +1,6 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SnackbarProvider } from 'notistack'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router'
 
 import { createContactHandler } from '../../lib/mutations/createContact.handlers'

@@ -1,4 +1,4 @@
-import { MutationFunction } from 'react-query'
+import { MutationFunction } from '@tanstack/react-query'
 
 import { client } from '../fluro'
 
@@ -19,16 +19,20 @@ export const createContact: MutationFunction<
   CreateContactData,
   CreateContactVariables
 > = async (variables) => {
-  const response = await client.api.post<CreateContactData>(
-    '/content/contact',
-    {
-      firstName: variables.firstName,
-      lastName: variables.lastName,
-      gender: variables.gender,
-      phoneNumbers: variables.phone,
-      emails: variables.email,
-      realms: variables.realms
-    }
-  )
-  return { _id: response.data._id }
+  try {
+    const response = await client.api.post<CreateContactData>(
+      '/content/contact',
+      {
+        firstName: variables.firstName,
+        lastName: variables.lastName,
+        gender: variables.gender,
+        phoneNumbers: variables.phone,
+        emails: variables.email,
+        realms: variables.realms
+      }
+    )
+    return { _id: response.data._id }
+  } catch (error) {
+    throw new Error(client.utils.errorMessage(error))
+  }
 }
