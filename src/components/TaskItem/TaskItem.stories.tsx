@@ -20,6 +20,12 @@ const Template: Story<TaskItemProps> = (args) => <TaskItem {...args} />
 const templateProcess: TaskItemProps['process'] = {
   _id: 'processId',
   definition: 'initialContact',
+  item: {
+    _id: 'contactId',
+    firstName: 'name',
+    lastName: 'surname',
+    _type: 'contact'
+  },
   taskLists: [
     {
       tasks: [
@@ -125,6 +131,7 @@ UpdateSuccessful.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole } = within(canvasElement)
   await userEvent.click(getByRole('button'))
   await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
 }
 
 export const UpdateFailed = Template.bind({})
@@ -142,6 +149,9 @@ UpdateFailed.play = async ({ canvasElement }): Promise<void> => {
   const { getByRole } = within(canvasElement)
   await userEvent.click(getByRole('button'))
   await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
+  // Snackbar hidden behind dialog, storybook only
+  await userEvent.click(screen.getByRole('button', { name: 'close' }))
 }
 
 export default TaskItemStory as Meta

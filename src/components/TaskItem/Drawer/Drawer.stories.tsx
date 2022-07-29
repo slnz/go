@@ -19,6 +19,12 @@ const Template: Story<TaskItemDrawerProps> = (args) => (
 const templateProcess: TaskItemDrawerProps['process'] = {
   _id: 'processId',
   definition: 'initialContact',
+  item: {
+    _id: 'contactId',
+    firstName: 'name',
+    lastName: 'surname',
+    _type: 'contact'
+  },
   taskLists: [
     {
       tasks: [
