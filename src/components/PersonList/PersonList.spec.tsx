@@ -1,5 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { User } from 'fluro'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -8,9 +7,11 @@ import {
   getContactsHandlerSimple
 } from '../../lib/queries/getContacts/getContacts.handlers'
 import { getProcessDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
+import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
 import { mswServer } from '../../mocks/mswServer'
+import { renderWithProviders } from '../../tests/lib/helpers'
 
 import { PersonList } from './PersonList'
 
@@ -29,12 +30,9 @@ describe('PersonList', () => {
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -61,13 +59,11 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandlerSimple())
+    mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -79,13 +75,11 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -106,13 +100,11 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -132,13 +124,11 @@ describe('PersonList', () => {
     mockUseAuth.mockReturnValue({ user } as unknown as AuthContextType)
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
+    mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={'O'} />
-        </QueryClientProvider>
+        <PersonList search={'O'} />
       </BrowserRouter>
     )
 
