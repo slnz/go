@@ -23,6 +23,7 @@ declare module 'fluro' {
     accountType: string
     verified: boolean
     account: Account
+    contacts: string[]
     permissionSets: { [key: string]: PermissionSet }
     contacts: string[]
   }
