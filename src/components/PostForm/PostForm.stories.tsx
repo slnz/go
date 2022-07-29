@@ -1,8 +1,7 @@
 import { Story, Meta } from '@storybook/react'
 
 import { getPostDefinitionsHandler } from '../../lib/queries/getDefinitions/getDefinitions.handlers'
-
-import { PostFormProps } from './PostForm'
+import { PostFormRouteProps } from '../../pages/PostFormPage'
 
 import { PostForm } from '.'
 
@@ -11,7 +10,7 @@ const PostFormStory = {
   component: PostForm
 }
 
-const Template: Story<PostFormProps> = (args) => <PostForm {...args} />
+const Template: Story<PostFormRouteProps> = (args) => <PostForm {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

@@ -6,13 +6,12 @@ import { RouteComponentProps, useHistory } from 'react-router'
 
 import { PostForm } from '../../components/PostForm'
 
-type PostFormPageProps = Pick<
-  RouteComponentProps<{
-    personId: string
-    definitionType: string
-  }>,
-  'match'
->
+export interface PostFormRouteProps {
+  personId: string
+  definitionType: string
+}
+
+type PostFormPageProps = Pick<RouteComponentProps<PostFormRouteProps>, 'match'>
 
 export function PostFormPage({ match }: PostFormPageProps): ReactElement {
   const history = useHistory()

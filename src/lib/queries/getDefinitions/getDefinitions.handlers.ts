@@ -117,6 +117,7 @@ export function getPostDefinitionsHandler(): RestHandler {
                   key: 'location',
                   type: 'string',
                   directive: 'input',
+                  // description is helperText
                   description: 'Where will you be meeting?',
                   placeholder: 'e.g Outside the library',
                   maximum: 1,
@@ -126,16 +127,7 @@ export function getPostDefinitionsHandler(): RestHandler {
                   title: 'Date',
                   key: 'date',
                   type: 'date',
-                  directive: 'date-select',
-                  maximum: 1,
-                  minimum: 0
-                },
-                {
-                  title: 'Time',
-                  key: 'time',
-                  type: 'string',
-                  directive: 'input',
-                  placeholder: 'HH:MM AM',
+                  directive: 'datetime-select',
                   maximum: 1,
                   minimum: 0
                 },
@@ -159,7 +151,6 @@ export function getPostDefinitionsHandler(): RestHandler {
                   title: 'What happened?',
                   key: 'whathappened',
                   type: 'string',
-                  askCount: 1,
                   directive: 'button-select',
                   placeholder: 'e.g Outside the library',
                   maximum: 1,
