@@ -24,9 +24,9 @@ import { Form, Formik } from 'formik'
 import { values as lodashValues } from 'lodash'
 import { useSnackbar } from 'notistack'
 import { forwardRef, ReactElement, Ref, useState } from 'react'
-import { useHistory } from 'react-router'
 import { object, string, array } from 'yup'
 
+import { CreateContentData } from '../../lib/mutations/createContent/createContent'
 import { useCreateContent } from '../../lib/mutations/createContent/createContent.hook'
 import { useDefinitions } from '../../lib/queries/getDefinitions'
 import { useAuth } from '../../lib/useAuth'
@@ -55,7 +55,7 @@ export interface AddProcessButtonProps {
   /** only show processes that receive this type e.g `contact` or any */
   itemType: string
   /** called when the item has been added to the process successfully */
-  onSuccess?: () => void
+  onSuccess?: (content: CreateContentData) => void
 }
 
 export function AddProcessButton({
@@ -69,7 +69,6 @@ export function AddProcessButton({
   const { mutateAsync } = useCreateContent()
   const queryClient = useQueryClient()
   const { user } = useAuth()
-  const history = useHistory()
 
   function handleClose(): void {
     setOpen(false)
@@ -106,10 +105,9 @@ export function AddProcessButton({
                 realms: values.realmIds.map((_id) => ({ _id })),
                 title: itemId
               })
-              history.push(`/processes/${response._id}`)
-              console.log([itemType, itemId])
-              queryClient.invalidateQueries([itemType, itemId])
               setOpen(false)
+              queryClient.invalidateQueries([itemType, itemId])
+              onSuccess?.(response)
             } catch (error) {
               if (error instanceof Error) {
                 enqueueSnackbar(error.message, { variant: 'error' })
@@ -121,7 +119,6 @@ export function AddProcessButton({
             values,
             errors,
             touched,
-            handleSubmit,
             isSubmitting,
             isValid,
             setFieldValue,
