@@ -45,7 +45,7 @@ export function TaskItemDrawer({
   const [taskStatus, setTaskStatus] = useState(task.status)
   const [postType, setPostType] = useState<string>()
 
-  function onSubmit(status: Task['status']): () => Promise<void> {
+  function onSubmit(status: Task['status'] = taskStatus): () => Promise<void> {
     return async function (): Promise<void> {
       const taskLists = process.taskLists
       const taskIndex = findIndex(taskList.tasks, ['_id', task._id])
