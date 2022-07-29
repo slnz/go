@@ -78,6 +78,7 @@ export function RealmSelect({
 
   function handleSelect(): void {
     onChange(selected)
+    onBlur?.()
     setOpen(false)
   }
 
