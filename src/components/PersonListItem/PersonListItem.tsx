@@ -3,11 +3,11 @@ import { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 
 import { GetContacts } from '../../lib/queries/getContacts/getContacts'
-import { GetProcessDefinitions } from '../../lib/queries/getProcessDefinitions/getProcessDefinitions'
+import { UseDefinitionsData } from '../../lib/queries/getDefinitions'
 
 interface PersonListItemProps {
   contact: GetContacts
-  definitions: GetProcessDefinitions
+  definitions: UseDefinitionsData<'process'>
 }
 
 export function PersonListItem({
@@ -47,7 +47,7 @@ export function PersonListItem({
 
   return (
     <Card sx={{ width: '100%', maxWidth: 345, mb: 2 }}>
-      <CardActionArea component={Link} to={`/tabs/people/${contact._id}`}>
+      <CardActionArea component={Link} to={`/people/${contact._id}`}>
         <CardContent>
           <Typography variant="caption" color="text.secondary">
             {processLabel}

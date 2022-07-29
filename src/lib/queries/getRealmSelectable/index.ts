@@ -1,0 +1,1 @@
+export { getRealmSelectable } from './getRealmSelectable'

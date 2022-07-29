@@ -23,6 +23,8 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
+AuthContext.displayName = 'AuthConsumer'
+
 export function AuthProvider({
   children,
   initialUser
@@ -121,8 +123,6 @@ export function AuthProvider({
     </AuthContext.Provider>
   )
 }
-
-export const AuthConsumer = AuthContext.Consumer
 
 // Let's only export the `useAuth` hook instead of the context.
 // We only want to use the hook directly and never the context component.

@@ -16,8 +16,8 @@ import {
   Skeleton,
   Typography
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { ReactElement, useState } from 'react'
-import { useQuery } from 'react-query'
 
 import { getContactTimeline } from '../../../lib/queries/getContactTimeline'
 import { GetContactTimeline } from '../../../lib/queries/getContactTimeline/getContactTimeline'

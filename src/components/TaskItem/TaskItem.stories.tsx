@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import { screen, userEvent } from '@storybook/testing-library'
+import { screen, userEvent, within } from '@storybook/testing-library'
 
 import {
   updateProcessHandler,
@@ -20,6 +20,12 @@ const Template: Story<TaskItemProps> = (args) => <TaskItem {...args} />
 const templateProcess: TaskItemProps['process'] = {
   _id: 'processId',
   definition: 'initialContact',
+  item: {
+    _id: 'contactId',
+    firstName: 'name',
+    lastName: 'surname',
+    _type: 'contact'
+  },
   taskLists: [
     {
       tasks: [
@@ -105,8 +111,9 @@ WithDrawer.parameters = {
     handlers: [updateProcessHandler()]
   }
 }
-WithDrawer.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
+WithDrawer.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
 }
 
 export const UpdateSuccessful = Template.bind({})
@@ -120,9 +127,11 @@ UpdateSuccessful.parameters = {
     handlers: [updateProcessHandler()]
   }
 }
-UpdateSuccessful.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
+UpdateSuccessful.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
   await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
 }
 
 export const UpdateFailed = Template.bind({})
@@ -136,9 +145,13 @@ UpdateFailed.parameters = {
     handlers: [updateProcessHandlerError()]
   }
 }
-UpdateFailed.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button'))
+UpdateFailed.play = async ({ canvasElement }): Promise<void> => {
+  const { getByRole } = within(canvasElement)
+  await userEvent.click(getByRole('button'))
   await userEvent.click(screen.getByRole('button', { name: 'Appointment Set' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
+  // Snackbar hidden behind dialog, storybook only
+  await userEvent.click(screen.getByRole('button', { name: 'close' }))
 }
 
 export default TaskItemStory as Meta

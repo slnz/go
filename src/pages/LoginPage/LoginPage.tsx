@@ -10,7 +10,7 @@ import { Login } from '../../components/Login'
 export function LoginPage(): ReactElement {
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonContent>
         <Login />
       </IonContent>
     </IonPage>

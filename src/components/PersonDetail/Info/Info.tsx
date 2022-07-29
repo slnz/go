@@ -8,13 +8,13 @@ import {
   ListItemText,
   Skeleton
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { flatMap, map } from 'lodash'
 import { ReactElement } from 'react'
-import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 
 import { getContact } from '../../../lib/queries/getContact'
-import { getProcessDefinitions } from '../../../lib/queries/getProcessDefinitions'
+import { useDefinitions } from '../../../lib/queries/getDefinitions'
 
 export interface PersonDetailInfoProps {
   id: string
@@ -25,10 +25,8 @@ export function PersonDetailInfo({ id }: PersonDetailInfoProps): ReactElement {
     ['contact', id],
     getContact(id)
   )
-  const { data: processes, isLoading: isProcessesLoading } = useQuery(
-    ['definitions', { type: 'process' }],
-    getProcessDefinitions
-  )
+  const { data: processes, isLoading: isProcessesLoading } =
+    useDefinitions('process')
 
   return (
     <>

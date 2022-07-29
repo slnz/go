@@ -1,0 +1,1 @@
+export { PostFormPage } from './PostFormPage'

@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react'
-import { screen, userEvent } from '@storybook/testing-library'
+import { screen, userEvent, within } from '@storybook/testing-library'
 
 import {
   getContactTimelineHandler,
@@ -40,8 +40,9 @@ All.parameters = {
 All.args = {
   id: 'allId'
 }
-All.play = async (): Promise<void> => {
-  await userEvent.click(screen.getByRole('button', { name: 'Filter' }), {})
+All.play = async ({ canvasElement }): Promise<void> => {
+  const canvas = within(canvasElement)
+  await userEvent.click(canvas.getByRole('button', { name: 'Filter' }), {})
   await userEvent.click(screen.getByRole('option', { name: 'All' }))
 }
 

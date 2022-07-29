@@ -34,7 +34,7 @@ export function ProcessDetailPage({
           </Toolbar>
         </AppBar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <ProcessDetail id={match.params.processId} />
       </IonContent>
     </IonPage>

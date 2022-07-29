@@ -1,9 +1,9 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { MemoryRouter } from 'react-router'
 
 import { getContactHandler } from '../../../lib/queries/getContact/getContact.handlers'
-import { getProcessDefinitionsHandler } from '../../../lib/queries/getProcessDefinitions/getProcessDefinitions.handlers'
+import { getProcessDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
 import { mswServer } from '../../../mocks/mswServer'
 
 import { PersonDetailInfo } from '.'

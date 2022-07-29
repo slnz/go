@@ -16,8 +16,8 @@ import {
   Stack,
   Typography
 } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { Fragment, ReactElement } from 'react'
-import { useQuery } from 'react-query'
 
 import { useUpdateProcess } from '../../lib/mutations/updateProcess/updateProcess.hook'
 import { getProcess } from '../../lib/queries/getProcess'
