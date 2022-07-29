@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { findIndex } from 'lodash'
 import { useSnackbar } from 'notistack'
-import { Dispatch, ReactElement, useCallback, useState } from 'react'
+import { ReactElement, useCallback, useState } from 'react'
 
 import { useUpdateProcess } from '../../../lib/mutations/updateProcess/updateProcess.hook'
 import {
