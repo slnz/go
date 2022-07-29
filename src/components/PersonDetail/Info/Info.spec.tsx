@@ -45,6 +45,9 @@ describe('PersonDetailInfo', () => {
     ).toHaveAttribute('href', 'mailto:bobs.work@example.com')
     expect(
       screen.getByRole('link', { name: 'Not Interested Lead' })
-    ).toHaveAttribute('href', '/processes/622d918855930c0083147ce7')
+    ).toHaveAttribute(
+      'href',
+      '/people/personId/processes/622d918855930c0083147ce7'
+    )
   })
 })

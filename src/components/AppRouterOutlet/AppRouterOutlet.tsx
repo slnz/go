@@ -5,8 +5,6 @@ import { Redirect, Route, RouteProps } from 'react-router'
 import { useAuth } from '../../lib/useAuth'
 import { ForgotPasswordPage } from '../../pages/ForgotPasswordPage'
 import { LoginPage } from '../../pages/LoginPage'
-import { PostFormPage } from '../../pages/PostFormPage'
-import { ProcessDetailPage } from '../../pages/ProcessDetailPage'
 import { PersonRouterOutlet } from '../PersonRouterOutlet'
 
 export function AppRouterOutlet(): ReactElement {
@@ -15,14 +13,6 @@ export function AppRouterOutlet(): ReactElement {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/forgot-password" component={ForgotPasswordPage} />
       <PrivateRoute path="/people" component={PersonRouterOutlet} />
-      <PrivateRoute
-        path="/processes/:processId"
-        component={ProcessDetailPage}
-      />
-      <PrivateRoute
-        path="/post/:personId/:definitionType/new"
-        component={PostFormPage}
-      />
       <Route exact path="/">
         <Redirect to="/people" />
       </Route>
