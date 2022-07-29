@@ -30,6 +30,7 @@
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
     "chromatic": "^6.7.0",
+    "date-fns": "^2.29.1",
     "fluro": "^2.2.33",
     "formik": "^2.2.9",
     "ionicons": "^6.0.2",
