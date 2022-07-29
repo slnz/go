@@ -10,9 +10,13 @@ import {
   Typography
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import { useMutation } from '@tanstack/react-query'
+import { useSnackbar } from 'notistack'
 import React, { ReactElement } from 'react'
+import { useHistory } from 'react-router'
 
-import { AddContact } from '../AddContact/AddContact'
+import { createContact } from '../../lib/mutations/createContact'
+import { ContactForm, ContactFormProps } from '../ContactForm/ContactForm'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,13 +29,25 @@ const Transition = React.forwardRef(function Transition(
 
 export function AddContactButton(): ReactElement {
   const [open, setOpen] = React.useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+  const mutation = useMutation(createContact)
+  const history = useHistory()
 
   const handleClickOpen = (): void => {
     setOpen(true)
   }
-
   const handleClose = (): void => {
     setOpen(false)
+  }
+  const onSubmit: ContactFormProps['onSubmit'] = async (
+    values
+  ): Promise<void> => {
+    if (values.lastName === '') {
+      values.lastName = 'Unknown'
+    }
+    const response = await mutation.mutateAsync({ ...values })
+    enqueueSnackbar('Contact Created', { variant: 'success' })
+    history.push(`/people/${response._id}`)
   }
   return (
     <>
@@ -64,7 +80,7 @@ export function AddContactButton(): ReactElement {
             </Typography>
           </Toolbar>
         </AppBar>
-        <AddContact />
+        <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
       </Dialog>
     </>
   )

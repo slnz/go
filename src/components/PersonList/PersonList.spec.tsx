@@ -1,5 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { User } from 'fluro'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -12,6 +11,7 @@ import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/
 import { useAuth } from '../../lib/useAuth'
 import { AuthContextType } from '../../lib/useAuth/useAuth'
 import { mswServer } from '../../mocks/mswServer'
+import { renderWithProviders } from '../../tests/lib/helpers'
 
 import { PersonList } from './PersonList'
 
@@ -30,12 +30,9 @@ describe('PersonList', () => {
     mswServer.use(getProcessDefinitionsHandler())
     mswServer.use(...getContactsHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -64,12 +61,9 @@ describe('PersonList', () => {
     mswServer.use(...getContactsHandlerSimple())
     mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -83,12 +77,9 @@ describe('PersonList', () => {
     mswServer.use(...getContactsHandler())
     mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -111,12 +102,9 @@ describe('PersonList', () => {
     mswServer.use(...getContactsHandler())
     mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={''} />
-        </QueryClientProvider>
+        <PersonList search={''} />
       </BrowserRouter>
     )
 
@@ -138,12 +126,9 @@ describe('PersonList', () => {
     mswServer.use(...getContactsHandler())
     mswServer.use(getRealmSelectableHandler())
 
-    const client = new QueryClient()
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <QueryClientProvider client={client}>
-          <PersonList search={'O'} />
-        </QueryClientProvider>
+        <PersonList search={'O'} />
       </BrowserRouter>
     )
 

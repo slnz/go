@@ -1,20 +1,17 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 
 import { getRealmSelectableHandler } from '../../lib/queries/getRealmSelectable/getRealmSelectable.handlers'
 import { mswServer } from '../../mocks/mswServer'
+import { renderWithProviders } from '../../tests/lib/helpers'
 
 import { ContactForm } from './ContactForm'
 
-describe('AddContact', () => {
+describe('ContactForm', () => {
   it('adds a contact', async () => {
     mswServer.use(getRealmSelectableHandler())
-    const queryClient = new QueryClient()
     const onSubmit = jest.fn()
-    render(
-      <QueryClientProvider client={queryClient}>
-        <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
-      </QueryClientProvider>
+    renderWithProviders(
+      <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
     )
     fireEvent.change(screen.getByRole('textbox', { name: 'First Name' }), {
       target: { value: 'test' }
@@ -53,13 +50,10 @@ describe('AddContact', () => {
 
   it('shows error for required fields', async () => {
     mswServer.use(getRealmSelectableHandler())
-    const queryClient = new QueryClient()
     const onSubmit = jest.fn()
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
-      </QueryClientProvider>
+    renderWithProviders(
+      <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
     )
     fireEvent.click(screen.getByRole('button', { name: 'Add Contact' }))
     await waitFor(() => {
@@ -74,13 +68,11 @@ describe('AddContact', () => {
 
 it('shows eror when realm is not selected', async () => {
   mswServer.use(getRealmSelectableHandler())
-  const queryClient = new QueryClient()
+
   const onSubmit = jest.fn()
 
-  render(
-    <QueryClientProvider client={queryClient}>
-      <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
-    </QueryClientProvider>
+  renderWithProviders(
+    <ContactForm submitLabel="Add Contact" onSubmit={onSubmit} />
   )
   fireEvent.mouseDown(await screen.findByRole('button', { name: 'Realm ​' }))
   fireEvent.click(screen.getByRole('button', { name: 'close' }))
