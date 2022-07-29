@@ -45,44 +45,44 @@ export function TaskItemDrawer({
   const [taskStatus, setTaskStatus] = useState(task.status)
   const [postType, setPostType] = useState<string>()
 
-  function onSubmit(status: Task['status'] = taskStatus): () => Promise<void> {
-    return async function (): Promise<void> {
-      const taskLists = process.taskLists
-      const taskIndex = findIndex(taskList.tasks, ['_id', task._id])
-      taskList.tasks[taskIndex] = { ...task, status }
-      const taskListIndex = findIndex(taskLists, ['title', taskList.title])
-      taskLists[taskListIndex] = taskList
+  async function handleSubmit(
+    status: Task['status'] = taskStatus
+  ): Promise<void> {
+    const taskLists = process.taskLists
+    const taskIndex = findIndex(taskList.tasks, ['_id', task._id])
+    taskList.tasks[taskIndex] = { ...task, status }
+    const taskListIndex = findIndex(taskLists, ['title', taskList.title])
+    taskLists[taskListIndex] = taskList
 
-      try {
-        await mutateAsync({
-          _id: process._id,
-          definition: process.definition,
-          taskLists
-        })
-        enqueueSnackbar('Faith step updated successfully!', {
-          variant: 'success'
-        })
-        onDialogClose()
-      } catch {
-        enqueueSnackbar('Failed to update faith step. Please try again!', {
-          variant: 'error',
-          persist: true
-        })
-      }
+    try {
+      await mutateAsync({
+        _id: process._id,
+        definition: process.definition,
+        taskLists
+      })
+      enqueueSnackbar('Faith step updated successfully!', {
+        variant: 'success'
+      })
+      handleDialogClose()
+    } catch {
+      enqueueSnackbar('Failed to update faith step. Please try again!', {
+        variant: 'error',
+        persist: true
+      })
     }
   }
 
-  function onDialogClose(): void {
+  function handleDialogClose(): void {
     setPostType(undefined)
   }
 
-  function onClick(status: Task['status'] = taskStatus): () => void {
+  function handleClick(status: Task['status'] = taskStatus): () => void {
     return function (): void {
       setTaskStatus(status)
       const postType = getPostType(status)
       setPostType(postType)
       if (postType == null) {
-        onSubmit(status)()
+        handleSubmit(status)
       }
     }
   }
@@ -105,12 +105,12 @@ export function TaskItemDrawer({
 
   return (
     <>
-      <FullscreenDialog open={postType != null} onClose={onDialogClose}>
+      <FullscreenDialog open={postType != null} onClose={handleDialogClose}>
         {postType && (
           <PostForm
             personId={process.item._id}
             definitionType={postType}
-            onSubmit={onSubmit(taskStatus)}
+            onSubmit={handleSubmit}
           />
         )}
       </FullscreenDialog>
@@ -138,7 +138,7 @@ export function TaskItemDrawer({
             <Divider />
             <ListItemButton
               selected={task.status === 'complete'}
-              onClick={onClick('complete')}
+              onClick={handleClick('complete')}
             >
               <ListItemIcon>
                 <CheckBoxIcon color="success" />
@@ -149,7 +149,7 @@ export function TaskItemDrawer({
             </ListItemButton>
             <ListItemButton
               selected={task.status === 'pending'}
-              onClick={onClick('pending')}
+              onClick={handleClick('pending')}
             >
               <ListItemIcon>
                 <IndeterminateCheckBoxIcon color="warning" />
@@ -160,7 +160,7 @@ export function TaskItemDrawer({
             </ListItemButton>
             <ListItemButton
               selected={task.status === 'failed'}
-              onClick={onClick('failed')}
+              onClick={handleClick('failed')}
             >
               <ListItemIcon>
                 <ErrorIcon color="error" />
@@ -170,7 +170,7 @@ export function TaskItemDrawer({
               />
             </ListItemButton>
             {task.status !== 'incomplete' && (
-              <ListItemButton onClick={onClick('incomplete')}>
+              <ListItemButton onClick={handleClick('incomplete')}>
                 <ListItemIcon>
                   <CheckBoxOutlineBlankIcon />
                 </ListItemIcon>
