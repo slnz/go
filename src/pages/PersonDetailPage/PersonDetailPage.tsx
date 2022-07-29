@@ -36,7 +36,7 @@ export function PersonDetailPage({
             <AddProcessButton
               itemId={match.params.personId}
               itemType="contact"
-              onSuccess={(content): void =>
+              onSubmit={(content): void =>
                 history.push(
                   `/people/${match.params.personId}/processes/${content._id}`
                 )

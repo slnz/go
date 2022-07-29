@@ -49,8 +49,7 @@ export function getProcessDefinitionsHandler(): RestHandler {
                   { title: 'Read A Gospel Together', key: 'step_6' },
                   { title: 'Not Interested', key: 'step_7' },
                   { title: 'Complete', key: 'complete' }
-                ],
-                processTypes: ['contact']
+                ]
               }
             },
             {
