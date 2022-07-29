@@ -45,12 +45,13 @@ export function TaskItemDrawer({
   const [taskStatus, setTaskStatus] = useState(task.status)
   const [postType, setPostType] = useState<string>()
 
-  async function handleSubmit(
-    status: Task['status'] = taskStatus
-  ): Promise<void> {
+  async function handleSubmit(): Promise<void> {
     const taskLists = process.taskLists
     const taskIndex = findIndex(taskList.tasks, ['_id', task._id])
-    taskList.tasks[taskIndex] = { ...task, status }
+    taskList.tasks[taskIndex] = {
+      ...task,
+      status: taskStatus
+    }
     const taskListIndex = findIndex(taskLists, ['title', taskList.title])
     taskLists[taskListIndex] = taskList
 
@@ -66,8 +67,7 @@ export function TaskItemDrawer({
       handleDialogClose()
     } catch {
       enqueueSnackbar('Failed to update faith step. Please try again!', {
-        variant: 'error',
-        persist: true
+        variant: 'error'
       })
     }
   }
@@ -76,13 +76,13 @@ export function TaskItemDrawer({
     setPostType(undefined)
   }
 
-  function handleClick(status: Task['status'] = taskStatus): () => void {
+  function handleClick(status: Task['status']): () => void {
     return function (): void {
       setTaskStatus(status)
       const postType = getPostType(status)
       setPostType(postType)
       if (postType == null) {
-        handleSubmit(status)
+        handleSubmit()
       }
     }
   }
