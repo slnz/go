@@ -150,7 +150,7 @@ export function getPostDefinitionsHandler(): RestHandler {
               ]
             },
             {
-              _id: '1',
+              _id: '2',
               title: 'Approach',
               plural: 'Approaches',
               definitionName: 'approach',
@@ -165,10 +165,10 @@ export function getPostDefinitionsHandler(): RestHandler {
                   maximum: 1,
                   minimum: 1,
                   options: [
-                    { value: 'No show' },
-                    { value: 'Cancelled' },
-                    { value: 'Never replied' },
-                    { value: 'Not Interested' }
+                    { name: 'No show', value: 'noShow' },
+                    { name: 'Cancelled', value: 'cancelled' },
+                    { name: 'Never replied', value: 'neverReplied' },
+                    { name: 'Not Interested', value: 'notInterested' }
                   ]
                 },
                 {
@@ -184,6 +184,15 @@ export function getPostDefinitionsHandler(): RestHandler {
                 }
               ]
             }
+            // followUpAppointment
+            // followUpResult
+            // comment
+            // connection
+            // agChallengeResult
+            // dropOff
+            // result
+            // exploreAppointment
+            // exploreResult
           ],
           plural: 'Posts',
           title: 'Post'
