@@ -30,7 +30,7 @@ export interface PostDefinition extends Definition {
     askCount?: number
     description?: string
     placeholder?: string
-    options?: { value: string }[]
+    options?: { name: string; value: string }[]
   }[]
 }
 
