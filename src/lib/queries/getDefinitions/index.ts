@@ -7,6 +7,9 @@ export { getDefinitions } from './getDefinitions'
 export type {
   ProcessDefinition,
   PostDefinition,
+  PostField,
+  PostFieldType,
+  PostFieldComponent,
   DefinitionTypeName,
   DefinitionObjectType
 } from './getDefinitions'

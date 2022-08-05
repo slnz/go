@@ -24,7 +24,10 @@ export function updateProcessHandlerError(): RestHandler {
   return rest.put(
     'https://api.fluro.io/content/:definition/:_id',
     (_req, res, ctx) => {
-      return res(ctx.status(500))
+      return res(
+        ctx.status(500),
+        ctx.json(['Failed to update process. Please try again!'])
+      )
     }
   )
 }

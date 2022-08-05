@@ -56,7 +56,7 @@ export function RealmSelectTreeView({
           }
         }}
       >
-        {children.map((node) => renderRealm(node))}
+        {children?.map((node) => renderRealm(node))}
       </TreeItem>
     )
   }
