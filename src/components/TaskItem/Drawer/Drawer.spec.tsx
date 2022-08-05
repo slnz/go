@@ -1,9 +1,11 @@
 import { fireEvent, screen } from '@testing-library/react'
 
+import { createPostHandler } from '../../../lib/mutations/createPost/createPost.handlers'
 import {
   updateProcessHandler,
   updateProcessHandlerError
 } from '../../../lib/mutations/updateProcess/updateProcess.handlers'
+import { getPostDefinitionsHandler } from '../../../lib/queries/getDefinitions/getDefinitions.handlers'
 import { mswServer } from '../../../mocks/mswServer'
 import { renderWithProviders } from '../../../tests/lib/helpers'
 
@@ -46,7 +48,11 @@ describe('Drawer', () => {
     ]
   }
   it('triggers close and renders dialog', async () => {
-    mswServer.use(updateProcessHandler())
+    mswServer.use(
+      getPostDefinitionsHandler(),
+      createPostHandler(),
+      updateProcessHandler()
+    )
     const onClose = jest.fn()
     renderWithProviders(
       <TaskItemDrawer
@@ -63,7 +69,11 @@ describe('Drawer', () => {
   })
 
   it('triggers close and renders success snackbar', async () => {
-    mswServer.use(updateProcessHandler())
+    mswServer.use(
+      getPostDefinitionsHandler(),
+      createPostHandler(),
+      updateProcessHandler()
+    )
     const onClose = jest.fn()
     renderWithProviders(
       <TaskItemDrawer
@@ -85,8 +95,13 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
+  // TODO: Error being logged in tests
   it('triggers close and renders error snackbar', async () => {
-    mswServer.use(updateProcessHandlerError())
+    mswServer.use(
+      getPostDefinitionsHandler(),
+      createPostHandler(),
+      updateProcessHandlerError()
+    )
     const onClose = jest.fn()
     renderWithProviders(
       <TaskItemDrawer

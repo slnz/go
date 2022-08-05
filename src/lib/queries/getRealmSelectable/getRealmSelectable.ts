@@ -5,14 +5,14 @@ import { client } from '../../fluro'
 interface R {
   _id: string
   title: string
-  children: R[]
+  children?: R[]
 }
 
 const realm: z.ZodType<R> = z.lazy(() =>
   z.object({
     _id: z.string(),
     title: z.string(),
-    children: z.array(realm)
+    children: z.array(realm).optional()
   })
 )
 

@@ -65,10 +65,12 @@ export function TaskItemDrawer({
         variant: 'success'
       })
       handleDialogClose()
-    } catch {
-      enqueueSnackbar('Failed to update faith step. Please try again!', {
-        variant: 'error'
-      })
+    } catch (error) {
+      if (error instanceof Error) {
+        enqueueSnackbar('Failed to update faith step. Please try again!', {
+          variant: 'error'
+        })
+      }
     }
   }
 

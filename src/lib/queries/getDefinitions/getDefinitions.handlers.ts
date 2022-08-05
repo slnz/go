@@ -117,33 +117,49 @@ export function getPostDefinitionsHandler(): RestHandler {
                   key: 'location',
                   type: 'string',
                   directive: 'input',
+                  // description is helperText
                   description: 'Where will you be meeting?',
                   placeholder: 'e.g Outside the library',
                   maximum: 1,
                   minimum: 1
                 },
                 {
+                  title: 'Are you excited?',
+                  key: 'excited',
+                  type: 'boolean',
+                  directive: 'input',
+                  maximum: 1,
+                  minimum: 0
+                },
+                {
+                  title: 'On a scale of 10, how excited are you?',
+                  key: 'scale',
+                  type: 'number',
+                  directive: 'input',
+                  maximum: 1,
+                  minimum: 0
+                },
+                {
                   title: 'Date',
                   key: 'date',
                   type: 'date',
-                  directive: 'date-select',
+                  directive: 'datetime-select',
                   maximum: 1,
                   minimum: 0
                 },
                 {
-                  title: 'Time',
-                  key: 'time',
-                  type: 'string',
+                  title: 'Email',
+                  key: 'emailMe',
+                  type: 'email',
                   directive: 'input',
-                  placeholder: 'HH:MM AM',
                   maximum: 1,
                   minimum: 0
                 },
                 {
-                  title: 'Comment',
-                  key: 'comment',
-                  type: 'string',
-                  directive: 'textarea',
+                  title: 'Link',
+                  key: 'link',
+                  type: 'url',
+                  directive: 'input',
                   maximum: 1,
                   minimum: 0
                 }
@@ -159,7 +175,6 @@ export function getPostDefinitionsHandler(): RestHandler {
                   title: 'What happened?',
                   key: 'whathappened',
                   type: 'string',
-                  askCount: 1,
                   directive: 'button-select',
                   placeholder: 'e.g Outside the library',
                   maximum: 1,
@@ -170,17 +185,6 @@ export function getPostDefinitionsHandler(): RestHandler {
                     { name: 'Never replied', value: 'neverReplied' },
                     { name: 'Not Interested', value: 'notInterested' }
                   ]
-                },
-                {
-                  title: 'Comment',
-                  key: 'comment',
-                  type: 'string',
-                  directive: 'input',
-                  description:
-                    "Contact will be marked as an approach and archived. Please don't skip.",
-                  placeholder: 'Comment',
-                  maximum: 1,
-                  minimum: 0
                 }
               ]
             }
