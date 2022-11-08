@@ -16,7 +16,7 @@ interface Definition {
 }
 
 export interface ProcessDefinition extends Definition {
-  data: { states: { title: string; key: string }[] }
+  data: { states: { title: string; key: string }[]; processTypes?: string[] }
 }
 
 export type PostFieldType =
