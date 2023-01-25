@@ -7,6 +7,7 @@ import {
   PostFieldData,
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
+import { DateSelectField } from '../components/DateSelectField'
 import { SingleInputField } from '../components/SingleInputField'
 
 export interface PostFieldProps {
@@ -52,6 +53,8 @@ export function FieldRenderer({
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
+    case 'date-select':
+      return <DateSelectField {...fieldProps} />
     default:
       return (
         <Typography>
