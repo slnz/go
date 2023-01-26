@@ -8,6 +8,7 @@ import {
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
 import { SingleInputField } from '../components/SingleInputField'
+import { TextArea } from '../components/TextArea'
 
 export interface PostFieldProps {
   field: PostField
@@ -52,7 +53,10 @@ export function FieldRenderer({
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
+    case 'textarea':
+      return <TextArea {...fieldProps} />
     default:
+      console.log(field)
       return (
         <Typography>
           {field.title} {field.directive}
