@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox'
 import { ReactElement } from 'react'
 
 import { PostFieldDataValues } from '../../../../lib/queries/getPost'
-import { PostFieldProps } from '../../FieldRenderer'
+import type { PostFieldProps } from '../../FieldRenderer'
 
 export function SingleInputField({
   field,
