@@ -19,6 +19,7 @@ describe('AddProcessButton', () => {
     lastName: '',
     accountType: '',
     verified: true,
+    persona: 'person',
     account: {
       _id: '',
       title: '',
