@@ -26,6 +26,7 @@ const config: StorybookConfig = {
     builder: 'webpack5'
   },
   features: {
+    previewMdx2: true,
     postcss: false
   }
   // refs: {

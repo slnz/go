@@ -8,7 +8,7 @@ import { ProcessDetailPage } from '../../pages/ProcessDetailPage'
 
 export function PersonRouterOutlet(): ReactElement {
   return (
-    <IonRouterOutlet>
+    <IonRouterOutlet ionPage>
       <Route exact path="/people" component={PersonListPage} />
       <Route path="/people/:personId" exact component={PersonDetailPage} />
       <Route
