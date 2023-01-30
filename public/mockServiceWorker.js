@@ -1,4 +1,6 @@
-/* eslint no-restricted-globals: "off" */
+/* eslint-disable */
+/* tslint:disable */
+
 /**
  * Mock Service Worker (0.43.1).
  * @see https://github.com/mswjs/msw
@@ -31,13 +33,13 @@ self.addEventListener('message', async function (event) {
   }
 
   const allClients = await self.clients.matchAll({
-    type: 'window'
+    type: 'window',
   })
 
   switch (event.data) {
     case 'KEEPALIVE_REQUEST': {
       sendToClient(client, {
-        type: 'KEEPALIVE_RESPONSE'
+        type: 'KEEPALIVE_RESPONSE',
       })
       break
     }
@@ -45,7 +47,7 @@ self.addEventListener('message', async function (event) {
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
-        payload: INTEGRITY_CHECKSUM
+        payload: INTEGRITY_CHECKSUM,
       })
       break
     }
@@ -55,7 +57,7 @@ self.addEventListener('message', async function (event) {
 
       sendToClient(client, {
         type: 'MOCKING_ENABLED',
-        payload: true
+        payload: true,
       })
       break
     }
@@ -77,9 +79,6 @@ self.addEventListener('message', async function (event) {
         self.registration.unregister()
       }
 
-      break
-    }
-    default: {
       break
     }
   }
@@ -121,7 +120,7 @@ self.addEventListener('fetch', function (event) {
         console.warn(
           '[MSW] Successfully emulated a network error for the "%s %s" request.',
           request.method,
-          request.url
+          request.url,
         )
         return
       }
@@ -132,9 +131,9 @@ self.addEventListener('fetch', function (event) {
 [MSW] Caught an exception from the "%s %s" request (%s). This is probably not a problem with Mock Service Worker. There is likely an additional logging output above.`,
         request.method,
         request.url,
-        `${error.name}: ${error.message}`
+        `${error.name}: ${error.message}`,
       )
-    })
+    }),
   )
 })
 
@@ -159,8 +158,8 @@ async function handleRequest(event, requestId) {
           body:
             clonedResponse.body === null ? null : await clonedResponse.text(),
           headers: Object.fromEntries(clonedResponse.headers.entries()),
-          redirected: clonedResponse.redirected
-        }
+          redirected: clonedResponse.redirected,
+        },
       })
     })()
   }
@@ -180,7 +179,7 @@ async function resolveMainClient(event) {
   }
 
   const allClients = await self.clients.matchAll({
-    type: 'window'
+    type: 'window',
   })
 
   return allClients
@@ -236,7 +235,7 @@ async function getResponse(event, client, requestId) {
   // This way events can be exchanged outside of the worker's global
   // "message" event listener (i.e. abstracted into functions).
   const operationChannel = new BroadcastChannel(
-    `msw-response-stream-${requestId}`
+    `msw-response-stream-${requestId}`,
   )
 
   // Notify the client that a request has been intercepted.
@@ -257,8 +256,8 @@ async function getResponse(event, client, requestId) {
       referrerPolicy: request.referrerPolicy,
       body: await request.text(),
       bodyUsed: request.bodyUsed,
-      keepalive: request.keepalive
-    }
+      keepalive: request.keepalive,
+    },
   })
 
   switch (clientMessage.type) {
@@ -295,15 +294,14 @@ ${parsedBody.location}
 This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error, as it indicates a mistake in your code. If you wish to mock an error response, please see this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
 `,
         request.method,
-        request.url
+        request.url,
       )
 
       return respondWithMock(clientMessage.payload)
     }
-    default: {
-      return passthrough()
-    }
   }
+
+  return passthrough()
 }
 
 function sendToClient(client, message) {
@@ -336,10 +334,9 @@ async function respondWithMock(response) {
 function respondWithMockStream(operationChannel, mockResponse) {
   let streamCtrl
   const stream = new ReadableStream({
-    start: (controller) => (streamCtrl = controller)
+    start: (controller) => (streamCtrl = controller),
   })
 
-  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     operationChannel.onmessageerror = (event) => {
       operationChannel.close()
@@ -360,11 +357,6 @@ function respondWithMockStream(operationChannel, mockResponse) {
         case 'MOCK_RESPONSE_END': {
           streamCtrl.close()
           operationChannel.close()
-          break
-        }
-
-        default: {
-          break
         }
       }
     }
