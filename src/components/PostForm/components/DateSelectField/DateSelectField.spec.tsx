@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { noop } from 'lodash'
 
 import { PostFieldProps } from '../../FieldRenderer'
@@ -9,7 +8,7 @@ import { DateSelectField } from '.'
 describe('SingleInputField', () => {
   const fieldProps: Omit<PostFieldProps, 'onChange' | 'onBlur'> = {
     field: {
-      key: 'date',
+      key: 'date-selectDate',
       title: 'Date',
       type: 'date',
       directive: 'date-select',
@@ -19,12 +18,8 @@ describe('SingleInputField', () => {
     value: 'default value'
   }
 
-  it('calls onblur and onchange properly', async () => {
-    const onChange = jest.fn()
-    const onBlur = jest.fn()
-    render(
-      <DateSelectField {...fieldProps} onChange={onChange} onBlur={onBlur} />
-    )
-    const dateSelectField = screen.getByTestId('date select')
+  it('renders all elements properly', async () => {
+    render(<DateSelectField {...fieldProps} onChange={noop} onBlur={noop} />)
+    expect(screen.getByTestId('date select')).toHaveTextContent('Date')
   })
 })
