@@ -56,7 +56,6 @@ export function FieldRenderer({
     case 'textarea':
       return <TextArea {...fieldProps} />
     default:
-      console.log(field)
       return (
         <Typography>
           {field.title} {field.directive}

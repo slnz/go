@@ -1,4 +1,4 @@
-import { TextField, Typography } from '@mui/material'
+import { TextField } from '@mui/material'
 import { ReactElement } from 'react'
 
 import { PostFieldDataValues } from '../../../../lib/queries/getPost'
@@ -15,6 +15,7 @@ export function TextArea({
 }: PostFieldProps): ReactElement {
   return (
     <TextField
+      data-testid="text area"
       fullWidth
       required={required}
       name={field.key}
@@ -26,6 +27,11 @@ export function TextArea({
       onBlur={onBlur}
       error={error}
       helperText={helperText}
+      multiline
+      rows={4}
+      inputProps={{
+        'data-testid': 'text area input'
+      }}
     />
   )
 }

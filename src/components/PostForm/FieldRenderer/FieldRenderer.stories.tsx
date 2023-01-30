@@ -92,6 +92,17 @@ const Template: Story<
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Text Area',
+              directive: 'textarea',
+              type: 'string',
+              placeholder: 'fhewiofhwfoi'
+            })
+          }}
+        />
       </Stack>
     </Stack>
   )
