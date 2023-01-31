@@ -98,8 +98,7 @@ const Template: Story<
             ...getFieldProps({
               title: 'Text Area',
               directive: 'textarea',
-              type: 'string',
-              placeholder: 'fhewiofhwfoi'
+              type: 'string'
             })
           }}
         />
