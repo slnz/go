@@ -1,6 +1,4 @@
-import { userEvent } from '@storybook/testing-library'
-import { render, screen } from '@testing-library/react'
-import { noop } from 'lodash'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { PostFieldProps } from '../../FieldRenderer'
 
@@ -20,16 +18,23 @@ describe('TextArea', () => {
   }
 
   it('should render all elements properly', () => {
+    const noop = jest.fn()
     render(<TextArea {...fieldProps} onChange={noop} onBlur={noop} />)
-    expect(screen.getByTestId('text area')).toHaveTextContent('Text Area')
+    expect(screen.getByLabelText('Text Area')).toBeInTheDocument()
   })
 
-  it('should call onChange upon user type', async () => {
+  it('should call onChange and onBlur properly', async () => {
     const onChange = jest.fn()
-    render(<TextArea {...fieldProps} onChange={onChange} onBlur={noop} />)
-    const field = screen.getByTestId('text area input')
+    const onBlur = jest.fn()
+    render(<TextArea {...fieldProps} onChange={onChange} onBlur={onBlur} />)
+    const field = screen.getByText('default value')
     expect(field).toBeInTheDocument()
-    userEvent.type(field, 'tenletters')
-    expect(onChange).toHaveBeenCalledTimes(10)
+    fireEvent.click(field)
+    fireEvent.change(field, {
+      target: { value: 'changed' }
+    })
+    expect(onChange).toHaveBeenCalled()
+    fireEvent.blur(field)
+    expect(onBlur).toHaveBeenCalled()
   })
 })

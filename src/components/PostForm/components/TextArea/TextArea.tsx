@@ -15,7 +15,6 @@ export function TextArea({
 }: PostFieldProps): ReactElement {
   return (
     <TextField
-      data-testid="text area"
       fullWidth
       required={required}
       name={field.key}
@@ -29,9 +28,6 @@ export function TextArea({
       helperText={helperText}
       multiline
       rows={4}
-      inputProps={{
-        'data-testid': 'text area input'
-      }}
     />
   )
 }
