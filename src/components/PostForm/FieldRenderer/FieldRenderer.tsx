@@ -7,6 +7,7 @@ import {
   PostFieldData,
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
+import { ButtonSelect } from '../components/ButtonSelect'
 import { SingleInputField } from '../components/SingleInputField'
 
 export interface PostFieldProps {
@@ -44,14 +45,19 @@ export function FieldRenderer({
       touched[field.key] && errors[field.key]
         ? errors[field.key]
         : field.description,
-    required: field.minimum === field.maximum && field.maximum > 0,
+    required: field.minimum > 0,
     onChange,
     onBlur
   }
-
+  console.log(values)
+  console.log(
+    `${field.key} ${field.minimum} ${field.maximum} required?${fieldProps.required}`
+  )
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
+    case 'button-select':
+      return <ButtonSelect {...fieldProps} />
     default:
       return (
         <Typography>
