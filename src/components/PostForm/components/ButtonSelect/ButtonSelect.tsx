@@ -18,11 +18,28 @@ export function ButtonSelect({
   onBlur,
   onChange
 }: PostFieldProps): ReactElement {
-  console.log(field.key)
-  console.log('values', value)
   console.log('buttonselectrequired', required)
+  console.log('values', value)
   return field.maximum <= 1 ? (
-    <></>
+    <FormControl required={required} error={error}>
+      <FormLabel id="demo-radio-buttons-group-label">{`${field.title}`}</FormLabel>
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+        onChange={onChange}
+      >
+        {field.options?.map((option, index) => (
+          <FormControlLabel
+            name={field.key}
+            key={index}
+            value={option.value}
+            control={<Radio />}
+            label={option.name}
+          />
+        ))}
+      </RadioGroup>
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
   ) : (
     <FormControl
       required={required}
@@ -46,7 +63,7 @@ export function ButtonSelect({
         />
       ))}
 
-      <FormHelperText>{helperText}</FormHelperText>
+      <FormHelperText>{error}</FormHelperText>
     </FormControl>
   )
 }

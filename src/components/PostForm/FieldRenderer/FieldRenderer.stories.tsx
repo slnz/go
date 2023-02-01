@@ -93,6 +93,19 @@ const Template: Story<
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
       </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">Button Select</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Multi Button Select',
+              directive: 'button-select',
+              type: 'string'
+            })
+          }}
+        />
+      </Stack>
     </Stack>
   )
 }
