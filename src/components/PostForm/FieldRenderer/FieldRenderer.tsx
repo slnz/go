@@ -59,7 +59,7 @@ export function FieldRenderer({
       console.log('required?', fieldProps.required)
       return (
         <Typography>
-          {field.title} {field.directive}s
+          {field.title} {field.directive}
         </Typography>
       )
   }
