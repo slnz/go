@@ -12,7 +12,8 @@ import {
   array,
   StringSchema,
   BooleanSchema,
-  NumberSchema
+  NumberSchema,
+  ArraySchema
 } from 'yup'
 
 import { useCreatePost } from '../../lib/mutations/createPost/createPost.hook'
@@ -55,7 +56,7 @@ export function PostForm({
   function getValidationSchema(
     type: PostFieldType,
     maximum: number
-  ): StringSchema | BooleanSchema | NumberSchema | AnySchema {
+  ): StringSchema | BooleanSchema | NumberSchema | ArraySchema<StringSchema> {
     switch (type) {
       case 'string':
         if (maximum > 1) return array().of(string())
