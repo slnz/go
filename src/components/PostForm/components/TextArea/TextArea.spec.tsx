@@ -20,7 +20,9 @@ describe('TextArea', () => {
   it('should render all elements properly', () => {
     const noop = jest.fn()
     render(<TextArea {...fieldProps} onChange={noop} onBlur={noop} />)
-    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(
+      screen.getByRole('textbox', { name: 'Text Area' })
+    ).toBeInTheDocument()
   })
 
   it('should call onChange and onBlur properly', async () => {
