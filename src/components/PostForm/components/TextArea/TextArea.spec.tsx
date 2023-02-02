@@ -20,7 +20,7 @@ describe('TextArea', () => {
   it('should render all elements properly', () => {
     const noop = jest.fn()
     render(<TextArea {...fieldProps} onChange={noop} onBlur={noop} />)
-    expect(screen.getByLabelText('Text Area')).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
   it('should call onChange and onBlur properly', async () => {
