@@ -102,6 +102,16 @@ const Template: Story<
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Text Area',
+              directive: 'textarea',
+              type: 'string'
+            })
+          }}
+        />
       </Stack>
     </Stack>
   )
@@ -116,7 +126,11 @@ Default.args = {
 export const Filled = Template.bind({})
 Filled.args = {
   ...Default.args,
-  values: { inputString: 'Default Value', inputBoolean: true }
+  values: {
+    inputString: 'Default Value',
+    inputBoolean: true,
+    textareaString: 'Default Value'
+  }
 }
 
 export const Required = Template.bind({})
@@ -134,8 +148,12 @@ HelperText.args = {
 export const Error = Template.bind({})
 Error.args = {
   ...Default.args,
-  errors: { inputString: 'TextField Error', inputBoolean: 'Checkbox Error' },
-  touched: { inputString: true, inputBoolean: true }
+  errors: {
+    inputString: 'TextField Error',
+    inputBoolean: 'Checkbox Error',
+    textareaString: 'TextArea Error'
+  },
+  touched: { inputString: true, inputBoolean: true, textareaString: true }
 }
 
 export default FieldRendererStory as Meta

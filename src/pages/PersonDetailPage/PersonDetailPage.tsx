@@ -32,15 +32,18 @@ export function PersonDetailPage({
             >
               Back
             </Button>
+
             <Box sx={{ flex: 1 }} />
             <AddProcessButton
               itemId={match.params.personId}
               itemType="contact"
-              onSubmit={(content): void =>
+              onSubmit={(content): void => {
+                // so when you go back the add to process doesn't pop up again
+                history.replace(`/people/${match.params.personId}`)
                 history.push(
                   `/people/${match.params.personId}/processes/${content._id}`
                 )
-              }
+              }}
             />
           </Toolbar>
         </AppBar>

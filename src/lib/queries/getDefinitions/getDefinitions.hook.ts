@@ -31,7 +31,7 @@ export function useDefinitions<T extends DefinitionTypeName>(
           result[definition.definitionName] = definition
           return result
         },
-        {} as { [definitionName: string]: typeof data[number] }
+        {} as { [definitionName: string]: (typeof data)[number] }
       )
   })
 }
