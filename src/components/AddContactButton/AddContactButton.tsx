@@ -47,7 +47,8 @@ export function AddContactButton(): ReactElement {
     }
     const response = await mutation.mutateAsync({ ...values })
     enqueueSnackbar('Contact Created', { variant: 'success' })
-    history.push(`/people/${response._id}`)
+    history.push(`/people/${response._id}?addtoprocess=true`)
+    handleClose()
   }
   return (
     <>

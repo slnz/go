@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add'
 import { Button } from '@mui/material'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 
 import {
   AddProcessButtonDialog,
@@ -14,6 +15,13 @@ export type AddProcessButtonProps = Omit<
 
 export function AddProcessButton(props: AddProcessButtonProps): ReactElement {
   const [open, setOpen] = useState(false)
+  const { search } = useLocation()
+
+  useEffect(() => {
+    if (search === '?addtoprocess=true') {
+      setOpen(true)
+    }
+  }, [search])
 
   return (
     <>
