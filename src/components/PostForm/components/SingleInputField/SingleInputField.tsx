@@ -22,7 +22,6 @@ export function SingleInputField({
   // const model = {
   //   ...values
   // }
-  console.log(value)
   return field.type === 'boolean' ? (
     <FormControl component="fieldset" required={required} error={error}>
       <FormControlLabel
