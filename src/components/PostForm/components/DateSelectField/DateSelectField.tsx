@@ -1,8 +1,11 @@
-import { TextField } from '@mui/material'
-import { ReactElement } from 'react'
+import { TextField, TextFieldProps } from '@mui/material'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { Dayjs } from 'dayjs'
+import { ReactElement, useState } from 'react'
 
-import { PostFieldDataValues } from '../../../../lib/queries/getPost'
-import { PostFieldProps } from '../../FieldRenderer'
+import type { PostFieldProps } from '../../FieldRenderer'
 
 export function DateSelectField({
   field,
@@ -13,21 +16,30 @@ export function DateSelectField({
   onBlur,
   onChange
 }: PostFieldProps): ReactElement {
-  console.log(field)
+  const [date, setDate] = useState<Dayjs | null>(null)
   return (
-    <TextField
-      data-testid="date select"
-      fullWidth
-      required={required}
-      name={field.key}
-      label={field.title}
-      value={(value as Omit<PostFieldDataValues, 'boolean'>) ?? ''}
-      type={field.type === 'string' ? 'string' : field.type}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={error}
-      helperText={helperText}
-      InputLabelProps={{ shrink: true }}
-    />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label={field.title}
+        value={date}
+        disablePast
+        inputFormat="DD/MM/YYYY"
+        onChange={(newDate): void => {
+          setDate(newDate)
+        }}
+        renderInput={(params: TextFieldProps): ReactElement => {
+          return (
+            <TextField
+              {...params}
+              onBlur={onBlur}
+              onChange={onChange}
+              required={required}
+              helperText={helperText}
+              error={error}
+            />
+          )
+        }}
+      />
+    </LocalizationProvider>
   )
 }
