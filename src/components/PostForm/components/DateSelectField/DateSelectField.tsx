@@ -24,9 +24,8 @@ export function DateSelectField({
         disablePast
         inputFormat="DD/MM/YYYY"
         onChange={(date): void => {
-          console.log('this is being changed')
+          console.log(dayjs(date).format('YYYY-MM-DD'))
           setValue(date)
-          if (dayjs(date).isValid()) console.log(dayjs(date).toISOString())
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (
