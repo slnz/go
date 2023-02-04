@@ -3,7 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs, { Dayjs } from 'dayjs'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useCallback, useState } from 'react'
 
 import type { PostFieldProps } from '../../FieldRenderer'
 
@@ -11,9 +11,7 @@ export function DateSelectField({
   field,
   error,
   helperText,
-  required,
-  onBlur,
-  onChange
+  required
 }: PostFieldProps): ReactElement {
   const [value, setValue] = useState<Dayjs | null>(null)
   return (
@@ -24,19 +22,20 @@ export function DateSelectField({
         disablePast
         inputFormat="DD/MM/YYYY"
         onChange={(date): void => {
-          console.log(dayjs(date).format('YYYY-MM-DD'))
           setValue(date)
+          console.log(dayjs(date).format('YYYY-MM-DD'))
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (
             <TextField
               {...params}
-              onBlur={onBlur}
-              onChange={onChange}
               required={required}
               helperText={helperText}
               error={error}
-              value={value}
+              inputProps={{
+                ...params.inputProps,
+                readOnly: true
+              }}
             />
           )
         }}
