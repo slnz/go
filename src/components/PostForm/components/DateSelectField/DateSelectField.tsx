@@ -3,7 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs, { Dayjs } from 'dayjs'
-import { ReactElement, useCallback, useState } from 'react'
+import { ReactElement, useState } from 'react'
 
 import type { PostFieldProps } from '../../FieldRenderer'
 
@@ -11,7 +11,9 @@ export function DateSelectField({
   field,
   error,
   helperText,
-  required
+  required,
+  onChange,
+  onBlur
 }: PostFieldProps): ReactElement {
   const [value, setValue] = useState<Dayjs | null>(null)
   return (
@@ -32,10 +34,8 @@ export function DateSelectField({
               required={required}
               helperText={helperText}
               error={error}
-              inputProps={{
-                ...params.inputProps,
-                readOnly: true
-              }}
+              onChange={onChange}
+              onBlur={onBlur}
             />
           )
         }}
