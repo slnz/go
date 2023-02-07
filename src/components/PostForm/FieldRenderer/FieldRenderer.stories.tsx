@@ -130,6 +130,7 @@ Filled.args = {
     inputString: 'Default Value',
     inputBoolean: true,
     textareaString: 'Default Value'
+    // Values cannot be added for date and time pickers
   }
 }
 
@@ -151,9 +152,15 @@ Error.args = {
   errors: {
     inputString: 'TextField Error',
     inputBoolean: 'Checkbox Error',
-    textareaString: 'TextArea Error'
+    textareaString: 'TextArea Error',
+    'date-selectDate': 'DateSelect Error'
   },
-  touched: { inputString: true, inputBoolean: true, textareaString: true }
+  touched: {
+    inputString: true,
+    inputBoolean: true,
+    textareaString: true,
+    'date-selectDate': true
+  }
 }
 
 export default FieldRendererStory as Meta
