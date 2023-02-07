@@ -9,6 +9,7 @@ import {
 } from '../../../lib/queries/getPost'
 import { SingleInputField } from '../components/SingleInputField'
 import { TextArea } from '../components/TextArea'
+import { TimeSelectField } from '../components/TimeSelectField'
 
 export interface PostFieldProps {
   field: PostField
@@ -55,6 +56,8 @@ export function FieldRenderer({
       return <SingleInputField {...fieldProps} />
     case 'textarea':
       return <TextArea {...fieldProps} />
+    case 'time-select':
+      return <TimeSelectField {...fieldProps} />
     default:
       return (
         <Typography>
