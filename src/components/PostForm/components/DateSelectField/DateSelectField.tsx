@@ -15,17 +15,19 @@ export function DateSelectField({
   required
 }: PostFieldProps): ReactElement {
   const formikProps = useFormikContext()
-  const [value, setValue] = useState<Dayjs | null>(null)
+  const [date, setDate] = useState<Dayjs | null>(null)
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <MobileDatePicker
         label={field.title}
-        value={value}
+        value={date}
         disablePast
         inputFormat="DD/MM/YYYY"
-        onChange={(date): void => {
-          setValue(date)
-          formikProps.setFieldValue('date', date)
+        onChange={(newDate): void => {
+          setDate(newDate)
+          if (formikProps != null) {
+            formikProps.setFieldValue('date', date)
+          }
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (

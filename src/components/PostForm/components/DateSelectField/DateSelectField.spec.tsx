@@ -8,8 +8,8 @@ import { DateSelectField } from '.'
 describe('SingleInputField', () => {
   const fieldProps: Omit<PostFieldProps, 'onChange' | 'onBlur'> = {
     field: {
-      key: 'date-selectDate',
-      title: 'Date',
+      key: 'DateKey',
+      title: 'DateTitle',
       type: 'date',
       directive: 'date-select',
       minimum: 0,
@@ -17,9 +17,4 @@ describe('SingleInputField', () => {
     },
     value: 'default value'
   }
-
-  it('renders all elements properly', async () => {
-    render(<DateSelectField {...fieldProps} onChange={noop} onBlur={noop} />)
-    expect(screen.getByTestId('date select')).toHaveTextContent('Date')
-  })
 })

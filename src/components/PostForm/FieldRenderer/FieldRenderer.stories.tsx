@@ -130,7 +130,7 @@ Filled.args = {
     inputString: 'Default Value',
     inputBoolean: true,
     textareaString: 'Default Value'
-    // Values cannot be added for date and time pickers
+    // Date and Time pickers cannot hold default values due to their nature
   }
 }
 
