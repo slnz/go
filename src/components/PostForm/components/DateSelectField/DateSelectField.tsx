@@ -3,6 +3,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs, { Dayjs } from 'dayjs'
+import { useFormikContext } from 'formik'
 import { ReactElement, useState } from 'react'
 
 import type { PostFieldProps } from '../../FieldRenderer'
@@ -11,10 +12,9 @@ export function DateSelectField({
   field,
   error,
   helperText,
-  required,
-  onChange,
-  onBlur
+  required
 }: PostFieldProps): ReactElement {
+  const formikProps = useFormikContext()
   const [value, setValue] = useState<Dayjs | null>(null)
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -25,7 +25,7 @@ export function DateSelectField({
         inputFormat="DD/MM/YYYY"
         onChange={(date): void => {
           setValue(date)
-          console.log(dayjs(date).format('YYYY-MM-DD'))
+          formikProps.setFieldValue('date', date)
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (
@@ -34,8 +34,6 @@ export function DateSelectField({
               required={required}
               helperText={helperText}
               error={error}
-              onChange={onChange}
-              onBlur={onBlur}
             />
           )
         }}
