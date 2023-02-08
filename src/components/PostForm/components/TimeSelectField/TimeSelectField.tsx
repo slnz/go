@@ -13,7 +13,7 @@ export function TimeSelectField({
   error,
   helperText,
   required
-}: PostFieldProps): ReactElement {
+}: Omit<PostFieldProps, 'onChange' | 'onBlur'>): ReactElement {
   const formikProps = useFormikContext()
   const [value, setValue] = useState('')
   return (
@@ -23,12 +23,15 @@ export function TimeSelectField({
         value={value}
         onChange={(time): void => {
           setValue(time != null ? time : '')
-          formikProps.setFieldValue('time', dayjs(time).format('LT'))
+          if (formikProps != null) {
+            formikProps.setFieldValue('time', dayjs(time).format('LT'))
+          }
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (
             <TextField
               {...params}
+              name={field.key}
               required={required}
               helperText={helperText}
               error={error}

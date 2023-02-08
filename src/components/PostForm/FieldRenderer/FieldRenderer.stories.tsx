@@ -89,6 +89,16 @@ const Template: Story<
             })
           }}
         />
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Time',
+              directive: 'time-select',
+              type: 'string'
+            })
+          }}
+        />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
@@ -141,9 +151,15 @@ Error.args = {
   errors: {
     inputString: 'TextField Error',
     inputBoolean: 'Checkbox Error',
-    textareaString: 'TextArea Error'
+    textareaString: 'TextArea Error',
+    'time-selectString': 'TimeSelect Error'
   },
-  touched: { inputString: true, inputBoolean: true, textareaString: true }
+  touched: {
+    inputString: true,
+    inputBoolean: true,
+    textareaString: true,
+    'time-selectString': true
+  }
 }
 
 export default FieldRendererStory as Meta
