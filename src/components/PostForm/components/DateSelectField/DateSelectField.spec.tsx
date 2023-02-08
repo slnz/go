@@ -28,9 +28,11 @@ describe('DateSelectField', () => {
     expect(screen.getByLabelText('Choose date')).toBeInTheDocument()
   })
 
-  it('should show date based on selection', () => {
+  it('should display date based on selection', () => {
     render(<DateSelectField {...fieldProps} />)
+
     const inputField = screen.getByLabelText('Choose date')
+
     expect(screen.queryByText(currentDate)).not.toBeInTheDocument()
     fireEvent.click(inputField)
     expect(screen.getByText(currentDate)).toBeInTheDocument()
@@ -38,12 +40,16 @@ describe('DateSelectField', () => {
     expect(inputField).toHaveValue(currentDateFormat)
   })
 
-  it('should show date based on typed input', () => {
+  it('should display correct date based on typed input', () => {
     render(<DateSelectField {...fieldProps} />)
+
     const inputField = screen.getByLabelText('Choose date')
+
     fireEvent.click(inputField)
     fireEvent.click(screen.getByTestId('PenIcon'))
+
     const dialogField = screen.getByPlaceholderText('dd/mm/yyyy')
+
     fireEvent.click(dialogField)
     userEvent.type(dialogField, currentDateTyped)
     expect(dialogField).toHaveValue(currentDateFormat)
