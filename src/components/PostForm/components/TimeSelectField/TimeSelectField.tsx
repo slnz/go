@@ -27,6 +27,7 @@ export function TimeSelectField({
             formikProps.setFieldValue('time', dayjs(time).format('LT'))
           }
         }}
+        minutesStep={5}
         renderInput={(params: TextFieldProps): ReactElement => {
           return (
             <TextField
