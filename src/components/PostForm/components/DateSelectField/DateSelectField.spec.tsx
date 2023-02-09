@@ -52,6 +52,7 @@ describe('DateSelectField', () => {
 
     fireEvent.click(dialogField)
     userEvent.type(dialogField, currentDateTyped)
-    expect(dialogField).toHaveValue(currentDateFormat)
+    fireEvent.click(screen.getByText('OK'))
+    expect(inputField).toHaveValue(currentDateFormat)
   })
 })
