@@ -45,18 +45,17 @@ export function FieldRenderer({
       touched[field.key] && errors[field.key]
         ? errors[field.key]
         : field.description,
-    required: field.minimum > 0,
+    required: field.minimum === field.maximum && field.maximum > 0,
     onChange,
     onBlur
   }
+
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
     case 'button-select':
       return <ButtonSelect {...fieldProps} />
     default:
-      console.log('errors', errors)
-      console.log('required?', fieldProps.required)
       return (
         <Typography>
           {field.title} {field.directive}
