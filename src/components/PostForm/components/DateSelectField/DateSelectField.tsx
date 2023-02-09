@@ -25,7 +25,7 @@ export function DateSelectField({
         onChange={(newDate): void => {
           setDate(newDate)
           if (formikProps != null) {
-            formikProps.setFieldValue('date', date)
+            formikProps.setFieldValue('date', newDate)
           }
         }}
         renderInput={(params: TextFieldProps): ReactElement => {
