@@ -31,6 +31,25 @@ const Template: Story<
     onBlur: args.onBlur
   }
 
+  const selectOptions = [
+    {
+      name: 'Option One',
+      value: 'Value One'
+    },
+    {
+      name: 'Option Two',
+      value: 'Value Two'
+    },
+    {
+      name: 'Option Three',
+      value: 'Value Three'
+    },
+    {
+      name: 'Option FourName',
+      value: 'Value Four'
+    }
+  ]
+
   const getFieldProps = ({
     title,
     placeholder,
@@ -89,6 +108,30 @@ const Template: Story<
             })
           }}
         />
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Select',
+              directive: 'select',
+              type: 'string'
+            }),
+            options: selectOptions
+          }}
+        />
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Multi Select',
+              directive: 'select',
+              type: 'string'
+            }),
+            options: selectOptions,
+            maximum: 0,
+            minimum: 0
+          }}
+        />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
@@ -141,9 +184,15 @@ Error.args = {
   errors: {
     inputString: 'TextField Error',
     inputBoolean: 'Checkbox Error',
-    textareaString: 'TextArea Error'
+    textareaString: 'TextArea Error',
+    selectString: 'Select Error'
   },
-  touched: { inputString: true, inputBoolean: true, textareaString: true }
+  touched: {
+    inputString: true,
+    inputBoolean: true,
+    textareaString: true,
+    selectString: true
+  }
 }
 
 export default FieldRendererStory as Meta

@@ -7,6 +7,7 @@ import {
   PostFieldData,
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
+import { SelectField } from '../components/SelectField'
 import { SingleInputField } from '../components/SingleInputField'
 import { TextArea } from '../components/TextArea'
 
@@ -55,6 +56,8 @@ export function FieldRenderer({
       return <SingleInputField {...fieldProps} />
     case 'textarea':
       return <TextArea {...fieldProps} />
+    case 'select':
+      return <SelectField {...fieldProps} />
     default:
       return (
         <Typography>

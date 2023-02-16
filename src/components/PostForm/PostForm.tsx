@@ -9,9 +9,11 @@ import {
   string,
   number,
   boolean,
+  array,
   StringSchema,
   BooleanSchema,
-  NumberSchema
+  NumberSchema,
+  ArraySchema
 } from 'yup'
 
 import { useCreatePost } from '../../lib/mutations/createPost/createPost.hook'
@@ -52,10 +54,13 @@ export function PostForm({
   }
 
   function getValidationSchema(
-    type: PostFieldType
-  ): StringSchema | BooleanSchema | NumberSchema {
+    type: PostFieldType,
+    maximum: number
+  ): StringSchema | BooleanSchema | NumberSchema | ArraySchema<StringSchema> {
     switch (type) {
       case 'string':
+        if (maximum > 1) return array().of(string())
+        else return string()
       case 'date':
         return string()
       case 'email':
@@ -84,9 +89,9 @@ export function PostForm({
     if (definitions != null) {
       definitions[definitionType].fields.forEach((field) => {
         values[field.key] = getDefaultValue(field.type)
-        const schema = getValidationSchema(field.type)
+        const schema = getValidationSchema(field.type, field.maximum)
         validation[field.key] =
-          field.minimum === field.maximum && field.minimum > 0
+          field.minimum > 0
             ? schema.required('Please fill in this field')
             : schema
       })
