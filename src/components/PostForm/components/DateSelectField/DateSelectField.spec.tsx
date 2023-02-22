@@ -48,11 +48,11 @@ describe('DateSelectField', () => {
     fireEvent.click(inputField)
     fireEvent.click(screen.getByTestId('PenIcon'))
 
-    const dialogField = screen.getByPlaceholderText('dd/mm/yyyy')
+    const dialogField = screen.getByRole('textbox', { name: 'DateTitle' })
 
     fireEvent.click(dialogField)
     userEvent.type(dialogField, currentDateTyped)
-    fireEvent.click(screen.getByText('OK'))
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }))
     expect(inputField).toHaveValue(currentDateFormat)
   })
 })
