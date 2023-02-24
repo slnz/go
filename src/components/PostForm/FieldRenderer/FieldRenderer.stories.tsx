@@ -89,6 +89,9 @@ const Template: Story<
             })
           }}
         />
+      </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">Select</Typography>
         <FieldRenderer
           {...rendererProps}
           field={{
