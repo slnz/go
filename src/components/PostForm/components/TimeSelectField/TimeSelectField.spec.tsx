@@ -31,7 +31,7 @@ describe('TimeSelectField', () => {
     fireEvent.click(inputField)
     fireEvent.click(screen.getByTestId('PenIcon'))
 
-    const dialogField = screen.getByPlaceholderText('hh:mm (a|p)m')
+    const dialogField = screen.getByRole('textbox', { name: 'timeTitle' })
 
     fireEvent.click(dialogField)
     userEvent.type(dialogField, '0835P')
@@ -39,7 +39,7 @@ describe('TimeSelectField', () => {
     userEvent.type(dialogField, 'A')
     expect(dialogField).toHaveValue('08:35 AM')
 
-    fireEvent.click(screen.getByText('OK'))
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }))
     expect(inputField).toHaveValue('08:35 AM')
   })
 })
