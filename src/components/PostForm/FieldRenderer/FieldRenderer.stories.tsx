@@ -91,6 +91,19 @@ const Template: Story<
         />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">DateSelect</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Date',
+              directive: 'date-select',
+              type: 'date'
+            })
+          }}
+        />
+      </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
         <FieldRenderer
           {...rendererProps}
@@ -120,6 +133,7 @@ Filled.args = {
     inputString: 'Default Value',
     inputBoolean: true,
     textareaString: 'Default Value'
+    // Date and Time pickers cannot hold default values due to their nature
   }
 }
 
@@ -141,9 +155,15 @@ Error.args = {
   errors: {
     inputString: 'TextField Error',
     inputBoolean: 'Checkbox Error',
-    textareaString: 'TextArea Error'
+    textareaString: 'TextArea Error',
+    'date-selectDate': 'DateSelect Error'
   },
-  touched: { inputString: true, inputBoolean: true, textareaString: true }
+  touched: {
+    inputString: true,
+    inputBoolean: true,
+    textareaString: true,
+    'date-selectDate': true
+  }
 }
 
 export default FieldRendererStory as Meta
