@@ -89,16 +89,6 @@ const Template: Story<
             })
           }}
         />
-        <FieldRenderer
-          {...rendererProps}
-          field={{
-            ...getFieldProps({
-              title: 'Time',
-              directive: 'time-select',
-              type: 'string'
-            })
-          }}
-        />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">DateSelect</Typography>
