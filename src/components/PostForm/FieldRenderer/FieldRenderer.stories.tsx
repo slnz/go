@@ -91,7 +91,43 @@ const Template: Story<
         />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">DateSelect</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Date',
+              directive: 'date-select',
+              type: 'date'
+            })
+          }}
+        />
+      </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">TimeSelect</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Time',
+              directive: 'time-select',
+              type: 'string'
+            })
+          }}
+        />
+      </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">TextArea</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Text Area',
+              directive: 'textarea',
+              type: 'string'
+            })
+          }}
+        />
       </Stack>
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">Button Select</Typography>
@@ -119,7 +155,12 @@ Default.args = {
 export const Filled = Template.bind({})
 Filled.args = {
   ...Default.args,
-  values: { inputString: 'Default Value', inputBoolean: true }
+  values: {
+    inputString: 'Default Value',
+    inputBoolean: true,
+    textareaString: 'Default Value'
+    // Date and Time pickers cannot hold default values due to their nature
+  }
 }
 
 export const Required = Template.bind({})
@@ -137,8 +178,20 @@ HelperText.args = {
 export const Error = Template.bind({})
 Error.args = {
   ...Default.args,
-  errors: { inputString: 'TextField Error', inputBoolean: 'Checkbox Error' },
-  touched: { inputString: true, inputBoolean: true }
+  errors: {
+    inputString: 'TextField Error',
+    inputBoolean: 'Checkbox Error',
+    textareaString: 'TextArea Error',
+    'time-selectString': 'TimeSelect Error',
+    'date-selectDate': 'DateSelect Error'
+  },
+  touched: {
+    inputString: true,
+    inputBoolean: true,
+    textareaString: true,
+    'time-selectString': true,
+    'date-selectDate': true
+  }
 }
 
 export default FieldRendererStory as Meta

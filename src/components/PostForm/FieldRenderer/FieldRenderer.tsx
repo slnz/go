@@ -8,7 +8,10 @@ import {
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
 import { ButtonSelect } from '../components/ButtonSelect'
+import { DateSelectField } from '../components/DateSelectField'
 import { SingleInputField } from '../components/SingleInputField'
+import { TextArea } from '../components/TextArea'
+import { TimeSelectField } from '../components/TimeSelectField'
 
 export interface PostFieldProps {
   field: PostField
@@ -55,6 +58,12 @@ export function FieldRenderer({
       return <SingleInputField {...fieldProps} />
     case 'button-select':
       return <ButtonSelect {...fieldProps} />
+    case 'date-select':
+      return <DateSelectField {...fieldProps} />
+    case 'textarea':
+      return <TextArea {...fieldProps} />
+    case 'time-select':
+      return <TimeSelectField {...fieldProps} />
     default:
       return (
         <Typography>

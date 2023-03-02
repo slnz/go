@@ -94,7 +94,7 @@ export function AddProcessButtonDialog({
               definition: values.definitionName,
               _type: 'process',
               item: { _id: itemId, type: itemType },
-              assignedTo: [{ _id: user._id }],
+              assignedTo: [{ _id: user.contacts }],
               realms: values.realmIds.map((_id) => ({ _id })),
               title: itemId
             })

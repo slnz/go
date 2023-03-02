@@ -58,5 +58,8 @@ describe('AddContactButton', () => {
     await waitFor(() =>
       expect(testLocation?.pathname).toEqual('/people/newContactId')
     )
+    await waitFor(() =>
+      expect(testLocation?.search).toEqual('?addtoprocess=true')
+    )
   })
 })
