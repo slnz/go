@@ -52,7 +52,6 @@ export function FieldRenderer({
     onChange,
     onBlur
   }
-
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />

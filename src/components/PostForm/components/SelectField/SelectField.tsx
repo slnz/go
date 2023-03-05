@@ -24,28 +24,7 @@ export function SelectField({
   const [option, setOption] = useState('')
   const [options, setOptions] = useState<string[]>([])
 
-  return field.maximum === 1 ? (
-    <FormControl fullWidth error={error} required={required}>
-      <InputLabel>{field.title}</InputLabel>
-      <Select
-        value={option}
-        label={field.title}
-        onChange={(event): void => {
-          setOption(event.target.value)
-          if (formikProps != null) {
-            formikProps.setFieldValue(field.key, event.target.value)
-          }
-        }}
-      >
-        {field.options?.map((option) => (
-          <MenuItem key={option.name} value={option.value}>
-            {option.name}
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText>{helperText}</FormHelperText>
-    </FormControl>
-  ) : (
+  return field.maximum > 1 ? (
     <FormControl fullWidth error={error} required={required}>
       <InputLabel>{field.title}</InputLabel>
       <Select
@@ -69,9 +48,30 @@ export function SelectField({
         }}
       >
         {field.options?.map((option) => (
-          <MenuItem key={option.name} value={option.name}>
-            <Checkbox checked={options.indexOf(option.name) > -1} />
+          <MenuItem key={option.name} value={option.value}>
+            <Checkbox checked={options.indexOf(option.value) > -1} />
             <ListItemText primary={option.name} />
+          </MenuItem>
+        ))}
+      </Select>
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
+  ) : (
+    <FormControl fullWidth error={error} required={required}>
+      <InputLabel>{field.title}</InputLabel>
+      <Select
+        value={option}
+        label={field.title}
+        onChange={(event): void => {
+          setOption(event.target.value)
+          if (formikProps != null) {
+            formikProps.setFieldValue(field.key, event.target.value)
+          }
+        }}
+      >
+        {field.options?.map((option) => (
+          <MenuItem key={option.name} value={option.value}>
+            {option.name}
           </MenuItem>
         ))}
       </Select>
