@@ -7,6 +7,7 @@ import {
 } from '@mui/lab'
 import { Avatar, Box, Stack, Typography } from '@mui/material'
 import { formatDistance, parseISO } from 'date-fns'
+import dayjs from 'dayjs'
 import { isArray, isString, map } from 'lodash'
 import { ReactElement } from 'react'
 
@@ -61,7 +62,13 @@ export function PersonDetailTimelinePost({ timeline }: Props): ReactElement {
               <Typography variant="overline" display="block" fontWeight="bold">
                 {getTitle(key, timeline.fullDefinition.fields)}
               </Typography>
-              {isString(value) && <Typography>{value}</Typography>}
+              {isString(value) && (
+                <Typography>
+                  {dayjs(value).isValid()
+                    ? dayjs(value).format('dddd MMMM D, YYYY')
+                    : value}
+                </Typography>
+              )}
               {isArray(value) &&
                 value.map(
                   (item) =>
