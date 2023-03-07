@@ -64,7 +64,7 @@ export function PersonDetailTimelinePost({ timeline }: Props): ReactElement {
               </Typography>
               {isString(value) && (
                 <Typography>
-                  {dayjs(value).isValid()
+                  {dayjs(value, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]', true).isValid()
                     ? dayjs(value).format('dddd MMMM D, YYYY')
                     : value}
                 </Typography>
