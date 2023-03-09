@@ -5,7 +5,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 
 import type { PostFieldProps } from '../../FieldRenderer'
 
@@ -15,16 +15,30 @@ export function ButtonSelect({
   error,
   helperText,
   required,
-  onBlur,
   onChange
 }: PostFieldProps): ReactElement {
-  console.log('buttonselectrequired', required)
-  console.log('values', value)
+  const [checkedItems, setCheckedItems] = useState<number[]>([])
+
+  const handleChecked = (key: number): void => {
+    if (checkedItems.length <= field.maximum || checkedItems.includes(key)) {
+      const newChecked = checkedItems.includes(key)
+        ? checkedItems.filter((item) => item !== key)
+        : [...checkedItems, key]
+      setCheckedItems(newChecked)
+    }
+  }
+
+  console.log(checkedItems)
+  console.log(
+    `directive: ${field.directive} minimum: ${field.minimum} maximum: ${field.maximum} required: ${required}`
+  )
+  console.log(`value: ${value}`)
+
   return field.maximum <= 1 ? (
     <FormControl required={required} error={error}>
-      <FormLabel id="demo-radio-buttons-group-label">{`${field.title}`}</FormLabel>
+      <FormLabel id="radio-buttons-group-label">{`${field.title}`}</FormLabel>
       <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
+        aria-labelledby="radio-buttons-group-label"
         name="radio-buttons-group"
         onChange={onChange}
       >
@@ -55,15 +69,22 @@ export function ButtonSelect({
           control={
             <Checkbox
               onChange={onChange}
+              onClick={(): void => {
+                handleChecked(index)
+              }}
               name={field.key}
               value={option.value}
+              disabled={
+                checkedItems.length >= field.maximum &&
+                !checkedItems.includes(index)
+              }
             />
           }
           label={option.name}
         />
       ))}
 
-      <FormHelperText>{error}</FormHelperText>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   )
 }

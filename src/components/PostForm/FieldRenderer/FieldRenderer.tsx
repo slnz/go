@@ -48,10 +48,11 @@ export function FieldRenderer({
       touched[field.key] && errors[field.key]
         ? errors[field.key]
         : field.description,
-    required: field.minimum === field.maximum && field.maximum > 0,
+    required: field.minimum > 0,
     onChange,
     onBlur
   }
+  console.log(values)
 
   switch (field.directive) {
     case 'input':

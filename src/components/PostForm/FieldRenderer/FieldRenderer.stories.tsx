@@ -138,7 +138,28 @@ const Template: Story<
               title: 'Multi Button Select',
               directive: 'button-select',
               type: 'string'
-            })
+            }),
+            options: [
+              { name: 'Approach', value: 'Approach' },
+              { name: 'Pre-Gospel', value: 'Pre-Gospel' },
+              { name: 'Gospel', value: 'Gospel' }
+            ],
+            maximum: 2
+          }}
+        />
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Single Button Select',
+              directive: 'button-select',
+              type: 'string'
+            }),
+            options: [
+              { name: 'Approach', value: 'Approach' },
+              { name: 'Pre-Gospel', value: 'Pre-Gospel' },
+              { name: 'Gospel', value: 'Gospel' }
+            ]
           }}
         />
       </Stack>
@@ -189,9 +210,7 @@ Error.args = {
     inputString: true,
     inputBoolean: true,
     textareaString: true,
-    'time-selectString': true,
-    'date-selectDate': true
+    'time-selectString': true
   }
 }
-
 export default FieldRendererStory as Meta

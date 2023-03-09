@@ -55,11 +55,15 @@ export function PostForm({
 
   function getValidationSchema(
     type: PostFieldType,
-    maximum: number
+    maximum: number,
+    minimum: number
   ): StringSchema | BooleanSchema | NumberSchema | ArraySchema<StringSchema> {
     switch (type) {
       case 'string':
-        if (maximum > 1) return array().of(string())
+        if (maximum > 1)
+          return array()
+            .of(string())
+            .min(minimum, `This field requires atleast ${minimum} items`)
         else return string()
       case 'date':
         return string()
@@ -89,7 +93,11 @@ export function PostForm({
     if (definitions != null) {
       definitions[definitionType].fields.forEach((field) => {
         values[field.key] = getDefaultValue(field.type)
-        const schema = getValidationSchema(field.type, field.maximum)
+        const schema = getValidationSchema(
+          field.type,
+          field.maximum,
+          field.minimum
+        )
         validation[field.key] =
           field.minimum > 0
             ? schema.required('Please fill in this field')
@@ -101,9 +109,9 @@ export function PostForm({
   }, [definitions, definitionType])
 
   // if (definitions != null) {
-  // console.log('formType', definitions[definitionType])
-  // console.log('initialValues', initialValues)
-  // console.log('validationSchema', validationSchema)
+  //   console.log('formType', definitions[definitionType])
+  //   console.log('initialValues', initialValues)
+  //   console.log('validationSchema', validationSchema)
   // }
 
   return (
@@ -119,7 +127,7 @@ export function PostForm({
               data: values,
               realms: []
             })
-
+            console.log(values)
             onSubmit?.()
           } catch (error) {
             if (error instanceof Error) {
