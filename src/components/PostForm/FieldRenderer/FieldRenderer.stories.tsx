@@ -204,13 +204,15 @@ Error.args = {
     inputBoolean: 'Checkbox Error',
     textareaString: 'TextArea Error',
     'time-selectString': 'TimeSelect Error',
-    'date-selectDate': 'DateSelect Error'
+    'date-selectDate': 'DateSelect Error',
+    'button-selectString': 'ButtonSelect Error'
   },
   touched: {
     inputString: true,
     inputBoolean: true,
     textareaString: true,
-    'time-selectString': true
+    'time-selectString': true,
+    'button-selectString': true
   }
 }
 export default FieldRendererStory as Meta

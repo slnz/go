@@ -52,6 +52,7 @@ export function FieldRenderer({
     onChange,
     onBlur
   }
+  console.log(values['button-select'])
   console.log(values)
 
   switch (field.directive) {
