@@ -16,7 +16,7 @@ export function ButtonSelect({
   helperText,
   required,
   onChange
-}: PostFieldProps): ReactElement {
+}: Omit<PostFieldProps, 'onBlur'>): ReactElement {
   const [checkedItems, setCheckedItems] = useState<number[]>([])
 
   const handleChecked = (key: number): void => {
