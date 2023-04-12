@@ -11,7 +11,6 @@ import type { PostFieldProps } from '../../FieldRenderer'
 
 export function ButtonSelect({
   field,
-  value,
   error,
   helperText,
   required,
@@ -27,12 +26,6 @@ export function ButtonSelect({
       setCheckedItems(newChecked)
     }
   }
-
-  console.log(checkedItems)
-  console.log(
-    `directive: ${field.directive} minimum: ${field.minimum} maximum: ${field.maximum} required: ${required}`
-  )
-  console.log(`value: ${value}`)
 
   return field.maximum <= 1 ? (
     <FormControl required={required} error={error}>
@@ -83,7 +76,6 @@ export function ButtonSelect({
           label={option.name}
         />
       ))}
-
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   )
