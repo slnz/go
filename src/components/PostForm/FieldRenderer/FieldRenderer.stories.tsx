@@ -211,6 +211,7 @@ Error.args = {
     inputString: true,
     inputBoolean: true,
     textareaString: true,
+    'date-selectDate': true,
     'time-selectString': true,
     'button-selectString': true
   }
