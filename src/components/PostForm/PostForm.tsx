@@ -108,12 +108,6 @@ export function PostForm({
     return { initialValues: values, validationSchema: object(validation) }
   }, [definitions, definitionType])
 
-  // if (definitions != null) {
-  //   console.log('formType', definitions[definitionType])
-  //   console.log('initialValues', initialValues)
-  //   console.log('validationSchema', validationSchema)
-  // }
-
   return (
     <Formik
       initialValues={initialValues}
@@ -127,7 +121,6 @@ export function PostForm({
               data: values,
               realms: []
             })
-            console.log(values)
             onSubmit?.()
           } catch (error) {
             if (error instanceof Error) {
