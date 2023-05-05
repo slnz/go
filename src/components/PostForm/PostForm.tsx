@@ -9,9 +9,11 @@ import {
   string,
   number,
   boolean,
+  array,
   StringSchema,
   BooleanSchema,
-  NumberSchema
+  NumberSchema,
+  ArraySchema
 } from 'yup'
 
 import { useCreatePost } from '../../lib/mutations/createPost/createPost.hook'
@@ -52,10 +54,17 @@ export function PostForm({
   }
 
   function getValidationSchema(
-    type: PostFieldType
-  ): StringSchema | BooleanSchema | NumberSchema {
+    type: PostFieldType,
+    maximum: number,
+    minimum: number
+  ): StringSchema | BooleanSchema | NumberSchema | ArraySchema<StringSchema> {
     switch (type) {
       case 'string':
+        if (maximum > 1)
+          return array()
+            .of(string())
+            .min(minimum, `This field requires atleast ${minimum} items`)
+        else return string()
       case 'date':
         return string()
       case 'email':
@@ -84,9 +93,13 @@ export function PostForm({
     if (definitions != null) {
       definitions[definitionType].fields.forEach((field) => {
         values[field.key] = getDefaultValue(field.type)
-        const schema = getValidationSchema(field.type)
+        const schema = getValidationSchema(
+          field.type,
+          field.maximum,
+          field.minimum
+        )
         validation[field.key] =
-          field.minimum === field.maximum && field.minimum > 0
+          field.minimum > 0
             ? schema.required('Please fill in this field')
             : schema
       })
@@ -94,12 +107,6 @@ export function PostForm({
 
     return { initialValues: values, validationSchema: object(validation) }
   }, [definitions, definitionType])
-
-  // if (definitions != null) {
-  // console.log('formType', definitions[definitionType])
-  // console.log('initialValues', initialValues)
-  // console.log('validationSchema', validationSchema)
-  // }
 
   return (
     <Formik
@@ -114,7 +121,6 @@ export function PostForm({
               data: values,
               realms: []
             })
-
             onSubmit?.()
           } catch (error) {
             if (error instanceof Error) {
