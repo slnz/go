@@ -179,6 +179,40 @@ const Template: Story<
           }}
         />
       </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">Button Select</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Multi Button Select',
+              directive: 'button-select',
+              type: 'string'
+            }),
+            options: [
+              { name: 'Approach', value: 'Approach' },
+              { name: 'Pre-Gospel', value: 'Pre-Gospel' },
+              { name: 'Gospel', value: 'Gospel' }
+            ],
+            maximum: 2
+          }}
+        />
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Single Button Select',
+              directive: 'button-select',
+              type: 'string'
+            }),
+            options: [
+              { name: 'Approach', value: 'Approach' },
+              { name: 'Pre-Gospel', value: 'Pre-Gospel' },
+              { name: 'Gospel', value: 'Gospel' }
+            ]
+          }}
+        />
+      </Stack>
     </Stack>
   )
 }
@@ -221,16 +255,17 @@ Error.args = {
     textareaString: 'TextArea Error',
     selectString: 'Select Error',
     'time-selectString': 'TimeSelect Error',
-    'date-selectDate': 'DateSelect Error'
+    'date-selectDate': 'DateSelect Error',
+    'button-selectString': 'ButtonSelect Error'
   },
   touched: {
     inputString: true,
     inputBoolean: true,
     textareaString: true,
     selectString: true,
+    'date-selectDate': true,
     'time-selectString': true,
-    'date-selectDate': true
+    'button-selectString': true
   }
 }
-
 export default FieldRendererStory as Meta

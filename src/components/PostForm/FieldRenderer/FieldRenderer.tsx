@@ -7,6 +7,7 @@ import {
   PostFieldData,
   PostFieldDataValues
 } from '../../../lib/queries/getPost'
+import { ButtonSelect } from '../components/ButtonSelect'
 import { DateSelectField } from '../components/DateSelectField'
 import { SelectField } from '../components/SelectField'
 import { SingleInputField } from '../components/SingleInputField'
@@ -48,13 +49,15 @@ export function FieldRenderer({
       touched[field.key] && errors[field.key]
         ? errors[field.key]
         : field.description,
-    required: field.minimum === field.maximum && field.maximum > 0,
+    required: field.minimum > 0,
     onChange,
     onBlur
   }
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
+    case 'button-select':
+      return <ButtonSelect {...fieldProps} />
     case 'date-select':
       return <DateSelectField {...fieldProps} />
     case 'textarea':
