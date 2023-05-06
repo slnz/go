@@ -134,8 +134,7 @@ const Template: Story<
               type: 'string'
             }),
             options: selectOptions,
-            maximum: 0,
-            minimum: 0
+            maximum: 4
           }}
         />
       </Stack>
@@ -236,8 +235,7 @@ Filled.args = {
 
 export const Required = Template.bind({})
 Required.args = {
-  minimum: 1,
-  maximum: 1
+  minimum: 1
 }
 
 export const HelperText = Template.bind({})
