@@ -24,7 +24,28 @@ export function SelectField({
   const [option, setOption] = useState('')
   const [options, setOptions] = useState<string[]>([])
 
-  return field.maximum > 1 ? (
+  return field.maximum <= 1 ? (
+    <FormControl fullWidth error={error} required={required}>
+      <InputLabel>{field.title}</InputLabel>
+      <Select
+        value={option}
+        label={field.title}
+        onChange={(event): void => {
+          setOption(event.target.value)
+          if (formikProps != null) {
+            formikProps.setFieldValue(field.key, event.target.value)
+          }
+        }}
+      >
+        {field.options?.map((option) => (
+          <MenuItem key={option.name} value={option.value}>
+            {option.name}
+          </MenuItem>
+        ))}
+      </Select>
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
+  ) : (
     <FormControl fullWidth error={error} required={required}>
       <InputLabel>{field.title}</InputLabel>
       <Select
@@ -43,35 +64,20 @@ export function SelectField({
         )}
         onClose={(): void => {
           if (formikProps != null) {
-            formikProps.setFieldValue(field.key, options.join('\r\n'))
+            formikProps.setFieldValue(field.key, options)
           }
         }}
       >
         {field.options?.map((option) => (
-          <MenuItem key={option.name} value={option.value}>
-            <Checkbox checked={options.indexOf(option.value) > -1} />
+          <MenuItem
+            key={option.name}
+            value={option.value}
+            disabled={
+              options.length >= field.maximum && !options.includes(option.value)
+            }
+          >
+            <Checkbox checked={options.includes(option.value)} />
             <ListItemText primary={option.name} />
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText>{helperText}</FormHelperText>
-    </FormControl>
-  ) : (
-    <FormControl fullWidth error={error} required={required}>
-      <InputLabel>{field.title}</InputLabel>
-      <Select
-        value={option}
-        label={field.title}
-        onChange={(event): void => {
-          setOption(event.target.value)
-          if (formikProps != null) {
-            formikProps.setFieldValue(field.key, event.target.value)
-          }
-        }}
-      >
-        {field.options?.map((option) => (
-          <MenuItem key={option.name} value={option.value}>
-            {option.name}
           </MenuItem>
         ))}
       </Select>
