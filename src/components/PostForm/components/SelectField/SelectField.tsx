@@ -19,7 +19,7 @@ export function SelectField({
   error,
   helperText,
   required
-}: PostFieldProps): ReactElement {
+}: Omit<PostFieldProps, 'onChange' | 'onBlur'>): ReactElement {
   const formikProps = useFormikContext()
   const [option, setOption] = useState('')
   const [options, setOptions] = useState<string[]>([])
