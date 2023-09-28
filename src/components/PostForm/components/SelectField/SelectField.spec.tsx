@@ -1,4 +1,4 @@
-import { fireEvent, screen, render } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 
 import { renderWithProviders } from '../../../../tests/lib/helpers'
 import { PostFieldProps } from '../../FieldRenderer'
@@ -39,7 +39,7 @@ describe('SelectField', () => {
     ).toBeInTheDocument()
   })
 
-  it('should toggle on clicking twice for multiple select', async () => {
+  it('should add and remove option on clicking twice for multiselect', async () => {
     renderWithProviders(
       <SelectField
         {...fieldProps}
