@@ -25,14 +25,12 @@ describe('SelectField', () => {
 
   it('should display proper values for single select', async () => {
     renderWithProviders(<SelectField {...fieldProps} />)
-
+    
     const selectField = await screen.findByRole('button')
     expect(selectField).toBeInTheDocument()
     fireEvent.mouseDown(selectField)
-
     const option = await screen.findByRole('option', { name: 'Approach' })
     expect(option).toBeInTheDocument()
-
     fireEvent.click(option)
     expect(
       await screen.findByRole('button', { name: 'Approach' })
@@ -50,15 +48,11 @@ describe('SelectField', () => {
     const selectField = await screen.findByRole('button')
     expect(selectField).toBeInTheDocument()
     fireEvent.mouseDown(selectField)
-
     const option = await screen.findByRole('option', { name: 'Approach' })
     expect(option).toBeInTheDocument()
-
     fireEvent.click(option)
     const chip = await screen.findByText('Approach Value')
-
     expect(chip).toBeInTheDocument()
-
     fireEvent.click(option)
     expect(chip).not.toBeInTheDocument()
   })
@@ -74,16 +68,12 @@ describe('SelectField', () => {
     const selectField = await screen.findByRole('button')
     expect(selectField).toBeInTheDocument()
     fireEvent.mouseDown(selectField)
-
     const optionOne = await screen.findByRole('option', { name: 'Approach' })
     expect(optionOne).toBeInTheDocument()
-
     const optionTwo = await screen.findByRole('option', { name: 'Pre-Gospel' })
     expect(optionTwo).toBeInTheDocument()
-
     fireEvent.click(optionOne)
     fireEvent.click(optionTwo)
-
     expect(await screen.findByText('Approach Value')).toBeInTheDocument()
     expect(await screen.findByText('Pre-Gospel Value')).toBeInTheDocument()
   })
