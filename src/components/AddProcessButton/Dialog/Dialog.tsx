@@ -17,7 +17,7 @@ import {
   Typography
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { values as lodashValues } from 'lodash'
 import { useSnackbar } from 'notistack'
@@ -26,6 +26,7 @@ import { object, string, array } from 'yup'
 
 import { CreateContentData } from '../../../lib/mutations/createContent/createContent'
 import { useCreateContent } from '../../../lib/mutations/createContent/createContent.hook'
+import { getContact } from '../../../lib/queries/getContact'
 import { useDefinitions } from '../../../lib/queries/getDefinitions'
 import { useAuth } from '../../../lib/useAuth'
 import { RealmSelect } from '../../RealmSelect'
@@ -72,6 +73,7 @@ export function AddProcessButtonDialog({
   const { mutateAsync } = useCreateContent()
   const queryClient = useQueryClient()
   const { user } = useAuth()
+  const { data: contact } = useQuery([itemType, itemId], getContact(itemId))
 
   return (
     <Dialog
@@ -96,7 +98,7 @@ export function AddProcessButtonDialog({
               item: { _id: itemId, type: itemType },
               assignedTo: [{ _id: user.contacts }],
               realms: values.realmIds.map((_id) => ({ _id })),
-              title: itemId
+              title: `${contact?.firstName} ${contact?.lastName}`
             })
             queryClient.invalidateQueries([itemType, itemId])
             onClose?.()
