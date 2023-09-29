@@ -25,7 +25,7 @@ describe('SelectField', () => {
 
   it('should display proper values for single select', async () => {
     renderWithProviders(<SelectField {...fieldProps} />)
-    
+
     const selectField = await screen.findByRole('button')
     expect(selectField).toBeInTheDocument()
     fireEvent.mouseDown(selectField)
