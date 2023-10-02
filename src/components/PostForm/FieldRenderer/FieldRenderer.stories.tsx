@@ -31,6 +31,25 @@ const Template: Story<
     onBlur: args.onBlur
   }
 
+  const selectOptions = [
+    {
+      name: 'Option One',
+      value: 'Value One'
+    },
+    {
+      name: 'Option Two',
+      value: 'Value Two'
+    },
+    {
+      name: 'Option Three',
+      value: 'Value Three'
+    },
+    {
+      name: 'Option Four',
+      value: 'Value Four'
+    }
+  ]
+
   const getFieldProps = ({
     title,
     placeholder,
@@ -90,6 +109,36 @@ const Template: Story<
           }}
         />
       </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">Select</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Select',
+              directive: 'select',
+              type: 'string'
+            }),
+            options: selectOptions
+          }}
+        />
+      </Stack>
+      <Stack sx={{ my: 4, width: 350 }} spacing={3}>
+        <Typography variant="h6">Multiple Select</Typography>
+        <FieldRenderer
+          {...rendererProps}
+          field={{
+            ...getFieldProps({
+              title: 'Multiple Select',
+              directive: 'select',
+              type: 'string'
+            }),
+            options: selectOptions,
+            maximum: 4
+          }}
+        />
+      </Stack>
+
       <Stack sx={{ my: 4, width: 350 }} spacing={3}>
         <Typography variant="h6">DateSelect</Typography>
         <FieldRenderer
@@ -186,8 +235,7 @@ Filled.args = {
 
 export const Required = Template.bind({})
 Required.args = {
-  minimum: 1,
-  maximum: 1
+  minimum: 1
 }
 
 export const HelperText = Template.bind({})
@@ -203,6 +251,7 @@ Error.args = {
     inputString: 'TextField Error',
     inputBoolean: 'Checkbox Error',
     textareaString: 'TextArea Error',
+    selectString: 'Select Error',
     'time-selectString': 'TimeSelect Error',
     'date-selectDate': 'DateSelect Error',
     'button-selectString': 'ButtonSelect Error'
@@ -211,6 +260,7 @@ Error.args = {
     inputString: true,
     inputBoolean: true,
     textareaString: true,
+    selectString: true,
     'date-selectDate': true,
     'time-selectString': true,
     'button-selectString': true

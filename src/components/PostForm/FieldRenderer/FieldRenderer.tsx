@@ -9,6 +9,7 @@ import {
 } from '../../../lib/queries/getPost'
 import { ButtonSelect } from '../components/ButtonSelect'
 import { DateSelectField } from '../components/DateSelectField'
+import { SelectField } from '../components/SelectField'
 import { SingleInputField } from '../components/SingleInputField'
 import { TextArea } from '../components/TextArea'
 import { TimeSelectField } from '../components/TimeSelectField'
@@ -52,7 +53,6 @@ export function FieldRenderer({
     onChange,
     onBlur
   }
-
   switch (field.directive) {
     case 'input':
       return <SingleInputField {...fieldProps} />
@@ -62,6 +62,8 @@ export function FieldRenderer({
       return <DateSelectField {...fieldProps} />
     case 'textarea':
       return <TextArea {...fieldProps} />
+    case 'select':
+      return <SelectField {...fieldProps} />
     case 'time-select':
       return <TimeSelectField {...fieldProps} />
     default:
